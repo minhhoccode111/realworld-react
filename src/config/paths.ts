@@ -4,6 +4,49 @@ export const paths = {
     getHref: () => '/',
   },
 
+  register: {
+    path: '/register',
+    getHref: (redirectTo?: string | null | undefined) =>
+      `/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+  },
+
+  login: {
+    path: '/login',
+    getHref: (redirectTo?: string | null | undefined) =>
+      `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+  },
+
+  settings: {
+    path: '/settings',
+    getHref: () => '/settings',
+  },
+
+  editorCreate: {
+    path: '/editor',
+    getHref: () => '/editor',
+  },
+
+  editorEdit: {
+    path: '/editor/:slug',
+    getHref: (slug: string) => `/editor/${slug}`,
+  },
+
+  article: {
+    path: '/article/:slug',
+    getHref: (slug: string) => `/article/${slug}`,
+  },
+
+  profile: {
+    username: {
+      path: '/profile/:username',
+      getHref: (username: string) => `/profile/${username}`,
+    },
+    favorites: {
+      path: '/profile/:username/favorites',
+      getHref: (username: string) => `/profile/${username}/favorites`,
+    },
+  },
+
   auth: {
     register: {
       path: '/auth/register',
