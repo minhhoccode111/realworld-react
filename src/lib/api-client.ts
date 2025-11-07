@@ -5,11 +5,13 @@ import { env } from '@/config/env';
 import { paths } from '@/config/paths';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
+  const token = localStorage.getItem('jwt_token') ?? '';
+
   if (config.headers) {
     config.headers.Accept = 'application/json';
+    config.headers.Authorization = `Token ${token}`;
   }
 
-  config.withCredentials = true;
   return config;
 }
 
@@ -31,6 +33,7 @@ api.interceptors.response.use(
       message,
     });
 
+    // NOTE: the GET /user can't return a 401 because that cause a loop
     if (error.response?.status === 401) {
       const searchParams = new URLSearchParams();
       const redirectTo =

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { MDPreview } from '@/components/ui/md-preview';
 import { Spinner } from '@/components/ui/spinner';
 import { useUser } from '@/lib/auth';
-import { POLICIES, Authorization } from '@/lib/authorization';
+import { POLICIES_LEGACY, Authorization } from '@/lib/authorization';
 import { User } from '@/types/api';
 import { formatDate } from '@/utils/format';
 
@@ -52,7 +52,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
             className="w-full bg-white p-4 shadow-sm"
           >
             <Authorization
-              policyCheck={POLICIES['comment:delete'](
+              policyCheck={POLICIES_LEGACY['comment:delete'](
                 user.data as User,
                 comment,
               )}
