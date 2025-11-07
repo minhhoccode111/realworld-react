@@ -11,13 +11,14 @@ import { api } from './api-client';
 // these are not part of features as this is a module shared across features
 
 const getUser = async (): Promise<User> => {
-  const response = await api.get('/auth/me');
+  const response = await api.get('/user');
 
   return response.data;
 };
 
 const logout = (): Promise<void> => {
-  return api.post('/auth/logout');
+  // return api.post('/auth/logout');
+  return Promise.resolve();
 };
 
 export const loginInputSchema = z.object({
@@ -27,7 +28,7 @@ export const loginInputSchema = z.object({
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
 const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
-  return api.post('/auth/login', data);
+  return api.post('/users/login', data);
 };
 
 export const registerInputSchema = z
@@ -56,7 +57,7 @@ export type RegisterInput = z.infer<typeof registerInputSchema>;
 const registerWithEmailAndPassword = (
   data: RegisterInput,
 ): Promise<AuthResponse> => {
-  return api.post('/auth/register', data);
+  return api.post('/users', data);
 };
 
 const authConfig = {
@@ -80,9 +81,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   if (!user.data) {
-    return (
-      <Navigate to={paths.auth.login.getHref(location.pathname)} replace />
-    );
+    return <Navigate to={paths.login.getHref(location.pathname)} replace />;
   }
 
   return children;

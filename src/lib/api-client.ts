@@ -23,7 +23,8 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    const message = error.response?.data?.message || error.message;
+    const message =
+      error.response?.data?.message || error.message || 'Unknown Error';
     useNotifications.getState().addNotification({
       type: 'error',
       title: 'Error',
@@ -34,7 +35,7 @@ api.interceptors.response.use(
       const searchParams = new URLSearchParams();
       const redirectTo =
         searchParams.get('redirectTo') || window.location.pathname;
-      window.location.href = paths.auth.login.getHref(redirectTo);
+      window.location.href = paths.login.getHref(redirectTo);
     }
 
     return Promise.reject(error);
