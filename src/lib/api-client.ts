@@ -27,27 +27,39 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    const message =
-      error.response?.data?.message || error.message || 'Unknown Error';
-
-    // NOTE: Don't show notification for 400 from /user endpoint, because that's
-    // the first thing to run when user use this app
-    if (!(error.response?.status === 400 && error.config?.url === '/user')) {
+    // error response from server: {"error": "error message"}
+    const message = error.response?.data?.error || error.message;
+    const url = error.config?.url;
+    const status = error.response?.status;
+    const notiError = () => {
       useNotifications.getState().addNotification({
         type: 'error',
         title: 'Error',
         message,
       });
-    }
+    };
 
-    // NOTE: the GET /user can't return a 401 because that cause a loop
-    if (error.response?.status === 401) {
+    // don't show notification for 401 from /user endpoint, because that
+    // useUser() is the first thing to run when user enter this app and i don't
+    // want to greet them with an error notification, and also don't force
+    // full reload because that will cause a infinite loop
+    if (status === 401) {
+      if (url === '/user') return Promise.reject(error);
+      // 401 when /users/login only show the error notification, don't reload
+      if (url === '/users/login') {
+        notiError();
+        return Promise.reject(error);
+      }
+
+      // force full reload for every other 401
       const searchParams = new URLSearchParams();
       const redirectTo =
         searchParams.get('redirectTo') || window.location.pathname;
       window.location.href = paths.login.getHref(redirectTo);
     }
 
+    // show notification for every other error
+    notiError();
     return Promise.reject(error);
   },
 );
