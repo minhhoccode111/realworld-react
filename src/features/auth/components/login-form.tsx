@@ -19,9 +19,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   return (
     <>
       <p className="text-xs-center">
-        <Link to={paths.auth.register.getHref(redirectTo)}>
-          Need an account?
-        </Link>
+        <Link to={paths.register.getHref(redirectTo)}>Need an account?</Link>
       </p>
 
       <Form

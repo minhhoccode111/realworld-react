@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from 'react-router';
 
-import { Button } from '@/components/ui/button';
-import { Form, Input } from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
 
@@ -15,59 +14,71 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const redirectTo = searchParams.get('redirectTo');
 
   return (
-    <div>
+    <>
+      <p className="text-xs-center">
+        <Link to={paths.login.getHref(redirectTo)}>Have an account?</Link>
+      </p>
+
       <Form
         onSubmit={(values) => {
           registering.mutate(values);
         }}
         schema={registerInputSchema}
-        options={{
-          shouldUnregister: true,
-        }}
       >
         {({ register, formState }) => (
           <>
-            <Input
-              type="text"
-              label="Username"
-              error={formState.errors['username']}
-              registration={register('username')}
-            />
-            <Input
-              type="email"
-              label="Email Address"
-              error={formState.errors['email']}
-              registration={register('email')}
-            />
-            <Input
-              type="password"
-              label="Password"
-              error={formState.errors['password']}
-              registration={register('password')}
-            />
+            <fieldset className="form-group">
+              <input
+                className="form-control form-control-lg"
+                type="text"
+                placeholder="Username"
+                {...register('username')}
+              />
+            </fieldset>
 
-            <div>
-              <Button
-                isLoading={registering.isPending}
-                type="submit"
-                className="w-full"
-              >
-                Register
-              </Button>
-            </div>
+            <fieldset className="form-group">
+              <input
+                className="form-control form-control-lg"
+                type="text"
+                placeholder="Email"
+                {...register('email')}
+              />
+            </fieldset>
+
+            <fieldset className="form-group">
+              <input
+                className="form-control form-control-lg"
+                type="password"
+                placeholder="Password"
+                {...register('password')}
+              />
+            </fieldset>
+
+            <ul className="error-messages">
+              {formState.errors.username && (
+                <li>Password: {formState.errors.username.message}</li>
+              )}
+              {formState.errors.email && (
+                <li>Email: {formState.errors.email.message}</li>
+              )}
+              {formState.errors.password && (
+                <li>Password: {formState.errors.password.message}</li>
+              )}
+            </ul>
+
+            <button
+              type="submit"
+              className="btn btn-lg btn-primary pull-xs-right"
+            >
+              {registering.isPending ? (
+                <span>Loading...</span>
+              ) : (
+                <span>Sign up</span>
+              )}
+            </button>
           </>
         )}
       </Form>
-      <div className="mt-2 flex items-center justify-end">
-        <div className="text-sm">
-          <Link
-            to={paths.auth.login.getHref(redirectTo)}
-            className="font-medium text-blue-600 hover:text-blue-500"
-          >
-            Log In
-          </Link>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
