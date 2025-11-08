@@ -11,9 +11,7 @@ import { api } from './api-client';
 // these are not part of features as this is a module shared across features
 
 const getUser = async (): Promise<UserAuthResponse> => {
-  const response = await api.get('/user');
-
-  return response.data;
+  return api.get('/user');
 };
 
 const logout = (): Promise<void> => {
@@ -48,8 +46,13 @@ const registerWithEmailAndPassword = (
 
 const authConfig = {
   userFn: async () => {
-    const response = await getUser();
-    return response;
+    // axios will throw if getUser() not return status 2xx
+    try {
+      const response = await getUser();
+      return response;
+    } catch (e) {
+      return null;
+    }
   },
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);

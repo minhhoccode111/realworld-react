@@ -9,7 +9,9 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 
   if (config.headers) {
     config.headers.Accept = 'application/json';
-    config.headers.Authorization = `Token ${token}`;
+    if (token !== '') {
+      config.headers.Authorization = `Token ${token}`;
+    }
   }
 
   return config;
@@ -27,11 +29,16 @@ api.interceptors.response.use(
   (error) => {
     const message =
       error.response?.data?.message || error.message || 'Unknown Error';
-    useNotifications.getState().addNotification({
-      type: 'error',
-      title: 'Error',
-      message,
-    });
+
+    // NOTE: Don't show notification for 400 from /user endpoint, because that's
+    // the first thing to run when user use this app
+    if (!(error.response?.status === 400 && error.config?.url === '/user')) {
+      useNotifications.getState().addNotification({
+        type: 'error',
+        title: 'Error',
+        message,
+      });
+    }
 
     // NOTE: the GET /user can't return a 401 because that cause a loop
     if (error.response?.status === 401) {
