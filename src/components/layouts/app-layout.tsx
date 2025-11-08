@@ -26,20 +26,17 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
               {!user.data ? (
                 <>
                   <li className="nav-item">
-                    <NavLink
-                      className="nav-link active"
-                      to={paths.home.getHref()}
-                    >
+                    <NavLink className="nav-link" to={paths.home.getHref()}>
                       Home
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to={paths.register.getHref()}>
+                    <NavLink className="nav-link" to={paths.login.getHref()}>
                       Sign in
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to={paths.login.getHref()}>
+                    <NavLink className="nav-link" to={paths.register.getHref()}>
                       Sign up
                     </NavLink>
                   </li>

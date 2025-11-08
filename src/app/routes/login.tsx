@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { AuthLayout } from '@/components/layouts/auth-layout';
 import { paths } from '@/config/paths';
 import { LoginForm } from '@/features/auth/components/login-form';
+import { AppLayout } from '@/components/layouts';
 
 const LoginRoute = () => {
   const navigate = useNavigate();
@@ -10,15 +11,17 @@ const LoginRoute = () => {
   const redirectTo = searchParams.get('redirectTo');
 
   return (
-    <AuthLayout title="Log in to your account">
-      <LoginForm
-        onSuccess={() => {
-          navigate(`${redirectTo ? `${redirectTo}` : paths.home.getHref()}`, {
-            replace: true,
-          });
-        }}
-      />
-    </AuthLayout>
+    <AppLayout title="Sign in">
+      <AuthLayout title="Sign in">
+        <LoginForm
+          onSuccess={() => {
+            navigate(`${redirectTo ? `${redirectTo}` : paths.home.getHref()}`, {
+              replace: true,
+            });
+          }}
+        />
+      </AuthLayout>
+    </AppLayout>
   );
 };
 
