@@ -1,83 +1,83 @@
 import { Head } from '@/components/seo';
 import { paths } from '@/config/paths';
-// import { useUser } from '@/lib/auth';
-import { Link } from '@/components/ui/link';
+import { useUser } from '@/lib/auth';
+import { NavLink } from '@/components/ui/link';
 
 const LandingRoute = () => {
-  // const user = useUser();
-  // const isLoggedIn = !!user.data;
+  const user = useUser();
 
   return (
     <>
       <Head description="Welcome to realworld react" />
       <nav className="navbar navbar-light">
         <div className="container">
-          <Link className="navbar-brand" to={paths.home.getHref()}>
+          <NavLink className="navbar-brand" to={paths.home.getHref()}>
             conduit
-          </Link>
+          </NavLink>
           <ul className="nav navbar-nav pull-xs-right">
-            <li className="nav-item">
-              <Link className="nav-link active" to={paths.home.getHref()}>
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={paths.register.getHref()}>
-                Sign in
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={paths.login.getHref()}>
-                Sign up
-              </Link>
-            </li>
+            {user.isLoading ?? <li>Loading...</li>}
 
-            {/* isLoggedIn ? (
+            {!user.data ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link active" to={paths.home.getHref()}>
+                  <NavLink
+                    className="nav-link active"
+                    to={paths.home.getHref()}
+                  >
                     Home
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={paths.register.getHref()}>
+                  <NavLink className="nav-link" to={paths.register.getHref()}>
                     Sign in
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={paths.login.getHref()}>
+                  <NavLink className="nav-link" to={paths.login.getHref()}>
                     Sign up
-                  </Link>
+                  </NavLink>
                 </li>
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link active" to={paths.home.getHref()}>
-                    Home
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={paths.editorCreate.getHref()}>
-                    <i className="ion-compose"></i>&nbsp;New Article
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={paths.settings.getHref()}>
-                    <i className="ion-gear-a"></i>&nbsp;Settings
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to={paths.profile.username.getHref('')}
+                  <NavLink
+                    className="nav-link active"
+                    to={paths.home.getHref()}
                   >
-                    <img src="" className="user-pic" />
-                    Eric Simons
-                  </Link>
+                    Home
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to={paths.editorCreate.getHref()}
+                  >
+                    <i className="ion-compose"></i>&nbsp;New Article
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to={paths.settings.getHref()}>
+                    <i className="ion-gear-a"></i>&nbsp;Settings
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to={paths.profile.username.getHref(
+                      user.data?.user.username!, // guarantee to exist
+                    )}
+                  >
+                    <img
+                      src={user.data?.user.image}
+                      className="user-pic"
+                      alt="User profile"
+                    />
+                    {user.data?.user.username}
+                  </NavLink>
                 </li>
               </>
-            ) */}
+            )}
           </ul>
         </div>
       </nav>
