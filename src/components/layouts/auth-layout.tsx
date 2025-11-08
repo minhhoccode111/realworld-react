@@ -8,12 +8,12 @@ import { Link } from '@/components/ui/link';
 import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
-type LayoutProps = {
+type AuthLayoutProps = {
   children: React.ReactNode;
   title: string;
 };
 
-export const AuthLayout = ({ children, title }: LayoutProps) => {
+export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   const user = useUser();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
