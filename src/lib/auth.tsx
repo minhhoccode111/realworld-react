@@ -32,8 +32,25 @@ const loginWithEmailAndPassword = (
 
 export const registerInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
-  username: z.string().min(2, 'Required').max(50, 'Required'),
-  password: z.string().min(8, 'Required').max(50, 'Required'),
+  username: z
+    .string()
+    .min(2, 'Required')
+    .max(50, 'Username must be at most 50 characters')
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      'Username can only contain alphanumeric characters and underscores',
+    ),
+  password: z
+    .string()
+    .min(8, 'Required')
+    .max(50, 'Password must be at most 50 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/\d/, 'Password must contain at least one number')
+    .regex(
+      /[!@#~$%^&*()+|_{}<>?,./-]/,
+      'Password must contain at least one special character (!@#~$%^&*()+|_{}<>?,./-)',
+    ),
 });
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
-import { Head } from '@/components/seo';
 import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 

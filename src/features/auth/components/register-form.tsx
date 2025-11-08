@@ -56,7 +56,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
             <ul className="error-messages">
               {formState.errors.username && (
-                <li>Password: {formState.errors.username.message}</li>
+                <li>Username: {formState.errors.username.message}</li>
               )}
               {formState.errors.email && (
                 <li>Email: {formState.errors.email.message}</li>
