@@ -16,6 +16,11 @@ export const paths = {
       `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
   },
 
+  logout: {
+    path: '/logout',
+    getHref: () => '/logout',
+  },
+
   settings: {
     path: '/settings',
     getHref: () => '/settings',

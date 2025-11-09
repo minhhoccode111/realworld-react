@@ -79,6 +79,12 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                       {user.data?.user.username}
                     </NavLink>
                   </li>
+
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to={paths.logout.getHref()}>
+                      Sign out
+                    </NavLink>
+                  </li>
                 </>
               )}
             </ul>

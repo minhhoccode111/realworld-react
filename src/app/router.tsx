@@ -36,6 +36,10 @@ export const createAppRouter = (queryClient: QueryClient) =>
       lazy: () => import('./routes/login').then(convert(queryClient)),
     },
     {
+      path: paths.logout.path,
+      lazy: () => import('./routes/logout').then(convert(queryClient)),
+    },
+    {
       path: paths.app.root.path,
       element: (
         <ProtectedRoute>

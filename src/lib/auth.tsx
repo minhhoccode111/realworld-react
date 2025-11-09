@@ -15,7 +15,9 @@ const getUser = async (): Promise<UserAuthResponse> => {
 };
 
 const logout = (): Promise<void> => {
-  return api.post('/users/logout');
+  // in case our backend's authentication using cookies
+  // return api.post('/users/logout');
+  return Promise.resolve(undefined);
 };
 
 export const loginInputSchema = z.object({

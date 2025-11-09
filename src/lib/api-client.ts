@@ -4,7 +4,9 @@ import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
 
-function authRequestInterceptor(config: InternalAxiosRequestConfig) {
+import { sleepRandom } from '@/utils/sleep';
+
+async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = localStorage.getItem('jwt_token') ?? '';
 
   if (config.headers) {
@@ -12,6 +14,10 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
     if (token !== '') {
       config.headers.Authorization = `Token ${token}`;
     }
+  }
+
+  if (import.meta.env.DEV) {
+    await sleepRandom(2500); // pretend network latency in dev env
   }
 
   return config;
