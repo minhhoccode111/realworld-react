@@ -62,8 +62,14 @@ export const paths = {
   },
 
   article: {
-    path: '/article/:slug',
-    getHref: (slug: string) => `/article/${slug}`,
+    read: {
+      path: '/article/:slug',
+      getHref: (slug: string) => `/article/${slug}`,
+    },
+    invalid: {
+      path: '/article',
+      getHref: () => `/article`,
+    },
   },
 
   auth: {

@@ -48,3 +48,15 @@ export const Spinner = ({
     </>
   );
 };
+
+export const ScreenSpinner = ({
+  size = 'xl',
+  variant = 'primary',
+  className = '',
+}: SpinnerProps) => {
+  return (
+    <div className="flex h-screen w-screen items-center justify-center">
+      <Spinner size={size} variant={variant} className={className} />
+    </div>
+  );
+};
