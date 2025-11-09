@@ -1,6 +1,6 @@
 import { NavLink, Link } from '@/components/ui/link';
 import { useUser } from '@/lib/auth';
-import { useLocation } from 'react-router';
+// import { useLocation } from 'react-router';
 import { Head } from '@/components/seo';
 import { paths } from '@/config';
 
@@ -11,7 +11,7 @@ type AppLayoutProps = {
 
 export const AppLayout = ({ title, children }: AppLayoutProps) => {
   const user = useUser();
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <>
@@ -49,7 +49,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
-                      to={paths.editorCreate.getHref()}
+                      to={paths.editor.create.getHref()}
                     >
                       <i className="ion-compose"></i>&nbsp;New Article
                     </NavLink>
@@ -62,7 +62,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
-                      to={paths.profile.username.getHref(
+                      to={paths.profile.posts.getHref(
                         user.data?.user.username!, // guarantee to exist
                       )}
                     >

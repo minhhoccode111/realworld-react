@@ -22,35 +22,44 @@ export const paths = {
       `/logout${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
   },
 
+  profile: {
+    root: {
+      path: '/profile/:username',
+      getHref: (username: string) => `/profile/${username}`,
+    },
+    posts: {
+      path: '',
+      getHref: (username: string) => `/profile/${username}`,
+    },
+    favorites: {
+      path: 'favorites',
+      getHref: (username: string) => `/profile/${username}/favorites`,
+    },
+  },
+
   settings: {
     path: '/settings',
     getHref: () => '/settings',
   },
 
-  editorCreate: {
-    path: '/editor',
-    getHref: () => '/editor',
-  },
-
-  editorEdit: {
-    path: '/editor/:slug',
-    getHref: (slug: string) => `/editor/${slug}`,
+  editor: {
+    root: {
+      path: '/editor',
+      getHref: () => '/editor',
+    },
+    create: {
+      path: '',
+      getHref: () => '/editor',
+    },
+    edit: {
+      path: ':slug',
+      getHref: (slug: string) => `/editor/${slug}`,
+    },
   },
 
   article: {
     path: '/article/:slug',
     getHref: (slug: string) => `/article/${slug}`,
-  },
-
-  profile: {
-    username: {
-      path: '/profile/:username',
-      getHref: (username: string) => `/profile/${username}`,
-    },
-    favorites: {
-      path: '/profile/:username/favorites',
-      getHref: (username: string) => `/profile/${username}/favorites`,
-    },
   },
 
   auth: {

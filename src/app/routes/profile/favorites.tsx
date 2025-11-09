@@ -1,5 +1,5 @@
 const ProfileFavoritesRoute = () => {
-  return;
+  return <></>;
 };
 
 export default ProfileFavoritesRoute;

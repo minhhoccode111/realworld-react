@@ -1,5 +1,5 @@
 const ProfilePostsRoute = () => {
-  return;
+  return <></>;
 };
 
 export default ProfilePostsRoute;

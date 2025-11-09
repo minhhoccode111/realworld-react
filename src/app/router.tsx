@@ -40,12 +40,12 @@ export const createAppRouter = (queryClient: QueryClient) => {
       lazy: () => import('./routes/logout').then(convert(queryClient)),
     },
     {
-      path: paths.profile.username.path,
+      path: paths.profile.root.path,
       ErrorBoundary: AppRootErrorBoundary,
       lazy: () => import('./routes/profile/root').then(convert(queryClient)),
       children: [
         {
-          index: true,
+          path: paths.profile.posts.path,
           lazy: () =>
             import('./routes/profile/posts').then(convert(queryClient)),
         },
@@ -59,6 +59,22 @@ export const createAppRouter = (queryClient: QueryClient) => {
     {
       path: paths.settings.path,
       lazy: () => import('./routes/settings').then(convert(queryClient)),
+    },
+    {
+      path: paths.editor.root.path,
+      ErrorBoundary: AppRootErrorBoundary,
+      lazy: () => import('./routes/editor/root').then(convert(queryClient)),
+      children: [
+        {
+          path: paths.editor.create.path,
+          lazy: () =>
+            import('./routes/editor/create').then(convert(queryClient)),
+        },
+        {
+          path: paths.editor.edit.path,
+          lazy: () => import('./routes/editor/edit').then(convert(queryClient)),
+        },
+      ],
     },
     {
       path: paths.app.root.path,
