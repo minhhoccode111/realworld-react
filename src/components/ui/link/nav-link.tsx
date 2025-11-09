@@ -5,6 +5,7 @@ import { cn } from '@/utils/cn';
 export const NavLink = ({ className, children, ...props }: NavLinkProps) => {
   return (
     <RouterNavLink
+      end
       className={({ isActive, isPending, isTransitioning }) => {
         const baseClasses = 'text-slate-600 hover:text-slate-900';
         const activeClass = isActive ? 'active' : '';

@@ -19,19 +19,20 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
       <header>
         <nav className="navbar navbar-light">
           <div className="container">
-            <NavLink className="navbar-brand" to={paths.home.getHref()}>
+            <Link className="navbar-brand" to={paths.home.getHref()}>
               conduit
-            </NavLink>
+            </Link>
             <ul className="nav navbar-nav pull-xs-right">
+              <li className="nav-item">
+                <NavLink className="nav-link" to={paths.home.getHref()}>
+                  Home
+                </NavLink>
+              </li>
+
               {user.isLoading ?? <li>Loading...</li>}
 
               {!user.data ? (
                 <>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to={paths.home.getHref()}>
-                      Home
-                    </NavLink>
-                  </li>
                   <li className="nav-item">
                     <NavLink className="nav-link" to={paths.login.getHref()}>
                       Sign in
@@ -45,14 +46,6 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <NavLink
-                      className="nav-link active"
-                      to={paths.home.getHref()}
-                    >
-                      Home
-                    </NavLink>
-                  </li>
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
