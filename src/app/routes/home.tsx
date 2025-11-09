@@ -1,6 +1,6 @@
 import { AppLayout } from '@/components/layouts/app-layout';
 
-const LandingRoute = () => {
+const HomeRoute = () => {
   return (
     <AppLayout title="Home">
       <div className="home-page">
@@ -148,4 +148,4 @@ const LandingRoute = () => {
   );
 };
 
-export default LandingRoute;
+export default HomeRoute;

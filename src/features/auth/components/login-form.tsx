@@ -4,14 +4,19 @@ import { Form } from '@/components/ui/form';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 import { Link } from '@/components/ui/link';
+import { useNotifications } from '@/components/ui/notifications';
 
 type LoginFormProps = {
   onSuccess: () => void;
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+  const { addNotification } = useNotifications();
   const login = useLogin({
-    onSuccess,
+    onSuccess: () => {
+      onSuccess();
+      addNotification({ type: 'success', title: 'Welcome back!' });
+    },
   });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');

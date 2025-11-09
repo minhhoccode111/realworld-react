@@ -3,13 +3,20 @@ import { Link, useSearchParams } from 'react-router';
 import { Form } from '@/components/ui/form';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
+import { useNotifications } from '@/components/ui/notifications';
 
 type RegisterFormProps = {
   onSuccess: () => void;
 };
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const registering = useRegister({ onSuccess });
+  const { addNotification } = useNotifications();
+  const registering = useRegister({
+    onSuccess: () => {
+      onSuccess();
+      addNotification({ type: 'success', title: 'User created' });
+    },
+  });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 

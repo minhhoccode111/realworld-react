@@ -21,11 +21,11 @@ const convert = (queryClient: QueryClient) => (m: any) => {
   };
 };
 
-export const createAppRouter = (queryClient: QueryClient) =>
-  createBrowserRouter([
+export const createAppRouter = (queryClient: QueryClient) => {
+  return createBrowserRouter([
     {
       path: paths.home.path,
-      lazy: () => import('./routes/landing').then(convert(queryClient)),
+      lazy: () => import('./routes/home').then(convert(queryClient)),
     },
     {
       path: paths.register.path,
@@ -38,6 +38,23 @@ export const createAppRouter = (queryClient: QueryClient) =>
     {
       path: paths.logout.path,
       lazy: () => import('./routes/logout').then(convert(queryClient)),
+    },
+    {
+      path: paths.profile.username.path,
+      ErrorBoundary: AppRootErrorBoundary,
+      lazy: () => import('./routes/profile/root').then(convert(queryClient)),
+      children: [
+        {
+          index: true,
+          lazy: () =>
+            import('./routes/profile/posts').then(convert(queryClient)),
+        },
+        {
+          path: paths.profile.favorites.path,
+          lazy: () =>
+            import('./routes/profile/favorites').then(convert(queryClient)),
+        },
+      ],
     },
     {
       path: paths.app.root.path,
@@ -82,6 +99,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
       lazy: () => import('./routes/not-found').then(convert(queryClient)),
     },
   ]);
+};
 
 export const AppRouter = () => {
   const queryClient = useQueryClient();

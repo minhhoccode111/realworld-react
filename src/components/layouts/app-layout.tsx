@@ -67,7 +67,9 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                       )}
                     >
                       <img
-                        src={user.data?.user.image}
+                        src={
+                          user.data?.user.image // add fallback
+                        }
                         className="user-pic"
                         alt="User profile"
                       />
