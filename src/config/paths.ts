@@ -18,7 +18,8 @@ export const paths = {
 
   logout: {
     path: '/logout',
-    getHref: () => '/logout',
+    getHref: (redirectTo?: string | null | undefined) =>
+      `/logout${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
   },
 
   settings: {

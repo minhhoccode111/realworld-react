@@ -1,7 +1,8 @@
-import { paths } from '@/config/paths';
-import { Head } from '@/components/seo';
-import { useUser } from '@/lib/auth';
 import { NavLink, Link } from '@/components/ui/link';
+import { useUser } from '@/lib/auth';
+import { useLocation } from 'react-router';
+import { Head } from '@/components/seo';
+import { paths } from '@/config';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ type AppLayoutProps = {
 
 export const AppLayout = ({ title, children }: AppLayoutProps) => {
   const user = useUser();
+  const location = useLocation();
 
   return (
     <>
@@ -81,7 +83,10 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                   </li>
 
                   <li className="nav-item">
-                    <NavLink className="nav-link" to={paths.logout.getHref()}>
+                    <NavLink
+                      className="nav-link"
+                      to={paths.logout.getHref(location.pathname)}
+                    >
                       Sign out
                     </NavLink>
                   </li>
