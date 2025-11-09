@@ -1,6 +1,6 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, redirect } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
 import { paths } from '@/config/paths';
@@ -55,6 +55,11 @@ export const createAppRouter = (queryClient: QueryClient) => {
             import('./routes/profile/favorites').then(convert(queryClient)),
         },
       ],
+    },
+    {
+      path: paths.profile.invalid.path,
+      loader: () => redirect(paths.home.getHref()),
+      element: <></>,
     },
     {
       path: paths.settings.path,

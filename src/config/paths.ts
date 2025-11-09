@@ -35,6 +35,10 @@ export const paths = {
       path: 'favorites',
       getHref: (username: string) => `/profile/${username}/favorites`,
     },
+    invalid: {
+      path: '/profile',
+      getHref: () => '/profile',
+    },
   },
 
   settings: {
