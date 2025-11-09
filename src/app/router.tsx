@@ -57,6 +57,10 @@ export const createAppRouter = (queryClient: QueryClient) => {
       ],
     },
     {
+      path: paths.settings.path,
+      lazy: () => import('./routes/settings').then(convert(queryClient)),
+    },
+    {
       path: paths.app.root.path,
       element: (
         <ProtectedRoute>
