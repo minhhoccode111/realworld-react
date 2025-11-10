@@ -107,7 +107,7 @@ export const SettingsForm = () => {
           type="submit"
           disabled={updateProfileMutation.isPending}
         >
-          Update Settings{updateProfileMutation.isPending ? '...' : ''}
+          {updateProfileMutation.isPending ? 'Loading...' : 'Update Settings'}
         </button>
       </fieldset>
     </form>

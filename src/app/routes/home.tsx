@@ -77,7 +77,7 @@ const HomeRoute = () => {
                     <i className="ion-heart"></i> 32
                   </button>
                 </div>
-                <a href="/article/the-song-you" className="preview-link">
+                <a href="/article/slug" className="preview-link">
                   <h1>
                     The song you won't ever stop singing. No matter how hard you
                     try.
