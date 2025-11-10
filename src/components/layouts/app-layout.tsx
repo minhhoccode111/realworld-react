@@ -77,14 +77,14 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     </NavLink>
                   </li>
 
-                  {/* <li className="nav-item">
+                  <li className="nav-item">
                     <NavLink
                       className="nav-link"
                       to={paths.logout.getHref(location.pathname)}
                     >
                       Sign out
                     </NavLink>
-                  </li> */}
+                  </li>
                 </>
               )}
             </ul>

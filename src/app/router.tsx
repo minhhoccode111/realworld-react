@@ -1,6 +1,6 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { createBrowserRouter, redirect } from 'react-router';
+import { Outlet, createBrowserRouter, redirect } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
 import { paths } from '@/config/paths';
@@ -67,12 +67,32 @@ export const createAppRouter = (queryClient: QueryClient) => {
         },
         {
           path: paths.settings.path,
-          lazy: () => import('./routes/settings').then(convert(queryClient)),
+          element: (
+            <ProtectedRoute>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              index: true,
+              lazy: () =>
+                import('./routes/settings').then(convert(queryClient)),
+            },
+          ],
         },
         {
           path: paths.editor.root.path,
-          lazy: () => import('./routes/editor/root').then(convert(queryClient)),
+          element: (
+            <ProtectedRoute>
+              <Outlet />
+            </ProtectedRoute>
+          ),
           children: [
+            {
+              index: true,
+              lazy: () =>
+                import('./routes/editor/root').then(convert(queryClient)),
+            },
             {
               path: paths.editor.create.path,
               lazy: () =>
