@@ -1,12 +1,32 @@
 import { AppLayout } from '@/components/layouts/app-layout';
+import { useParams } from 'react-router';
+import { Spinner } from '@/components/ui/spinner';
+import { MDPreview } from '@/components/ui/md-preview';
+import { useArticle } from '@/features/articles/api/get-article';
 
 const ArticleRoute = () => {
+  const params = useParams();
+  const slug = params.slug as string;
+  const articleQuery = useArticle({ slug });
+
+  if (articleQuery.isLoading) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  const article = articleQuery.data?.article;
+
+  if (!article) return null;
+
   return (
-    <AppLayout title="Article">
+    <AppLayout title={article.title}>
       <div className="article-page">
         <div className="banner">
           <div className="container">
-            <h1>How to build webapps that scale</h1>
+            <h1>{article.title}</h1>
 
             <div className="article-meta">
               <a href="/profile/eric-simons">
@@ -40,20 +60,7 @@ const ArticleRoute = () => {
         <div className="container page">
           <div className="row article-content">
             <div className="col-md-12">
-              <p>
-                Web development technologies have evolved at an incredible clip
-                over the past few years.
-              </p>
-              <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-              <p>
-                It's a great solution for learning how other frameworks work.
-              </p>
-              <ul className="tag-list">
-                <li className="tag-default tag-pill tag-outline">realworld</li>
-                <li className="tag-default tag-pill tag-outline">
-                  implementations
-                </li>
-              </ul>
+              <MDPreview value={article.body} />
             </div>
           </div>
 
