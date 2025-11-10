@@ -1,6 +1,16 @@
+import { useNavigate } from 'react-router';
+
 import { AppLayout } from '@/components/layouts/app-layout';
+import { useLogout } from '@/lib/auth';
+import { paths } from '@/config';
+import { SettingsForm } from '@/features/settings/components/settings-form';
 
 const SettingsRoute = () => {
+  const navigate = useNavigate();
+  const logout = useLogout({
+    onSuccess: () => navigate(paths.home.getHref()),
+  });
+
   return (
     <AppLayout title="Settings">
       <div className="settings-page">
@@ -9,54 +19,13 @@ const SettingsRoute = () => {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Your Settings</h1>
 
-              <ul className="error-messages">
-                <li>That name is required</li>
-              </ul>
+              <SettingsForm />
 
-              <form>
-                <fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="URL of profile picture"
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="text"
-                      placeholder="Your Name"
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <textarea
-                      className="form-control form-control-lg"
-                      rows={8}
-                      placeholder="Short bio about you"
-                    ></textarea>
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="text"
-                      placeholder="Email"
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      className="form-control form-control-lg"
-                      type="password"
-                      placeholder="New Password"
-                    />
-                  </fieldset>
-                  <button className="btn btn-lg btn-primary pull-xs-right">
-                    Update Settings
-                  </button>
-                </fieldset>
-              </form>
               <hr />
-              <button className="btn btn-outline-danger">
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => logout.mutate({})}
+              >
                 Or click here to logout.
               </button>
             </div>
