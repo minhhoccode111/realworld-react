@@ -1,9 +1,9 @@
 import { Link, useSearchParams } from 'react-router';
 
 import { Form } from '@/components/ui/form';
+import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
-import { useNotifications } from '@/components/ui/notifications';
 
 type RegisterFormProps = {
   onSuccess: () => void;

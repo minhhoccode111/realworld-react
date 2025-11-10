@@ -1,8 +1,9 @@
-import { NavLink, Link } from '@/components/ui/link';
-import { useUser } from '@/lib/auth';
 import { useLocation } from 'react-router';
+
 import { Head } from '@/components/seo/head';
+import { NavLink, Link } from '@/components/ui/link';
 import { paths } from '@/config/paths';
+import { useUser } from '@/lib/auth';
 
 type AppLayoutProps = {
   children: React.ReactNode;

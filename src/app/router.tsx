@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { Outlet, createBrowserRouter, redirect } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
+import { MainErrorFallback } from '@/components/errors';
+import { ScreenSpinner } from '@/components/ui/spinner';
 import { paths } from '@/config/paths';
 import { ProtectedRoute } from '@/lib/auth';
 
 import { default as AppRoot } from './routes/app/root';
-import { MainErrorFallback } from '@/components/errors';
-import { ScreenSpinner } from '@/components/ui/spinner';
 
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;

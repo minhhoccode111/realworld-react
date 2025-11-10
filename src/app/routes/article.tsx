@@ -1,7 +1,8 @@
-import { AppLayout } from '@/components/layouts/app-layout';
 import { useParams } from 'react-router';
-import { Spinner } from '@/components/ui/spinner';
+
+import { AppLayout } from '@/components/layouts/app-layout';
 import { MDPreview } from '@/components/ui/md-preview';
+import { Spinner } from '@/components/ui/spinner';
 import { useArticle } from '@/features/articles/api/get-article';
 
 const ArticleRoute = () => {
@@ -57,7 +58,7 @@ const ArticleRoute = () => {
           </div>
         </div>
 
-        <div className="container page">
+        <div className="page container">
           <div className="row article-content">
             <div className="col-md-12">
               <MDPreview value={article.body} />

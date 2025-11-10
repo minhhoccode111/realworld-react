@@ -1,10 +1,10 @@
 import { useSearchParams } from 'react-router';
 
 import { Form } from '@/components/ui/form';
-import { paths } from '@/config/paths';
-import { useLogin, loginInputSchema } from '@/lib/auth';
 import { Link } from '@/components/ui/link';
 import { useNotifications } from '@/components/ui/notifications';
+import { paths } from '@/config/paths';
+import { useLogin, loginInputSchema } from '@/lib/auth';
 
 type LoginFormProps = {
   onSuccess: () => void;

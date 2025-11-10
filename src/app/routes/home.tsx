@@ -11,7 +11,7 @@ const HomeRoute = () => {
           </div>
         </div>
 
-        <div className="container page">
+        <div className="page container">
           <div className="row">
             <div className="col-md-9">
               <div className="feed-toggle">

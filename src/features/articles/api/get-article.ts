@@ -1,7 +1,8 @@
+import { queryOptions, useQuery } from '@tanstack/react-query';
+
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
-import { queryOptions, useQuery } from '@tanstack/react-query';
 
 const getArticle = (slug: string): Promise<ArticleDetailResponse> => {
   return api.get(`/articles/${slug}`);
