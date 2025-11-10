@@ -1,34 +1,66 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
-import { useUser } from '@/lib/auth';
 import { MutationConfig } from '@/lib/react-query';
+import { UserAuthResponse } from '@/types/api';
+
+const emptyToUndef = (schema: z.ZodTypeAny) =>
+  z.preprocess(
+    (val) => (typeof val === 'string' && val.trim() === '' ? undefined : val),
+    schema,
+  );
 
 export const updateProfileInputSchema = z
   .object({
-    email: z.string().email('Invalid email').optional(),
-    username: z.string().optional(),
-    bio: z.string().optional(),
-    image: z.string().optional(),
-    password: z.string().optional(),
+    email: emptyToUndef(z.string().email('Invalid email').optional()),
+    username: emptyToUndef(
+      z
+        .string()
+        .min(2, 'Username must be at least 2 characters')
+        .max(50, 'Username must be at most 50 characters')
+        .regex(
+          /^[a-zA-Z0-9_]+$/,
+          'Username can only contain alphanumeric characters and underscores',
+        )
+        .optional(),
+    ),
+    password: emptyToUndef(
+      z
+        .string()
+        .min(8, 'Password must be at least 8 characters')
+        .max(50, 'Password must be at most 50 characters')
+        .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .regex(/\d/, 'Password must contain at least one number')
+        .regex(
+          /[!@#~$%^&*()+|_{}<>?,./-]/,
+          'Password must contain at least one special character',
+        )
+        .optional(),
+    ),
+    bio: emptyToUndef(
+      z.string().max(255, 'Bio must be at most 255 characters').optional(),
+    ),
+    image: emptyToUndef(
+      z
+        .string()
+        .max(2048, 'Image link must be at most 2048 characters')
+        .optional(),
+    ),
   })
-  .refine(
-    (data) =>
-      !!data.email ||
-      !!data.username ||
-      !!data.bio ||
-      !!data.image ||
-      !!data.password,
-    {
-      message: 'At least one field must be provided for update',
-      path: ['email'], // Attach the error to the email field, or any other field
-    },
-  );
+  .refine((data) => Object.values(data).some((v) => v !== undefined), {
+    message: 'At least one field must be provided to update',
+    path: [''],
+  });
 
 export type UpdateProfileInput = z.infer<typeof updateProfileInputSchema>;
 
-export const updateProfile = ({ data }: { data: UpdateProfileInput }) => {
+export const updateProfile = ({
+  data,
+}: {
+  data: UpdateProfileInput;
+}): Promise<UserAuthResponse> => {
   return api.put(`/user`, { user: data });
 };
 
@@ -39,14 +71,13 @@ type UseUpdateProfileOptions = {
 export const useUpdateProfile = ({
   mutationConfig,
 }: UseUpdateProfileOptions = {}) => {
-  const { refetch: refetchUser } = useUser();
-
+  const queryClient = useQueryClient();
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
-    onSuccess: (...args) => {
-      refetchUser();
-      onSuccess?.(...args);
+    onSuccess: (data, ...args) => {
+      queryClient.setQueryData(['authenticated-user'], data);
+      onSuccess?.(data, ...args);
     },
     ...restConfig,
     mutationFn: updateProfile,

@@ -4,3 +4,4 @@ export * from './content-layout';
 export * from './dashboard-layout';
 export * from './editor-layout';
 export * from './profile-layout';
+export * from './settings-layout';

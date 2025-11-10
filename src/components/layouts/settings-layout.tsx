@@ -1,0 +1,32 @@
+import { paths } from '@/config/paths';
+import { useLogout } from '@/lib/auth';
+import { useNavigate } from 'react-router';
+
+export const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+  const logout = useLogout({
+    onSuccess: () => navigate(paths.home.getHref()),
+  });
+
+  return (
+    <div className="settings-page">
+      <div className="container page">
+        <div className="row">
+          <div className="col-md-6 offset-md-3 col-xs-12">
+            <h1 className="text-xs-center">Your Settings</h1>
+
+            {children}
+
+            <hr />
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => logout.mutate({})}
+            >
+              Or click here to logout.
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

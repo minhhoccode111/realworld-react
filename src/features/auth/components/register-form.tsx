@@ -61,17 +61,13 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               />
             </fieldset>
 
-            <ul className="error-messages">
-              {formState.errors.username && (
-                <li>Username: {formState.errors.username.message}</li>
-              )}
-              {formState.errors.email && (
-                <li>Email: {formState.errors.email.message}</li>
-              )}
-              {formState.errors.password && (
-                <li>Password: {formState.errors.password.message}</li>
-              )}
-            </ul>
+            {Object.entries(formState.errors).length > 0 && (
+              <ul className="error-messages">
+                {Object.entries(formState.errors).map(([field, error]) => (
+                  <li key={field}>{error?.message?.toString()}</li>
+                ))}
+              </ul>
+            )}
 
             <button
               type="submit"

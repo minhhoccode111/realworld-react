@@ -36,7 +36,7 @@ export const registerInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
   username: z
     .string()
-    .min(2, 'Required')
+    .min(2, 'Username must be at least 2 characters')
     .max(50, 'Username must be at most 50 characters')
     .regex(
       /^[a-zA-Z0-9_]+$/,
@@ -44,7 +44,7 @@ export const registerInputSchema = z.object({
     ),
   password: z
     .string()
-    .min(8, 'Required')
+    .min(8, 'Password must be at least 2 characters')
     .max(50, 'Password must be at most 50 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
@@ -64,6 +64,7 @@ const registerWithEmailAndPassword = (
 };
 
 const authConfig = {
+  userKey: ['authenticated-user'],
   userFn: async () => {
     // axios will throw if getUser() not return status 2xx
     try {

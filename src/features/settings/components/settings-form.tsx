@@ -41,11 +41,11 @@ export const SettingsForm = () => {
   const onSubmit = handleSubmit((values) => {
     updateProfileMutation.mutate({
       data: {
-        email: values.email === '' ? undefined : values.email,
-        username: values.username === '' ? undefined : values.username,
-        bio: values.bio === '' ? undefined : values.bio,
-        image: values.image === '' ? undefined : values.image,
-        password: values.password === '' ? undefined : values.password,
+        email: values.email,
+        username: values.username,
+        bio: values.bio,
+        image: values.image,
+        password: values.password,
       },
     });
   });
@@ -60,11 +60,6 @@ export const SettingsForm = () => {
             placeholder="URL of profile picture"
             {...register('image')}
           />
-          {errors.image && (
-            <ul className="error-messages">
-              <li>{errors.image.message}</li>
-            </ul>
-          )}
         </fieldset>
         <fieldset className="form-group">
           <input
@@ -73,11 +68,6 @@ export const SettingsForm = () => {
             placeholder="Your Username"
             {...register('username')}
           />
-          {errors.username && (
-            <ul className="error-messages">
-              <li>{errors.username.message}</li>
-            </ul>
-          )}
         </fieldset>
         <fieldset className="form-group">
           <textarea
@@ -86,11 +76,6 @@ export const SettingsForm = () => {
             placeholder="Short bio about you"
             {...register('bio')}
           ></textarea>
-          {errors.bio && (
-            <ul className="error-messages">
-              <li>{errors.bio.message}</li>
-            </ul>
-          )}
         </fieldset>
         <fieldset className="form-group">
           <input
@@ -99,11 +84,6 @@ export const SettingsForm = () => {
             placeholder="Email"
             {...register('email')}
           />
-          {errors.email && (
-            <ul className="error-messages">
-              <li>{errors.email.message}</li>
-            </ul>
-          )}
         </fieldset>
         <fieldset className="form-group">
           <input
@@ -112,12 +92,16 @@ export const SettingsForm = () => {
             placeholder="New Password"
             {...register('password')}
           />
-          {errors.password && (
-            <ul className="error-messages">
-              <li>{errors.password.message}</li>
-            </ul>
-          )}
         </fieldset>
+
+        {Object.entries(errors).length > 0 && (
+          <ul className="error-messages">
+            {Object.entries(errors).map(([field, error]) => (
+              <li key={field}>{error?.message?.toString()}</li>
+            ))}
+          </ul>
+        )}
+
         <button
           className="btn btn-lg btn-primary pull-xs-right"
           type="submit"
@@ -129,4 +113,3 @@ export const SettingsForm = () => {
     </form>
   );
 };
-

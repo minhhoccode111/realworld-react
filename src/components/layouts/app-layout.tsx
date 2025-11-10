@@ -1,8 +1,8 @@
 import { NavLink, Link } from '@/components/ui/link';
 import { useUser } from '@/lib/auth';
-// import { useLocation } from 'react-router';
-import { Head } from '@/components/seo';
-import { paths } from '@/config';
+import { useLocation } from 'react-router';
+import { Head } from '@/components/seo/head';
+import { paths } from '@/config/paths';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ type AppLayoutProps = {
 
 export const AppLayout = ({ title, children }: AppLayoutProps) => {
   const user = useUser();
-  // const location = useLocation();
+  const location = useLocation();
 
   return (
     <>
