@@ -2,51 +2,52 @@ import { useParams } from 'react-router';
 
 import { AppLayout } from '@/components/layouts/app-layout';
 import { MDPreview } from '@/components/ui/md-preview';
-import { Spinner } from '@/components/ui/spinner';
 import { useArticle } from '@/features/articles/api/get-article';
+import { Link } from '@/components/ui/link/link';
+import { formatDate } from '@/utils/format';
 
 const ArticleRoute = () => {
   const params = useParams();
   const slug = params.slug as string;
   const articleQuery = useArticle({ slug });
 
-  if (articleQuery.isLoading) {
-    return (
-      <div className="flex h-48 w-full items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
-
   const article = articleQuery.data?.article;
-
-  if (!article) return null;
+  console.log('article: ', article);
 
   return (
-    <AppLayout title={article.title}>
+    <AppLayout title={article?.title || 'Article'}>
       <div className="article-page">
         <div className="banner">
           <div className="container">
-            <h1>{article.title}</h1>
+            <h1>{article?.title}</h1>
 
             <div className="article-meta">
-              <a href="/profile/eric-simons">
-                <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </a>
+              <Link to={`/profile/${article?.author.username}`}>
+                <img src={article?.author.image} />
+              </Link>
               <div className="info">
-                <a href="/profile/eric-simons" className="author">
-                  Eric Simons
-                </a>
-                <span className="date">January 20th</span>
+                <Link
+                  to={`/profile/${article?.author.username}`}
+                  className="author"
+                >
+                  {article?.author.username}
+                </Link>
+                <span className="date">
+                  {article?.createdAt
+                    ? formatDate(Date.parse(article?.createdAt))
+                    : ''}
+                </span>
               </div>
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-plus-round"></i>
-                &nbsp; Follow Eric Simons <span className="counter">(10)</span>
+                &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
+                {article?.author.username} <span className="counter">(10)</span>
               </button>
               &nbsp;&nbsp;
               <button className="btn btn-sm btn-outline-primary">
                 <i className="ion-heart"></i>
-                &nbsp; Favorite Post <span className="counter">(29)</span>
+                &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Post
+                <span className="counter">({article?.favoritesCount})</span>
               </button>
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-edit"></i> Edit Article
@@ -58,10 +59,19 @@ const ArticleRoute = () => {
           </div>
         </div>
 
-        <div className="page container">
+        <div className="container page">
           <div className="row article-content">
             <div className="col-md-12">
-              <MDPreview value={article.body} />
+              <p>{article?.description}</p>
+              <MDPreview value={article?.body || ''}></MDPreview>
+
+              <ul className="tag-list">
+                {article?.tagList.map((v) => (
+                  <li key={v} className="tag-default tag-pill tag-outline">
+                    {v}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
@@ -69,23 +79,32 @@ const ArticleRoute = () => {
 
           <div className="article-actions">
             <div className="article-meta">
-              <a href="profile.html">
-                <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </a>
+              <Link to={`/profile/${article?.author.username}`}>
+                <img src={article?.author.image} />
+              </Link>
               <div className="info">
-                <a href="" className="author">
-                  Eric Simons
-                </a>
-                <span className="date">January 20th</span>
+                <Link
+                  to={`/profile/${article?.author.username}`}
+                  className="author"
+                >
+                  {article?.author.username}
+                </Link>
+                <span className="date">
+                  {article?.createdAt
+                    ? formatDate(Date.parse(article?.createdAt))
+                    : ''}
+                </span>
               </div>
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-plus-round"></i>
-                &nbsp; Follow Eric Simons
+                &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
+                {article?.author.username} <span className="counter">(10)</span>
               </button>
-              &nbsp;
+              &nbsp;&nbsp;
               <button className="btn btn-sm btn-outline-primary">
                 <i className="ion-heart"></i>
-                &nbsp; Favorite Article <span className="counter">(29)</span>
+                &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Post
+                <span className="counter">({article?.favoritesCount})</span>
               </button>
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-edit"></i> Edit Article

@@ -20,6 +20,15 @@
   - Show basic user info
   - List of articles populated from author’s created articles or author’s favorited articles
 
+## Concepts Learned
+
+- Bulletproof React Architecture
+- Realworld React Frontend Specs
+- React Query
+- React Router
+- Shadcn UI
+- TailwindCSS
+
 ## Get Started
 
 Prerequisites:
