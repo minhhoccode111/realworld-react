@@ -1,11 +1,11 @@
 import { useParams } from 'react-router';
 
 import { AppLayout } from '@/components/layouts/app-layout';
+import { Link } from '@/components/ui/link/link';
 import { MDPreview } from '@/components/ui/md-preview';
 import { useArticle } from '@/features/articles/api/get-article';
-import { Link } from '@/components/ui/link/link';
-import { formatDate } from '@/utils/format';
 import { useUser } from '@/lib/auth';
+import { formatDate } from '@/utils/format';
 
 const ArticleRoute = () => {
   const params = useParams();
@@ -64,7 +64,7 @@ const ArticleRoute = () => {
           </div>
         </div>
 
-        <div className="container page">
+        <div className="page container">
           <div className="row article-content">
             <div className="col-md-12">
               <p>{article?.description}</p>

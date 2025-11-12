@@ -1,6 +1,7 @@
 import { SettingsLayout } from '@/components/layouts';
 import { AppLayout } from '@/components/layouts/app-layout';
-import { SettingsForm } from '@/features/settings/components/settings-form';
+
+import { SettingsForm } from '@/features/auth/components/settings-form';
 
 const SettingsRoute = () => {
   return (

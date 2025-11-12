@@ -3,7 +3,7 @@ import { useNotifications } from '@/components/ui/notifications';
 import {
   updateProfileInputSchema,
   useUpdateProfile,
-} from '@/features/settings/api/update-profile';
+} from '@/features/auth/api/update-profile';
 import { useUser } from '@/lib/auth';
 
 type SettingsFormProps = {

@@ -8,8 +8,6 @@ import { ScreenSpinner } from '@/components/ui/spinner';
 import { paths } from '@/config/paths';
 import { ProtectedRoute } from '@/lib/auth';
 
-import { default as AppRoot } from './routes/app/root';
-
 const convert = (queryClient: QueryClient) => (m: any) => {
   const { clientLoader, clientAction, default: Component, ...rest } = m;
   return {
@@ -113,45 +111,6 @@ export const createAppRouter = (queryClient: QueryClient) => {
           path: paths.article.invalid.path,
           loader: () => redirect(paths.home.getHref()),
           element: <></>,
-        },
-        {
-          path: paths.app.root.path,
-          element: (
-            <ProtectedRoute>
-              <AppRoot />
-            </ProtectedRoute>
-          ),
-          children: [
-            {
-              path: paths.app.discussions.path,
-              lazy: () =>
-                import('./routes/app/discussions/discussions').then(
-                  convert(queryClient),
-                ),
-            },
-            {
-              path: paths.app.discussion.path,
-              lazy: () =>
-                import('./routes/app/discussions/discussion').then(
-                  convert(queryClient),
-                ),
-            },
-            {
-              path: paths.app.users.path,
-              lazy: () =>
-                import('./routes/app/users').then(convert(queryClient)),
-            },
-            {
-              path: paths.app.profile.path,
-              lazy: () =>
-                import('./routes/app/profile').then(convert(queryClient)),
-            },
-            {
-              path: paths.app.dashboard.path,
-              lazy: () =>
-                import('./routes/app/dashboard').then(convert(queryClient)),
-            },
-          ],
         },
         {
           path: '*',
