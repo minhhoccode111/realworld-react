@@ -5,14 +5,16 @@ import { MDPreview } from '@/components/ui/md-preview';
 import { useArticle } from '@/features/articles/api/get-article';
 import { Link } from '@/components/ui/link/link';
 import { formatDate } from '@/utils/format';
+import { useUser } from '@/lib/auth';
 
 const ArticleRoute = () => {
   const params = useParams();
   const slug = params.slug as string;
-  const articleQuery = useArticle({ slug });
 
+  const user = useUser();
+
+  const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
-  console.log('article: ', article);
 
   return (
     <AppLayout title={article?.title || 'Article'}>
@@ -41,7 +43,10 @@ const ArticleRoute = () => {
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-plus-round"></i>
                 &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
-                {article?.author.username} <span className="counter">(10)</span>
+                {article?.author.username}{' '}
+                <span className="counter">
+                  ({article?.author.followersCount})
+                </span>
               </button>
               &nbsp;&nbsp;
               <button className="btn btn-sm btn-outline-primary">
@@ -98,7 +103,10 @@ const ArticleRoute = () => {
               <button className="btn btn-sm btn-outline-secondary">
                 <i className="ion-plus-round"></i>
                 &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
-                {article?.author.username} <span className="counter">(10)</span>
+                {article?.author.username}{' '}
+                <span className="counter">
+                  ({article?.author.followersCount})
+                </span>
               </button>
               &nbsp;&nbsp;
               <button className="btn btn-sm btn-outline-primary">
@@ -127,7 +135,7 @@ const ArticleRoute = () => {
                 </div>
                 <div className="card-footer">
                   <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
+                    src={user.data?.user.image}
                     className="comment-author-img"
                   />
                   <button className="btn btn-sm btn-primary">

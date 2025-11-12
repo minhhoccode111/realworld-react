@@ -56,6 +56,7 @@ export type Comment = Entity<{
 export type ProfilePreview = {
   bio: string;
   following: boolean;
+  followersCount: number;
   image: string;
   username: string;
 };

@@ -69,10 +69,9 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     >
                       <img
                         src={
-                          user.data?.user.image // add fallback
+                          user.data?.user.image // TODO: add fallback
                         }
                         className="user-pic"
-                        alt="User profile"
                       />
                       {user.data?.user.username}
                     </NavLink>
