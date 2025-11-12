@@ -6,6 +6,8 @@ import { MDPreview } from '@/components/ui/md-preview';
 import { useArticle } from '@/features/articles/api/get-article';
 import { useUser } from '@/lib/auth';
 import { formatDate } from '@/utils/format';
+import { useInfiniteComments } from '@/features/comments/api/get-comments';
+import { Authorization, POLICIES } from '@/lib/authorization';
 
 const ArticleRoute = () => {
   const params = useParams();
@@ -16,6 +18,9 @@ const ArticleRoute = () => {
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
 
+  const commentsQuery = useInfiniteComments({ slug });
+  const comments = commentsQuery.data?.pages.flatMap((page) => page.comments);
+
   return (
     <AppLayout title={article?.title || 'Article'}>
       <div className="article-page">
@@ -23,6 +28,7 @@ const ArticleRoute = () => {
           <div className="container">
             <h1>{article?.title}</h1>
 
+            {/* TODO: extract to ArticleMeta */}
             <div className="article-meta">
               <Link to={`/profile/${article?.author.username}`}>
                 <img src={article?.author.image} />
@@ -54,12 +60,23 @@ const ArticleRoute = () => {
                 &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Post
                 <span className="counter">({article?.favoritesCount})</span>
               </button>
-              <button className="btn btn-sm btn-outline-secondary">
-                <i className="ion-edit"></i> Edit Article
-              </button>
-              <button className="btn btn-sm btn-outline-danger">
-                <i className="ion-trash-a"></i> Delete Article
-              </button>
+              <Authorization
+                policyCheck={POLICIES['article:edit'](user.data?.user, article)}
+              >
+                <button className="btn btn-sm btn-outline-secondary">
+                  <i className="ion-edit"></i> Edit Article
+                </button>
+              </Authorization>
+              <Authorization
+                policyCheck={POLICIES['article:delete'](
+                  user.data?.user,
+                  article,
+                )}
+              >
+                <button className="btn btn-sm btn-outline-danger">
+                  <i className="ion-trash-a"></i> Delete Article
+                </button>
+              </Authorization>
             </div>
           </div>
         </div>
@@ -114,12 +131,23 @@ const ArticleRoute = () => {
                 &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Post
                 <span className="counter">({article?.favoritesCount})</span>
               </button>
-              <button className="btn btn-sm btn-outline-secondary">
-                <i className="ion-edit"></i> Edit Article
-              </button>
-              <button className="btn btn-sm btn-outline-danger">
-                <i className="ion-trash-a"></i> Delete Article
-              </button>
+              <Authorization
+                policyCheck={POLICIES['article:edit'](user.data?.user, article)}
+              >
+                <button className="btn btn-sm btn-outline-secondary">
+                  <i className="ion-edit"></i> Edit Article
+                </button>
+              </Authorization>
+              <Authorization
+                policyCheck={POLICIES['article:delete'](
+                  user.data?.user,
+                  article,
+                )}
+              >
+                <button className="btn btn-sm btn-outline-danger">
+                  <i className="ion-trash-a"></i> Delete Article
+                </button>
+              </Authorization>
             </div>
           </div>
 
@@ -144,52 +172,46 @@ const ArticleRoute = () => {
                 </div>
               </form>
 
-              <div className="card">
-                <div className="card-block">
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <a href="/profile/author" className="comment-author">
-                    <img
-                      src="http://i.imgur.com/Qr71crq.jpg"
-                      className="comment-author-img"
-                    />
-                  </a>
-                  &nbsp;
-                  <a href="/profile/jacob-schmidt" className="comment-author">
-                    Jacob Schmidt
-                  </a>
-                  <span className="date-posted">Dec 29th</span>
-                </div>
-              </div>
+              {!comments?.length && <h4>No Comments Found</h4>}
 
-              <div className="card">
-                <div className="card-block">
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
+              {comments?.map((c, i) => (
+                <div key={i} className="card">
+                  <div className="card-block">
+                    <p className="card-text"> {c.body} </p>
+                  </div>
+                  <div className="card-footer">
+                    <a
+                      href={`/profile/${c.author.username}`}
+                      className="comment-author"
+                    >
+                      <img
+                        src={c.author.image}
+                        className="comment-author-img"
+                      />
+                    </a>
+                    &nbsp;
+                    <a
+                      href={`/profile/${c.author.username}`}
+                      className="comment-author"
+                    >
+                      {c.author.username}
+                    </a>
+                    <span className="date-posted">
+                      {formatDate(Date.parse(c.createdAt))}
+                    </span>
+                    <Authorization
+                      policyCheck={POLICIES['comment:delete'](
+                        user.data?.user,
+                        c,
+                      )}
+                    >
+                      <span className="mod-options">
+                        <i className="ion-trash-a"></i>
+                      </span>
+                    </Authorization>
+                  </div>
                 </div>
-                <div className="card-footer">
-                  <a href="/profile/author" className="comment-author">
-                    <img
-                      src="http://i.imgur.com/Qr71crq.jpg"
-                      className="comment-author-img"
-                    />
-                  </a>
-                  &nbsp;
-                  <a href="/profile/jacob-schmidt" className="comment-author">
-                    Jacob Schmidt
-                  </a>
-                  <span className="date-posted">Dec 29th</span>
-                  <span className="mod-options">
-                    <i className="ion-trash-a"></i>
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
