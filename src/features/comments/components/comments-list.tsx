@@ -1,8 +1,9 @@
 import { MDPreview } from '@/components/ui/md-preview/md-preview';
-import { Authorization, POLICIES } from '@/lib/authorization';
-import { useInfiniteComments } from '../api/get-comments';
 import { useUser } from '@/lib/auth';
+import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
+
+import { useInfiniteComments } from '../api/get-comments';
 
 type CommentsListProps = {
   slug: string;
@@ -12,7 +13,6 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
   const user = useUser();
 
   const commentsQuery = useInfiniteComments({ slug });
-
   if (commentsQuery.isLoading) {
     return (
       <div>
@@ -22,7 +22,6 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
   }
 
   const comments = commentsQuery.data?.pages.flatMap((page) => page.comments);
-
   if (!comments?.length)
     return (
       <div>

@@ -24,7 +24,7 @@ const getComments = ({
   });
 };
 
-const getInfiniteCommentsQueryOptions = (slug: string) => {
+export const getInfiniteCommentsQueryOptions = (slug: string) => {
   return infiniteQueryOptions({
     queryKey: ['comments', slug],
     queryFn: ({ pageParam = 1 }) => {

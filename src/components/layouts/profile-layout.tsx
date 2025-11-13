@@ -10,7 +10,7 @@ export const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
               <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
               <h4>Eric Simons</h4>
               <p>
-                Cofounder @GoThinkster, lived in Aol's HQ for a few months,
+                Cofounder @GoThinkster, lived in Aol&apos;s HQ for a few months,
                 kinda looks like Peeta from the Hunger Games
               </p>
               <button className="btn btn-sm btn-outline-secondary action-btn">

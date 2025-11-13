@@ -1,14 +1,22 @@
 import { Link } from '@/components/ui/link/link';
+import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
+
 import { useArticle } from '../api/get-article';
-import { useUser } from '@/lib/auth';
 
 export const ArticleMeta = ({ slug }: { slug: string }) => {
   const user = useUser();
 
   const articleQuery = useArticle({ slug });
+  if (articleQuery.isLoading) {
+    return <div className="article-meta">Loading...</div>;
+  }
+
   const article = articleQuery.data?.article;
+  if (!article) {
+    return <div className="article-meta">Error occurs please try again</div>;
+  }
 
   return (
     <div className="article-meta">
@@ -23,14 +31,24 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
           {article?.createdAt ? formatDate(Date.parse(article?.createdAt)) : ''}
         </span>
       </div>
-      <button className="btn btn-sm btn-outline-secondary">
+      <button
+        className={
+          'btn btn-sm ' +
+          (article.author.following ? 'btn-secondary' : 'btn-outline-secondary')
+        }
+      >
         <i className="ion-plus-round"></i>
         &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
         {article?.author.username}{' '}
         <span className="counter">({article?.author.followersCount || 0})</span>
       </button>
       &nbsp;&nbsp;
-      <button className="btn btn-sm btn-outline-primary">
+      <button
+        className={
+          'btn btn-sm ' +
+          (article.favorited ? 'btn-primary' : 'btn-outline-primary')
+        }
+      >
         <i className="ion-heart"></i>
         &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Post
         <span className="counter">({article?.favoritesCount || 0})</span>

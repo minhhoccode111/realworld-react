@@ -1,9 +1,9 @@
-import { useArticle } from '../api/get-article';
 import { MDPreview } from '@/components/ui/md-preview/md-preview';
+
+import { useArticle } from '../api/get-article';
 
 export const ArticleView = ({ slug }: { slug: string }) => {
   const articleQuery = useArticle({ slug });
-
   if (articleQuery.isLoading) {
     return (
       <div className="row article-content">
@@ -13,7 +13,6 @@ export const ArticleView = ({ slug }: { slug: string }) => {
   }
 
   const article = articleQuery.data?.article;
-
   if (!article) {
     return (
       <div className="row article-content">

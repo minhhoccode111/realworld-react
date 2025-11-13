@@ -4,8 +4,7 @@ import { AppLayout } from '@/components/layouts/app-layout';
 import { useArticle } from '@/features/articles/api/get-article';
 import { ArticleMeta } from '@/features/articles/components/article-meta';
 import { ArticleView } from '@/features/articles/components/article-view';
-import { CommentsList } from '@/features/comments/components/comments-list';
-import { CommentForm } from '@/features/comments/components/comment-form';
+import { Comments } from '@/features/comments/components/comments';
 
 const ArticleRoute = () => {
   const params = useParams();
@@ -34,13 +33,7 @@ const ArticleRoute = () => {
             <ArticleMeta slug={slug} />
           </div>
 
-          <div className="row">
-            <div className="col-xs-12 col-md-8 offset-md-2">
-              <CommentForm slug={slug} />
-
-              <CommentsList slug={slug} />
-            </div>
-          </div>
+          <Comments slug={slug} />
         </div>
       </div>
     </AppLayout>
