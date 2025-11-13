@@ -1,4 +1,5 @@
 import { Form } from '@/components/ui/form';
+import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import {
   updateProfileInputSchema,
@@ -28,7 +29,7 @@ export const SettingsForm = ({ onSuccess }: SettingsFormProps) => {
 
   return (
     <Form
-      onSubmit={(values) => updateProfileMutation.mutate(values)}
+      onSubmit={(values) => updateProfileMutation.mutate({ data: values })}
       schema={updateProfileInputSchema}
       options={{
         defaultValues: {
@@ -83,13 +84,7 @@ export const SettingsForm = ({ onSuccess }: SettingsFormProps) => {
             />
           </fieldset>
 
-          {Object.entries(formState.errors).length > 0 && (
-            <ul className="error-messages">
-              {Object.entries(formState.errors).map(([field, error]) => (
-                <li key={field}>{error?.message?.toString()}</li>
-              ))}
-            </ul>
-          )}
+          <FormErrors className="error-messages" errors={formState.errors} />
 
           <button
             className="btn btn-lg btn-primary pull-xs-right"

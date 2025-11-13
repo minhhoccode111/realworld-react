@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Form } from '@/components/ui/form/form';
+import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import { useUser } from '@/lib/auth';
 
@@ -35,7 +36,7 @@ export const CreateComment = ({ slug }: CommentFormProps) => {
 
   return (
     <Form
-      onSubmit={(values) => createCommentMutation.mutate(values)}
+      onSubmit={(values) => createCommentMutation.mutate({ data: values })}
       schema={createCommentInputSchema}
       options={{
         defaultValues: {
@@ -58,13 +59,7 @@ export const CreateComment = ({ slug }: CommentFormProps) => {
               ></textarea>
             </div>
 
-            {Object.entries(formState.errors).length > 0 && (
-              <ul className="error-messages">
-                {Object.entries(formState.errors).map(([field, error]) => (
-                  <li key={field}>{error?.message?.toString()}</li>
-                ))}
-              </ul>
-            )}
+            <FormErrors className="error-messages" errors={formState.errors} />
 
             <div className="card-footer">
               <img src={user.data?.user.image} className="comment-author-img" />

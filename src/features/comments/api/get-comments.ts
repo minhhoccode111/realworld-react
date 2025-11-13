@@ -24,21 +24,23 @@ const getComments = ({
   });
 };
 
-export const getInfiniteCommentsQueryOptions = (slug: string) => {
+export const getInfiniteCommentsQueryOptions = ({
+  slug,
+  limit = 10,
+}: {
+  slug: string;
+  limit?: number;
+}) => {
   return infiniteQueryOptions({
     queryKey: ['comments', slug],
     queryFn: ({ pageParam = 1 }) => {
-      const limit = LIMIT;
       const offset = (pageParam - 1) * limit;
       return getComments({ slug, limit, offset });
     },
     getNextPageParam: (lastPage) => {
-      const limit = lastPage.limit;
-      const offset = lastPage.offset;
-      const total = lastPage.total;
-      if (offset + limit === total) return undefined;
-      const nextPage = offset / limit + 2;
-      return nextPage;
+      const { limit, offset, total } = lastPage;
+      if (offset + limit >= total) return undefined;
+      return offset / limit + 2;
     },
     initialPageParam: 1,
   });
@@ -47,12 +49,14 @@ export const getInfiniteCommentsQueryOptions = (slug: string) => {
 type UseCommentsOptions = {
   slug: string;
   limit?: number;
-  offset?: number;
   queryConfig?: QueryConfig<typeof getComments>;
 };
 
-export const useInfiniteComments = ({ slug }: UseCommentsOptions) => {
+export const useInfiniteComments = ({
+  slug,
+  limit = 10,
+}: UseCommentsOptions) => {
   return useInfiniteQuery({
-    ...getInfiniteCommentsQueryOptions(slug),
+    ...getInfiniteCommentsQueryOptions({ slug, limit }),
   });
 };

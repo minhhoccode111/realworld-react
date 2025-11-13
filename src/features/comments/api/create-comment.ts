@@ -14,7 +14,11 @@ export const createCommentInputSchema = z.object({
 
 type CreateCommentInput = z.infer<typeof createCommentInputSchema>;
 
-const createComment = (data: CreateCommentInput): Promise<Comment> => {
+const createComment = ({
+  data,
+}: {
+  data: CreateCommentInput;
+}): Promise<Comment> => {
   return api.post(`/articles/${data.slug}/comments`, {
     comment: { body: data.body },
   });
@@ -36,7 +40,7 @@ export const useCreateComment = ({
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getInfiniteCommentsQueryOptions(slug).queryKey,
+        queryKey: getInfiniteCommentsQueryOptions({ slug }).queryKey,
       });
       onSuccess?.(...args);
     },

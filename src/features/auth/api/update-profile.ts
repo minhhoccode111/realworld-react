@@ -56,9 +56,11 @@ export const updateProfileInputSchema = z
 
 export type UpdateProfileInput = z.infer<typeof updateProfileInputSchema>;
 
-export const updateProfile = (
-  data: UpdateProfileInput,
-): Promise<UserAuthResponse> => {
+export const updateProfile = ({
+  data,
+}: {
+  data: UpdateProfileInput;
+}): Promise<UserAuthResponse> => {
   return api.put(`/user`, { user: data });
 };
 

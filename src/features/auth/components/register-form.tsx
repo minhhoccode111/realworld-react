@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router';
 
 import { Form } from '@/components/ui/form';
+import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
@@ -61,13 +62,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               />
             </fieldset>
 
-            {Object.entries(formState.errors).length > 0 && (
-              <ul className="error-messages">
-                {Object.entries(formState.errors).map(([field, error]) => (
-                  <li key={field}>{error?.message?.toString()}</li>
-                ))}
-              </ul>
-            )}
+            <FormErrors className="error-messages" errors={formState.errors} />
 
             <button
               type="submit"

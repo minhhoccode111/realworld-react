@@ -12,7 +12,7 @@ type CommentsListProps = {
 export const CommentsList = ({ slug }: CommentsListProps) => {
   const user = useUser();
 
-  const commentsQuery = useInfiniteComments({ slug });
+  const commentsQuery = useInfiniteComments({ slug, limit: 5 });
   if (commentsQuery.isLoading) {
     return (
       <div>
@@ -65,6 +65,14 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
           </div>
         </div>
       ))}
+
+      {commentsQuery.hasNextPage && (
+        <div className="flex items-center justify-center py-4">
+          <button onClick={() => commentsQuery.fetchNextPage()}>
+            {commentsQuery.isFetchingNextPage ? 'Loading...' : 'More...'}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
