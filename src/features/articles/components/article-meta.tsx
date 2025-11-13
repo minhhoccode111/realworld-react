@@ -9,14 +9,30 @@ import { paths } from '@/config/paths';
 import { useDeleteFavoriteOptions } from '@/features/favorites/api/delete-favorite';
 import { useNotifications } from '@/components/ui/notifications';
 import { useCreateFavoriteOptions } from '@/features/favorites/api/create-favorite';
+import { useProfile } from '@/features/profiles/api/get-profile';
 
 export const ArticleMeta = ({ slug }: { slug: string }) => {
-  const user = useUser();
-
   const { addNotification } = useNotifications();
-
+  const user = useUser();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const articleQuery = useArticle({ slug });
+  const article = articleQuery.data?.article;
+
+  // NOTE: have to explicit get author profile instead of using the one returned
+  // with the article because when we toggle follow/unfollow author profile in
+  // route '/profile/:username', there is no way to mark data of this article
+  // as staled so that react-query know to refetch new article data to get new
+  // author profile data
+  const authorProfileQuery = useProfile({
+    username: article?.author.username || '',
+    queryConfig: {
+      // only enable when article's author's username is loaded
+      enabled: !!article?.author.username,
+    },
+  });
+  const authorProfile = authorProfileQuery.data?.profile;
 
   const deleteFavoriteMutation = useDeleteFavoriteOptions({
     slug,
@@ -36,24 +52,30 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
     },
   });
 
-  const articleQuery = useArticle({ slug });
   if (articleQuery.isLoading) {
     return <div className="article-meta">Loading...</div>;
   }
 
-  const article = articleQuery.data?.article;
   if (!article) {
+    return <div className="article-meta">Error occurs please try again</div>;
+  }
+
+  if (authorProfileQuery.isLoading) {
+    return <div className="article-meta">Loading...</div>;
+  }
+
+  if (!authorProfile) {
     return <div className="article-meta">Error occurs please try again</div>;
   }
 
   return (
     <div className="article-meta">
-      <Link to={`/profile/${article?.author.username}`}>
-        <img src={article?.author.image} />
+      <Link to={`/profile/${authorProfile.username}`}>
+        <img src={authorProfile.image} />
       </Link>
       <div className="info">
-        <Link to={`/profile/${article?.author.username}`} className="author">
-          {article?.author.username}
+        <Link to={`/profile/${authorProfile.username}`} className="author">
+          {authorProfile.username}
         </Link>
         <span className="date">
           {article?.createdAt ? formatDate(Date.parse(article?.createdAt)) : ''}
@@ -72,9 +94,9 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
         }
       >
         <i className="ion-plus-round"></i>
-        &nbsp; {article?.author.following ? 'Unfollow' : 'Follow'}{' '}
-        {article?.author.username}{' '}
-        <span className="counter">({article?.author.followersCount || 0})</span>
+        &nbsp; {authorProfile.following ? 'Unfollow' : 'Follow'}{' '}
+        {authorProfile.username}{' '}
+        <span className="counter">({authorProfile.followersCount || 0})</span>
       </button>
       &nbsp;&nbsp;
       <button
