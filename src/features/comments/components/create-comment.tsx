@@ -3,7 +3,7 @@ import React from 'react';
 import { Form } from '@/components/ui/form/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
-import { useLogout, useUser } from '@/lib/auth';
+import { useUser } from '@/lib/auth';
 
 import {
   createCommentInputSchema,

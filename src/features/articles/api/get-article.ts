@@ -8,7 +8,7 @@ const getArticle = (slug: string): Promise<ArticleDetailResponse> => {
   return api.get(`/articles/${slug}`);
 };
 
-const getArticleQueryOptions = (slug: string) => {
+export const getArticleQueryOptions = ({ slug }: { slug: string }) => {
   return queryOptions({
     queryKey: ['articles', slug],
     queryFn: () => getArticle(slug),
@@ -22,7 +22,7 @@ type UseArticleOptions = {
 
 export const useArticle = ({ slug, queryConfig }: UseArticleOptions) => {
   return useQuery({
-    ...getArticleQueryOptions(slug),
+    ...getArticleQueryOptions({ slug }),
     ...queryConfig,
   });
 };
