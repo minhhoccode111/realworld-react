@@ -3,12 +3,14 @@ import React from 'react';
 import { Form } from '@/components/ui/form/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
-import { useUser } from '@/lib/auth';
+import { useLogout, useUser } from '@/lib/auth';
 
 import {
   createCommentInputSchema,
   useCreateComment,
 } from '../api/create-comment';
+import { useLocation, useNavigate } from 'react-router';
+import { paths } from '@/config/paths';
 
 type CommentFormProps = {
   slug: string;
@@ -17,6 +19,9 @@ type CommentFormProps = {
 export const CreateComment = ({ slug }: CommentFormProps) => {
   const { addNotification } = useNotifications();
   const user = useUser();
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // ref to reset form state on success
   const resetRef = React.useRef<(() => void) | null>(null);
@@ -36,7 +41,13 @@ export const CreateComment = ({ slug }: CommentFormProps) => {
 
   return (
     <Form
-      onSubmit={(values) => createCommentMutation.mutate({ data: values })}
+      onSubmit={(values) => {
+        if (!user.data) {
+          navigate(paths.login.getHref(location.pathname));
+          return;
+        }
+        createCommentMutation.mutate({ data: values });
+      }}
       schema={createCommentInputSchema}
       options={{
         defaultValues: {
@@ -62,7 +73,10 @@ export const CreateComment = ({ slug }: CommentFormProps) => {
             <FormErrors className="error-messages" errors={formState.errors} />
 
             <div className="card-footer">
-              <img src={user.data?.user.image} className="comment-author-img" />
+              <img
+                src={user.data?.user.image ?? ''}
+                className="comment-author-img"
+              />
               <button
                 disabled={createCommentMutation.isPending}
                 type="submit"

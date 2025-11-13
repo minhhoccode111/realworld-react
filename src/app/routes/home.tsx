@@ -1,4 +1,5 @@
 import { AppLayout } from '@/components/layouts/app-layout';
+import { Link } from '@/components/ui/link/link';
 
 const HomeRoute = () => {
   return (
@@ -44,8 +45,8 @@ const HomeRoute = () => {
                     <i className="ion-heart"></i> 29
                   </button>
                 </div>
-                <a
-                  href="/article/how-to-build-webapps-that-scale"
+                <Link
+                  to="/article/how-to-build-webapps-that-scale"
                   className="preview-link"
                 >
                   <h1>How to build webapps that scale</h1>
@@ -59,7 +60,7 @@ const HomeRoute = () => {
                       implementations
                     </li>
                   </ul>
-                </a>
+                </Link>
               </div>
 
               <div className="article-preview">
@@ -77,7 +78,7 @@ const HomeRoute = () => {
                     <i className="ion-heart"></i> 32
                   </button>
                 </div>
-                <a href="/article/slug" className="preview-link">
+                <Link to="/article/slug" className="preview-link">
                   <h1>
                     The song you won't ever stop singing. No matter how hard you
                     try.
@@ -92,7 +93,7 @@ const HomeRoute = () => {
                       implementations
                     </li>
                   </ul>
-                </a>
+                </Link>
               </div>
 
               <ul className="pagination">

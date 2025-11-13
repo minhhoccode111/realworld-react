@@ -4,6 +4,7 @@ import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
 import { useInfiniteComments } from '../api/get-comments';
+import { DeleteComment } from './delete-comment';
 
 type CommentsListProps = {
   slug: string;
@@ -22,12 +23,13 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
   }
 
   const comments = commentsQuery.data?.pages.flatMap((page) => page.comments);
-  if (!comments?.length)
+  if (!comments?.length) {
     return (
       <div>
         <h4>No Comments Found</h4>
       </div>
     );
+  }
 
   return (
     <div>
@@ -58,9 +60,7 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
             <Authorization
               policyCheck={POLICIES['comment:delete'](user.data?.user, c)}
             >
-              <span className="mod-options">
-                <i className="ion-trash-a"></i>
-              </span>
+              <DeleteComment slug={slug} commentId={c.id} />
             </Authorization>
           </div>
         </div>
