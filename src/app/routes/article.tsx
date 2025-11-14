@@ -13,6 +13,34 @@ const ArticleRoute = () => {
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
 
+  if (articleQuery.isLoading) {
+    return (
+      <AppLayout title="Article">
+        <div className="article-page">
+          <div className="banner">
+            <div className="container">
+              <h1>Loading...</h1>
+            </div>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  if (!article) {
+    return (
+      <AppLayout title="Article">
+        <div className="article-page">
+          <div className="banner">
+            <div className="container">
+              <h1>Error occurs please try again</h1>
+            </div>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout title={article?.title || 'Article'}>
       <div className="article-page">
