@@ -1,9 +1,14 @@
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
+import { ArticleDetailResponse } from '@/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const deleteFavorite = ({ slug }: { slug: string }) => {
+const deleteFavorite = ({
+  slug,
+}: {
+  slug: string;
+}): Promise<ArticleDetailResponse> => {
   return api.delete(`/articles/${slug}/favorite`);
 };
 
@@ -20,11 +25,9 @@ export const useDeleteFavoriteOptions = ({
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({
-        queryKey: getArticleQueryOptions({ slug }).queryKey,
-      });
-      onSuccess?.(...args);
+    onSuccess: (data, ...args) => {
+      queryClient.setQueryData(getArticleQueryOptions({ slug }).queryKey, data);
+      onSuccess?.(data, ...args);
     },
     ...restConfig,
     mutationFn: deleteFavorite,

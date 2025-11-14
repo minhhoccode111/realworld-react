@@ -10,6 +10,8 @@ import { useDeleteFavoriteOptions } from '@/features/favorites/api/delete-favori
 import { useNotifications } from '@/components/ui/notifications';
 import { useCreateFavoriteOptions } from '@/features/favorites/api/create-favorite';
 import { useProfile } from '@/features/profiles/api/get-profile';
+import { useCreateFollowOptions } from '@/features/profiles/api/follow-profile';
+import { useCreateUnfollowOptions } from '@/features/profiles/api/unfollow-profile';
 
 export const ArticleMeta = ({ slug }: { slug: string }) => {
   const { addNotification } = useNotifications();
@@ -27,27 +29,54 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   // author profile data
   const authorProfileQuery = useProfile({
     username: article?.author.username || '',
-    queryConfig: {
-      // only enable when article's author's username is loaded
-      enabled: !!article?.author.username,
-    },
+    queryConfig: { enabled: !!article?.author.username },
   });
   const authorProfile = authorProfileQuery.data?.profile;
-
-  const deleteFavoriteMutation = useDeleteFavoriteOptions({
-    slug,
-    mutationConfig: {
-      onSuccess: () => {
-        addNotification({ type: 'success', title: 'Article Unfavorited' });
-      },
-    },
-  });
 
   const createFavoriteMutation = useCreateFavoriteOptions({
     slug,
     mutationConfig: {
-      onSuccess: () => {
-        addNotification({ type: 'success', title: 'Article Favorited' });
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Favorited ${data.article.title}`,
+        });
+      },
+    },
+  });
+
+  const deleteFavoriteMutation = useDeleteFavoriteOptions({
+    slug,
+    mutationConfig: {
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Unfavorited ${data.article.title}`,
+        });
+      },
+    },
+  });
+
+  const followProfileMutation = useCreateFollowOptions({
+    username: authorProfile?.username || '',
+    mutationConfig: {
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Followed ${data.profile.username}`,
+        });
+      },
+    },
+  });
+
+  const unfollowProfileMutation = useCreateUnfollowOptions({
+    username: authorProfile?.username || '',
+    mutationConfig: {
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Unfollowed ${data.profile.username}`,
+        });
       },
     },
   });
@@ -82,21 +111,40 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
         </span>
       </div>
       <button
+        disabled={
+          followProfileMutation.isPending || unfollowProfileMutation.isPending
+        }
         onClick={() => {
           if (!user.data) {
             navigate(paths.login.getHref(location.pathname));
             return;
           }
+          if (authorProfile.following) {
+            unfollowProfileMutation.mutate({
+              username: authorProfile.username,
+            });
+          } else {
+            followProfileMutation.mutate({ username: authorProfile.username });
+          }
         }}
         className={
           'btn btn-sm ' +
-          (article.author.following ? 'btn-secondary' : 'btn-outline-secondary')
+          (authorProfile.following ? 'btn-secondary' : 'btn-outline-secondary')
         }
       >
-        <i className="ion-plus-round"></i>
-        &nbsp; {authorProfile.following ? 'Unfollow' : 'Follow'}{' '}
-        {authorProfile.username}{' '}
-        <span className="counter">({authorProfile.followersCount || 0})</span>
+        <i className="ion-plus-round"></i> &nbsp;{' '}
+        {followProfileMutation.isPending ||
+        unfollowProfileMutation.isPending ? (
+          'Loading...'
+        ) : (
+          <>
+            {authorProfile.following ? 'Unfollow' : 'Follow'}{' '}
+            {authorProfile.username}{' '}
+            <span className="counter">
+              ({authorProfile.followersCount || 0})
+            </span>
+          </>
+        )}
       </button>
       &nbsp;&nbsp;
       <button
@@ -119,9 +167,16 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
           (article.favorited ? 'btn-primary' : 'btn-outline-primary')
         }
       >
-        <i className="ion-heart"></i>
-        &nbsp; {article?.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
-        <span className="counter">({article?.favoritesCount || 0})</span>
+        <i className="ion-heart"></i> &nbsp;
+        {createFavoriteMutation.isPending ||
+        deleteFavoriteMutation.isPending ? (
+          'Loading...'
+        ) : (
+          <>
+            {article?.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
+            <span className="counter">({article?.favoritesCount || 0})</span>
+          </>
+        )}
       </button>
       &nbsp;&nbsp;
       <Authorization
