@@ -1,7 +1,8 @@
-import { useNotifications } from '@/components/ui/notifications';
-import { useDeleteCommentOptions } from '../api/delete-comment';
-import { ConfirmationDialog } from '@/components/ui/dialog/confirmation-dialog/confirmation-dialog';
 import { Button } from '@/components/ui/button';
+import { ConfirmationDialog } from '@/components/ui/dialog/confirmation-dialog/confirmation-dialog';
+import { useNotifications } from '@/components/ui/notifications';
+
+import { useDeleteCommentOptions } from '../api/delete-comment';
 
 type DeleteCommentPropts = {
   slug: string;

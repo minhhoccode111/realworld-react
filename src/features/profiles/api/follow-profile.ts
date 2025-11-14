@@ -1,8 +1,10 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProfileQueryOptions } from './get-profile';
 import { ProfilePreviewResponse } from '@/types/api';
+
+import { getProfileQueryOptions } from './get-profile';
 
 const followProfile = ({
   username,

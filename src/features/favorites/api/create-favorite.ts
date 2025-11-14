@@ -1,8 +1,9 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const createFavorite = ({
   slug,

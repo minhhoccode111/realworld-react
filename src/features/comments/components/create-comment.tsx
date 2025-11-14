@@ -1,16 +1,16 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 import { Form } from '@/components/ui/form/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
+import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
 import {
   createCommentInputSchema,
   useCreateComment,
 } from '../api/create-comment';
-import { useLocation, useNavigate } from 'react-router';
-import { paths } from '@/config/paths';
 
 type CommentFormProps = {
   slug: string;
