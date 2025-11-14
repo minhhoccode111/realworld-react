@@ -24,28 +24,26 @@ export const DeleteComment = ({ slug, commentId }: DeleteCommentPropts) => {
   });
 
   return (
-    <>
-      <ConfirmationDialog
-        isDone={deleteCommentMutation.isSuccess}
-        icon="danger"
-        title="Delete Comment"
-        body="Are you sure you want to delete this comment?"
-        triggerButton={
-          <span className="mod-options">
-            <i className="ion-trash-a"></i>
-          </span>
-        }
-        confirmButton={
-          <Button
-            isLoading={deleteCommentMutation.isPending}
-            type="button"
-            variant="destructive"
-            onClick={() => deleteCommentMutation.mutate({ slug, commentId })}
-          >
-            Delete Comment
-          </Button>
-        }
-      />
-    </>
+    <ConfirmationDialog
+      isDone={deleteCommentMutation.isSuccess}
+      icon="danger"
+      title="Delete Comment"
+      body="Are you sure you want to delete this comment?"
+      triggerButton={
+        <span className="mod-options">
+          <i className="ion-trash-a"></i>
+        </span>
+      }
+      confirmButton={
+        <Button
+          isLoading={deleteCommentMutation.isPending}
+          type="button"
+          variant="destructive"
+          onClick={() => deleteCommentMutation.mutate({ slug, commentId })}
+        >
+          Delete Comment
+        </Button>
+      }
+    />
   );
 };

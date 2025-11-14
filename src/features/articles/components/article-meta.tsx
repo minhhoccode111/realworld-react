@@ -13,6 +13,7 @@ import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
 import { useArticle } from '../api/get-article';
+import { DeleteArticle } from './delete-article';
 
 export const ArticleMeta = ({ slug }: { slug: string }) => {
   const { addNotification } = useNotifications();
@@ -191,9 +192,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
       <Authorization
         policyCheck={POLICIES['article:delete'](user.data?.user, article)}
       >
-        <button className="btn btn-sm btn-outline-danger">
-          <i className="ion-trash-a"></i> Delete Article
-        </button>
+        <DeleteArticle slug={slug} />
       </Authorization>
     </div>
   );
