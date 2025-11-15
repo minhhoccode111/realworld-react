@@ -87,19 +87,21 @@ export const createAppRouter = (queryClient: QueryClient) => {
           ),
           children: [
             {
-              index: true,
+              path: '',
               lazy: () =>
                 import('./routes/editor/root').then(convert(queryClient)),
-            },
-            {
-              path: paths.editor.create.path,
-              lazy: () =>
-                import('./routes/editor/create').then(convert(queryClient)),
-            },
-            {
-              path: paths.editor.edit.path,
-              lazy: () =>
-                import('./routes/editor/edit').then(convert(queryClient)),
+              children: [
+                {
+                  path: paths.editor.create.path,
+                  lazy: () =>
+                    import('./routes/editor/create').then(convert(queryClient)),
+                },
+                {
+                  path: paths.editor.edit.path,
+                  lazy: () =>
+                    import('./routes/editor/edit').then(convert(queryClient)),
+                },
+              ],
             },
           ],
         },
