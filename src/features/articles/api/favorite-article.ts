@@ -5,23 +5,23 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
 
-const deleteFavorite = ({
+const favoriteArticle = ({
   slug,
 }: {
   slug: string;
 }): Promise<ArticleDetailResponse> => {
-  return api.delete(`/articles/${slug}/favorite`);
+  return api.post(`/articles/${slug}/favorite`);
 };
 
-type UseDeleteFavoriteOptions = {
+type UseFavoriteArticleOptions = {
   slug: string;
-  mutationConfig?: MutationConfig<typeof deleteFavorite>;
+  mutationConfig?: MutationConfig<typeof favoriteArticle>;
 };
 
-export const useDeleteFavoriteOptions = ({
+export const useFavoriteArticleOptions = ({
   slug,
   mutationConfig,
-}: UseDeleteFavoriteOptions) => {
+}: UseFavoriteArticleOptions) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
@@ -31,6 +31,6 @@ export const useDeleteFavoriteOptions = ({
       onSuccess?.(data, ...args);
     },
     ...restConfig,
-    mutationFn: deleteFavorite,
+    mutationFn: favoriteArticle,
   });
 };

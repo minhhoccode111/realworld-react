@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
-import { useCreateFavoriteOptions } from '@/features/favorites/api/create-favorite';
-import { useDeleteFavoriteOptions } from '@/features/favorites/api/delete-favorite';
+import { useFavoriteArticleOptions } from '../api/favorite-article';
+import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
 import { useCreateFollowOptions } from '@/features/profiles/api/follow-profile';
 import { useProfile } from '@/features/profiles/api/get-profile';
 import { useCreateUnfollowOptions } from '@/features/profiles/api/unfollow-profile';
@@ -35,7 +35,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   });
   const authorProfile = authorProfileQuery.data?.profile;
 
-  const createFavoriteMutation = useCreateFavoriteOptions({
+  const createFavoriteMutation = useFavoriteArticleOptions({
     slug,
     mutationConfig: {
       onSuccess: (data) => {
@@ -47,7 +47,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
     },
   });
 
-  const deleteFavoriteMutation = useDeleteFavoriteOptions({
+  const deleteFavoriteMutation = useUnfavoriteArticleOptions({
     slug,
     mutationConfig: {
       onSuccess: (data) => {
