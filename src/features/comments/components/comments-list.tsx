@@ -24,7 +24,7 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
   }
 
   const comments = commentsQuery.data?.pages.flatMap((page) => page.comments);
-  if (!comments?.length) {
+  if (!comments || !comments?.length) {
     return (
       <div>
         <h4>No Comments Found</h4>
@@ -34,7 +34,7 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
 
   return (
     <div>
-      {comments?.map((c, i) => (
+      {comments.map((c, i) => (
         <div key={i} className="card">
           <div className="card-block">
             <div className="card-text">
