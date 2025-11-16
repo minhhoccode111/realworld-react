@@ -8,9 +8,7 @@ export const HomeLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
 
-      <div className="page container">
-        <div className="row">{children}</div>
-      </div>
+      <div className="page container">{children}</div>
     </div>
   );
 };

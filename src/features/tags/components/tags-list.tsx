@@ -1,6 +1,9 @@
+import { useSearchParams } from 'react-router';
 import { useInfiniteTags } from '../api/get-tags';
 
 export const TagsList = () => {
+  const [, setSearchParams] = useSearchParams();
+
   const tagsQuery = useInfiniteTags({});
 
   if (tagsQuery.isLoading) {
@@ -37,9 +40,13 @@ export const TagsList = () => {
 
         <div className="tag-list">
           {tags.map((t) => (
-            <a key={t} href="" className="tag-pill tag-default">
+            <button
+              onClick={() => setSearchParams({ tag: t })}
+              key={t}
+              className="tag-pill tag-default"
+            >
               {t}
-            </a>
+            </button>
           ))}
         </div>
 
