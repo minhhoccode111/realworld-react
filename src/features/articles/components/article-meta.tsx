@@ -83,20 +83,16 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
     },
   });
 
-  if (articleQuery.isLoading) {
+  if (
+    articleQuery.isLoading ||
+    authorProfileQuery.isLoading ||
+    user.isLoading
+  ) {
     return <div className="article-meta">Loading...</div>;
   }
 
-  if (!article) {
-    return <div className="article-meta">Error occurs please try again</div>;
-  }
-
-  if (authorProfileQuery.isLoading) {
-    return <div className="article-meta">Loading...</div>;
-  }
-
-  if (!authorProfile) {
-    return <div className="article-meta">Error occurs please try again</div>;
+  if (!article || !authorProfile) {
+    return <div className="article-meta">Error occurs please try again.</div>;
   }
 
   return (

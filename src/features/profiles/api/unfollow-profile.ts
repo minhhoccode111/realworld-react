@@ -28,6 +28,7 @@ export const useCreateUnfollowOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
+      // TODO: invalidate get feed
       queryClient.setQueryData(
         getProfileQueryOptions({ username }).queryKey,
         data,

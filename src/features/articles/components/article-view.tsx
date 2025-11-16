@@ -16,7 +16,7 @@ export const ArticleView = ({ slug }: { slug: string }) => {
   if (!article) {
     return (
       <div className="row article-content">
-        <div className="col-md-12">Error occurs please try again</div>
+        <div className="col-md-12">Error occurs please try again.</div>
       </div>
     );
   }

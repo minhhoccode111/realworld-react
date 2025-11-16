@@ -33,7 +33,7 @@ const ArticleRoute = () => {
         <div className="article-page">
           <div className="banner">
             <div className="container">
-              <h1>Error occurs please try again</h1>
+              <h1>Error occurs please try again.</h1>
             </div>
           </div>
         </div>
