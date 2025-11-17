@@ -28,6 +28,10 @@
 - React Router
 - Shadcn UI
 - TailwindCSS
+- How to handle react-query data invalidation for tiny actions like
+  follow/unfollow an author or favorite/unfavorite an article?
+  - Should we invalidate every query that get article data like
+    feed/global/by-tag/single?
 
 ## Get Started
 

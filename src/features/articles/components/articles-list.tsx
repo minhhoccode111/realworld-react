@@ -1,16 +1,45 @@
 import { Link } from '@/components/ui/link/link';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useArticles } from '../api/get-articles';
 import { paths } from '@/config/paths';
 import { formatDate } from '@/utils/format';
+import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
+import { useNotifications } from '@/components/ui/notifications';
+import { useFavoriteArticleOptions } from '../api/favorite-article';
+import { useUser } from '@/lib/auth';
 
 export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
+  const { addNotification } = useNotifications();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentTag = searchParams.get('tag');
 
+  const user = useUser();
   const articlesQuery = useArticles({ isFeed, tag: currentTag || undefined });
 
-  if (articlesQuery.isLoading) {
+  const createFavoriteMutation = useFavoriteArticleOptions({
+    mutationConfig: {
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Favorited ${data.article.title}`,
+        });
+      },
+    },
+  });
+
+  const deleteFavoriteMutation = useUnfavoriteArticleOptions({
+    mutationConfig: {
+      onSuccess: (data) => {
+        addNotification({
+          type: 'success',
+          title: `Unfavorited ${data.article.title}`,
+        });
+      },
+    },
+  });
+
+  if (user.isLoading || articlesQuery.isLoading) {
     return <div className="article-preview">Loading...</div>;
   }
 
@@ -45,12 +74,36 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
               </span>
             </div>
             <button
+              disabled={
+                createFavoriteMutation.isPending ||
+                deleteFavoriteMutation.isPending
+              }
+              onClick={() => {
+                if (!user.data) {
+                  navigate(paths.login.getHref(location.pathname));
+                  return;
+                }
+                if (a.favorited) {
+                  deleteFavoriteMutation.mutate(a.slug);
+                } else {
+                  createFavoriteMutation.mutate(a.slug);
+                }
+              }}
               className={
                 'btn btn-sm pull-xs-right ' +
                 (a.favorited ? 'btn-primary' : 'btn-outline-primary')
               }
             >
-              <i className="ion-heart"></i> {a.favoritesCount}
+              <i className="ion-heart"></i>
+
+              {createFavoriteMutation.isPending ||
+              deleteFavoriteMutation.isPending ? (
+                '...'
+              ) : (
+                <>
+                  <span className="counter"> {a?.favoritesCount || 0}</span>
+                </>
+              )}
             </button>
           </div>
           <Link

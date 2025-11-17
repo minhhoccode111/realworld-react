@@ -36,7 +36,6 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   const authorProfile = authorProfileQuery.data?.profile;
 
   const createFavoriteMutation = useFavoriteArticleOptions({
-    slug,
     mutationConfig: {
       onSuccess: (data) => {
         addNotification({
@@ -48,7 +47,6 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   });
 
   const deleteFavoriteMutation = useUnfavoriteArticleOptions({
-    slug,
     mutationConfig: {
       onSuccess: (data) => {
         addNotification({
@@ -60,7 +58,6 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   });
 
   const followProfileMutation = useCreateFollowOptions({
-    username: authorProfile?.username || '',
     mutationConfig: {
       onSuccess: (data) => {
         addNotification({
@@ -72,7 +69,6 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   });
 
   const unfollowProfileMutation = useCreateUnfollowOptions({
-    username: authorProfile?.username || '',
     mutationConfig: {
       onSuccess: (data) => {
         addNotification({
@@ -118,11 +114,9 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
             return;
           }
           if (authorProfile.following) {
-            unfollowProfileMutation.mutate({
-              username: authorProfile.username,
-            });
+            unfollowProfileMutation.mutate(authorProfile.username);
           } else {
-            followProfileMutation.mutate({ username: authorProfile.username });
+            followProfileMutation.mutate(authorProfile.username);
           }
         }}
         className={
@@ -155,9 +149,9 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
             return;
           }
           if (article.favorited) {
-            deleteFavoriteMutation.mutate({ slug });
+            deleteFavoriteMutation.mutate(slug);
           } else {
-            createFavoriteMutation.mutate({ slug });
+            createFavoriteMutation.mutate(slug);
           }
         }}
         className={

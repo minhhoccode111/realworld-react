@@ -22,20 +22,16 @@ const getArticles = ({
   return api.get(`/articles`, { params: { tag, limit, offset } });
 };
 
-const getArticlesQueryOptions = ({
-  isFeed,
-  tag,
-  limit,
-  offset,
-}: {
+export const getArticlesQueryOptions = (params?: {
   isFeed?: boolean;
   tag?: string;
   limit?: number;
   offset?: number;
 }) => {
-  const strQueryKey = isFeed ? 'articles/feed' : 'articles';
+  const { isFeed, tag, limit, offset } = params ?? {};
+
   return queryOptions({
-    queryKey: [strQueryKey, { tag, limit, offset }],
+    queryKey: ['articles', { isFeed, tag, limit, offset }],
     queryFn: () => getArticles({ isFeed, tag, limit, offset }),
   });
 };

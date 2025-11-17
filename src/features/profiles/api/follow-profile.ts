@@ -6,21 +6,15 @@ import { ProfilePreviewResponse } from '@/types/api';
 
 import { getProfileQueryOptions } from './get-profile';
 
-const followProfile = ({
-  username,
-}: {
-  username: string;
-}): Promise<ProfilePreviewResponse> => {
+const followProfile = (username: string): Promise<ProfilePreviewResponse> => {
   return api.post(`/profiles/${username}/follow`);
 };
 
 type UseCreateFollowOptions = {
-  username: string;
   mutationConfig?: MutationConfig<typeof followProfile>;
 };
 
 export const useCreateFollowOptions = ({
-  username,
   mutationConfig,
 }: UseCreateFollowOptions) => {
   const queryClient = useQueryClient();
@@ -28,9 +22,8 @@ export const useCreateFollowOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
-      // TODO: invalidate get feed
       queryClient.setQueryData(
-        getProfileQueryOptions({ username }).queryKey,
+        getProfileQueryOptions({ username: data.profile.username }).queryKey,
         data,
       );
       onSuccess?.(data, ...args);

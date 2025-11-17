@@ -6,21 +6,15 @@ import { ProfilePreviewResponse } from '@/types/api';
 
 import { getProfileQueryOptions } from './get-profile';
 
-const unfollowProfile = ({
-  username,
-}: {
-  username: string;
-}): Promise<ProfilePreviewResponse> => {
+const unfollowProfile = (username: string): Promise<ProfilePreviewResponse> => {
   return api.delete(`/profiles/${username}/follow`);
 };
 
 type UseCreateUnfollowOptions = {
-  username: string;
   mutationConfig?: MutationConfig<typeof unfollowProfile>;
 };
 
 export const useCreateUnfollowOptions = ({
-  username,
   mutationConfig,
 }: UseCreateUnfollowOptions) => {
   const queryClient = useQueryClient();
@@ -28,9 +22,8 @@ export const useCreateUnfollowOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
-      // TODO: invalidate get feed
       queryClient.setQueryData(
-        getProfileQueryOptions({ username }).queryKey,
+        getProfileQueryOptions({ username: data.profile.username }).queryKey,
         data,
       );
       onSuccess?.(data, ...args);
