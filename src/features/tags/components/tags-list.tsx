@@ -51,7 +51,7 @@ export const TagsList = () => {
         </div>
 
         {tagsQuery.hasNextPage && (
-          <button onClick={() => tagsQuery.fetchNextPage()}>
+          <button className="text-sm" onClick={() => tagsQuery.fetchNextPage()}>
             {tagsQuery.isFetchingNextPage ? 'Loading...' : 'More...'}
           </button>
         )}

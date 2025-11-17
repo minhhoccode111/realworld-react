@@ -7,15 +7,23 @@ import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
 import { useNotifications } from '@/components/ui/notifications';
 import { useFavoriteArticleOptions } from '../api/favorite-article';
 import { useUser } from '@/lib/auth';
+import { TablePagination } from '@/components/ui/table/pagination';
 
 export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
   const { addNotification } = useNotifications();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentTag = searchParams.get('tag');
+  const currentPage = +(searchParams.get('page') || 1);
+  const limit = 10;
 
   const user = useUser();
-  const articlesQuery = useArticles({ isFeed, tag: currentTag || undefined });
+  const articlesQuery = useArticles({
+    isFeed,
+    tag: currentTag || undefined,
+    limit,
+    offset: (currentPage - 1) * limit,
+  });
 
   const createFavoriteMutation = useFavoriteArticleOptions({
     mutationConfig: {
@@ -45,11 +53,12 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
 
   const articles = articlesQuery.data?.articles;
 
-  if (!articles) {
+  if (!articlesQuery.data || !articles) {
     return (
       <div className="article-preview">Error occurs please try again.</div>
     );
   }
+
   if (!articles.length) {
     return <div className="article-preview">No Articles Found</div>;
   }
@@ -125,6 +134,26 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
           </Link>
         </div>
       ))}
+
+      <TablePagination
+        totalPages={Math.floor((articlesQuery.data?.total + limit - 1) / limit)}
+        currentPage={currentPage}
+        rootUrl=""
+        queries={currentTag ? `tag=${currentTag}` : ''}
+      />
+
+      {/* <ul className="pagination">
+        <li className="page-item active">
+          <a className="page-link" href="">
+            1
+          </a>
+        </li>
+        <li className="page-item">
+          <a className="page-link" href="">
+            2
+          </a>
+        </li>
+      </ul> */}
     </>
   );
 };

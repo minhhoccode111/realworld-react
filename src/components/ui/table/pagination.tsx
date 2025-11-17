@@ -131,14 +131,18 @@ export type TablePaginationProps = {
   totalPages: number;
   currentPage: number;
   rootUrl: string;
+  queries?: string;
 };
 
 export const TablePagination = ({
   totalPages,
   currentPage,
   rootUrl,
+  queries,
 }: TablePaginationProps) => {
-  const createHref = (page: number) => `${rootUrl}?page=${page}`;
+  // TODO: find a better approach?
+  const extraQueries = queries ? '&' + queries : '';
+  const createHref = (page: number) => `${rootUrl}?page=${page}${extraQueries}`;
 
   return (
     <Pagination className="justify-end py-8">
