@@ -97,9 +97,9 @@ export const createAppRouter = (queryClient: QueryClient) => {
                     import('./routes/editor/create').then(convert(queryClient)),
                 },
                 {
-                  path: paths.editor.edit.path,
+                  path: paths.editor.update.path,
                   lazy: () =>
-                    import('./routes/editor/edit').then(convert(queryClient)),
+                    import('./routes/editor/update').then(convert(queryClient)),
                 },
               ],
             },

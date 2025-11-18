@@ -32,6 +32,7 @@
   follow/unfollow an author or favorite/unfavorite an article?
   - Should we invalidate every query that get article data like
     feed/global/by-tag/single?
+- Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
 
 ## Get Started
 

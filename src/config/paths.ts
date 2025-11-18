@@ -55,7 +55,7 @@ export const paths = {
       path: '',
       getHref: () => '/editor',
     },
-    edit: {
+    update: {
       path: ':slug',
       getHref: (slug: string) => `/editor/${slug}`,
     },

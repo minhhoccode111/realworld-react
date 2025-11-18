@@ -1,12 +1,14 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
+
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
+
 import { getArticleQueryOptions } from './get-article';
 
 export const createArticleInputSchema = z.object({
-  title: z.string().min(1, 'title is required').max(255),
+  title: z.string().min(2, 'title length min is 2').max(255),
   description: z.string().min(1, 'description is required').max(255),
   body: z.string().min(1, 'body is required').max(50000),
   tagList: z

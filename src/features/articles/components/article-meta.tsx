@@ -179,7 +179,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
       >
         <button
           className="btn btn-sm btn-outline-secondary"
-          onClick={() => navigate(paths.editor.edit.getHref(slug))}
+          onClick={() => navigate(paths.editor.update.getHref(slug))}
         >
           <i className="ion-edit"></i> Edit Article
         </button>

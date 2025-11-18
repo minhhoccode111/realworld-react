@@ -1,5 +1,7 @@
+import { CreateArticleForm } from '@/features/articles/components/create-article-form';
+
 const EditorCreateRoute = () => {
-  return <>this is create</>;
+  return <CreateArticleForm />;
 };
 
 export default EditorCreateRoute;
