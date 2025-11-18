@@ -1,15 +1,13 @@
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
+import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { TagsResponse } from '@/types/api';
 
-const LIMIT = 10;
-const OFFSET = 0;
-
 const getTags = ({
-  limit = LIMIT,
-  offset = OFFSET,
+  limit = LIMIT_DEFAULT,
+  offset = OFFSET_DEFAULT,
 }: {
   limit: number;
   offset: number;
@@ -23,7 +21,7 @@ const getTags = ({
 };
 
 export const getInfiniteTagsQueryOptions = ({
-  limit = LIMIT,
+  limit = LIMIT_DEFAULT,
 }: {
   limit?: number;
 }) => {
@@ -47,7 +45,7 @@ type UseTagsOptions = {
   queryConfig?: QueryConfig<typeof getTags>;
 };
 
-export const useInfiniteTags = ({ limit = LIMIT }: UseTagsOptions) => {
+export const useInfiniteTags = ({ limit = LIMIT_DEFAULT }: UseTagsOptions) => {
   return useInfiniteQuery({
     ...getInfiniteTagsQueryOptions({ limit }),
   });

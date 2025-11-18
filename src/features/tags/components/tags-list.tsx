@@ -1,4 +1,5 @@
 import { useSearchParams } from 'react-router';
+
 import { useInfiniteTags } from '../api/get-tags';
 
 export const TagsList = () => {

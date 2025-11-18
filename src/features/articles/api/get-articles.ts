@@ -1,17 +1,15 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
+import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ArticlePreviewsResponse } from '@/types/api';
 
-const LIMIT = 10;
-const OFFSET = 0;
-
 const getArticles = ({
   isFeed = false,
   tag = '',
-  limit = LIMIT,
-  offset = OFFSET,
+  limit = LIMIT_DEFAULT,
+  offset = OFFSET_DEFAULT,
 }: {
   isFeed?: boolean;
   tag?: string;

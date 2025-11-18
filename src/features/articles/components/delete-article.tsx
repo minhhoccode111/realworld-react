@@ -1,9 +1,11 @@
-import { useNotifications } from '@/components/ui/notifications';
-import { useDeleteArticleOptions } from '../api/delete-article';
 import { useNavigate } from 'react-router';
-import { paths } from '@/config/paths';
-import { ConfirmationDialog } from '@/components/ui/dialog';
+
 import { Button } from '@/components/ui/button/button';
+import { ConfirmationDialog } from '@/components/ui/dialog';
+import { useNotifications } from '@/components/ui/notifications';
+import { paths } from '@/config/paths';
+
+import { useDeleteArticleOptions } from '../api/delete-article';
 
 type DeleteArticleProps = {
   slug: string;

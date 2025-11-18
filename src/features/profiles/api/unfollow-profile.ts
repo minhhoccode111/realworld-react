@@ -6,7 +6,11 @@ import { ProfilePreviewResponse } from '@/types/api';
 
 import { getProfileQueryOptions } from './get-profile';
 
-const unfollowProfile = (username: string): Promise<ProfilePreviewResponse> => {
+const unfollowProfile = ({
+  username,
+}: {
+  username: string;
+}): Promise<ProfilePreviewResponse> => {
   return api.delete(`/profiles/${username}/follow`);
 };
 

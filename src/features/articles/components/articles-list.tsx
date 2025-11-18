@@ -1,28 +1,37 @@
-import { Link } from '@/components/ui/link/link';
 import { useNavigate, useSearchParams } from 'react-router';
-import { useArticles } from '../api/get-articles';
-import { paths } from '@/config/paths';
-import { formatDate } from '@/utils/format';
-import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
+
+import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
-import { useFavoriteArticleOptions } from '../api/favorite-article';
-import { useUser } from '@/lib/auth';
 import { TablePagination } from '@/components/ui/table/pagination';
+import { LIMIT_DEFAULT } from '@/config/constants';
+import { paths } from '@/config/paths';
+import { useUser } from '@/lib/auth';
+import { formatDate } from '@/utils/format';
+
+import { useFavoriteArticleOptions } from '../api/favorite-article';
+import { useArticles } from '../api/get-articles';
+import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
 
 export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
   const { addNotification } = useNotifications();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const currentTag = searchParams.get('tag');
   const currentPage = +(searchParams.get('page') || 1);
-  const limit = 10;
+
+  const filteredSearchParams = new URLSearchParams();
+  searchParams.forEach((value, key) => {
+    if (key !== 'page') {
+      filteredSearchParams.append(key, value);
+    }
+  });
+  const queries = filteredSearchParams.toString();
 
   const user = useUser();
   const articlesQuery = useArticles({
     isFeed,
-    tag: currentTag || undefined,
-    limit,
-    offset: (currentPage - 1) * limit,
+    tag: searchParams.get('tag') || undefined,
+    limit: LIMIT_DEFAULT,
+    offset: (currentPage - 1) * LIMIT_DEFAULT,
   });
 
   const createFavoriteMutation = useFavoriteArticleOptions({
@@ -93,9 +102,9 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
                   return;
                 }
                 if (a.favorited) {
-                  deleteFavoriteMutation.mutate(a.slug);
+                  deleteFavoriteMutation.mutate({ slug: a.slug });
                 } else {
-                  createFavoriteMutation.mutate(a.slug);
+                  createFavoriteMutation.mutate({ slug: a.slug });
                 }
               }}
               className={
@@ -122,7 +131,7 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
             <h1>{a.title}</h1>
             <p>{a.description}</p>
             <span>Read more...</span>
-            {a.tagList && a.tagList.length && (
+            {a.tagList && !!a.tagList.length && (
               <ul className="tag-list">
                 {a.tagList.map((t) => (
                   <li key={t} className="tag-default tag-pill tag-outline">
@@ -136,10 +145,12 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
       ))}
 
       <TablePagination
-        totalPages={Math.floor((articlesQuery.data?.total + limit - 1) / limit)}
+        totalPages={Math.floor(
+          (articlesQuery.data?.total + LIMIT_DEFAULT - 1) / LIMIT_DEFAULT,
+        )}
         currentPage={currentPage}
-        rootUrl=""
-        queries={currentTag ? `tag=${currentTag}` : ''}
+        rootUrl={''}
+        queries={queries}
       />
 
       {/* <ul className="pagination">

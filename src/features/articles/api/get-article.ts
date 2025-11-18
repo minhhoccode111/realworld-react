@@ -4,14 +4,18 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
 
-const getArticle = (slug: string): Promise<ArticleDetailResponse> => {
+const getArticle = ({
+  slug,
+}: {
+  slug: string;
+}): Promise<ArticleDetailResponse> => {
   return api.get(`/articles/${slug}`);
 };
 
 export const getArticleQueryOptions = ({ slug }: { slug: string }) => {
   return queryOptions({
     queryKey: ['articles', slug],
-    queryFn: () => getArticle(slug),
+    queryFn: () => getArticle({ slug }),
   });
 };
 

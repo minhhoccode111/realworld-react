@@ -6,7 +6,11 @@ import { ProfilePreviewResponse } from '@/types/api';
 
 import { getProfileQueryOptions } from './get-profile';
 
-const followProfile = (username: string): Promise<ProfilePreviewResponse> => {
+const followProfile = ({
+  username,
+}: {
+  username: string;
+}): Promise<ProfilePreviewResponse> => {
   return api.post(`/profiles/${username}/follow`);
 };
 

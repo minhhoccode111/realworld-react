@@ -5,7 +5,11 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
 
-const unfavoriteArticle = (slug: string): Promise<ArticleDetailResponse> => {
+const unfavoriteArticle = ({
+  slug,
+}: {
+  slug: string;
+}): Promise<ArticleDetailResponse> => {
   return api.delete(`/articles/${slug}/favorite`);
 };
 

@@ -1,7 +1,8 @@
-import { ArticlesList } from '@/features/articles/components/articles-list';
-import { useUser } from '@/lib/auth';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router';
+
+import { ArticlesList } from '@/features/articles/components/articles-list';
+import { useUser } from '@/lib/auth';
 
 export const ArticlesLayout = () => {
   const user = useUser();

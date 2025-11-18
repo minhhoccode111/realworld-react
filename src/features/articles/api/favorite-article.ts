@@ -5,7 +5,11 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
 
-const favoriteArticle = (slug: string): Promise<ArticleDetailResponse> => {
+const favoriteArticle = ({
+  slug,
+}: {
+  slug: string;
+}): Promise<ArticleDetailResponse> => {
   return api.post(`/articles/${slug}/favorite`);
 };
 

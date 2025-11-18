@@ -1,16 +1,14 @@
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
+import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { CommentDetailsResponse } from '@/types/api';
 
-const LIMIT = 10;
-const OFFSET = 0;
-
 const getComments = ({
   slug,
-  limit = LIMIT,
-  offset = OFFSET,
+  limit = LIMIT_DEFAULT,
+  offset = OFFSET_DEFAULT,
 }: {
   slug: string;
   limit: number;
@@ -26,7 +24,7 @@ const getComments = ({
 
 export const getInfiniteCommentsQueryOptions = ({
   slug,
-  limit = 10,
+  limit = LIMIT_DEFAULT,
 }: {
   slug: string;
   limit?: number;
@@ -54,7 +52,7 @@ type UseCommentsOptions = {
 
 export const useInfiniteComments = ({
   slug,
-  limit = 10,
+  limit = LIMIT_DEFAULT,
 }: UseCommentsOptions) => {
   return useInfiniteQuery({
     ...getInfiniteCommentsQueryOptions({ slug, limit }),
