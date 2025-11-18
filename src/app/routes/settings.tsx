@@ -1,12 +1,12 @@
 import { SettingsLayout } from '@/components/layouts';
 import { AppLayout } from '@/components/layouts/app-layout';
-import { SettingsForm } from '@/features/auth/components/settings-form';
+import { UpdateProfileForm } from '@/features/auth/components/update-profile-form';
 
 const SettingsRoute = () => {
   return (
     <AppLayout title="Settings">
       <SettingsLayout>
-        <SettingsForm />
+        <UpdateProfileForm />
       </SettingsLayout>
     </AppLayout>
   );

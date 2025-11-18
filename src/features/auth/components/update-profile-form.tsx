@@ -11,7 +11,7 @@ type SettingsFormProps = {
   onSuccess?: () => void;
 };
 
-export const SettingsForm = ({ onSuccess }: SettingsFormProps) => {
+export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
   const user = useUser();
   const { addNotification } = useNotifications();
 

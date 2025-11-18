@@ -16,7 +16,7 @@ type CommentFormProps = {
   slug: string;
 };
 
-export const CreateComment = ({ slug }: CommentFormProps) => {
+export const CreateCommentForm = ({ slug }: CommentFormProps) => {
   const { addNotification } = useNotifications();
   const user = useUser();
 
