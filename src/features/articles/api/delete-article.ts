@@ -4,6 +4,7 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
 import { getArticleQueryOptions } from './get-article';
+import { ArticlePreviewsResponse } from '@/types/api';
 
 const deleteArticle = ({ slug }: { slug: string }) => {
   return api.delete(`/articles/${slug}`);
@@ -27,10 +28,21 @@ export const useDeleteArticleOptions = ({
         queryKey: getArticleQueryOptions({ slug }).queryKey,
       });
 
-      // TODO: mark get list articles as staled
-      // queryClient.invalidateQueries({
-      //   queryKey: getInfiniteArticlesQueryOptions().queryKey,
-      // });
+      queryClient.cancelQueries({
+        queryKey: getArticleQueryOptions({ slug }).queryKey,
+      });
+
+      queryClient.setQueriesData(
+        { queryKey: ['articles'], predicate: () => true },
+        (oldData: ArticlePreviewsResponse | undefined) => {
+          if (!oldData) return;
+
+          return {
+            ...oldData,
+            articles: oldData.articles.filter((a) => a.slug !== slug),
+          };
+        },
+      );
 
       onSuccess?.(...args);
     },

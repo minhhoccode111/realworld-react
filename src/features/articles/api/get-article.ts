@@ -14,7 +14,7 @@ const getArticle = ({
 
 export const getArticleQueryOptions = ({ slug }: { slug: string }) => {
   return queryOptions({
-    queryKey: ['articles', slug],
+    queryKey: ['article', slug],
     queryFn: () => getArticle({ slug }),
   });
 };
