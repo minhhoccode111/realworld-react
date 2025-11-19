@@ -6,25 +6,13 @@ import { UserAuth, CommentDetail, ArticleDetail } from '@/types/api';
 
 export const POLICIES = {
   'article:edit': (user?: UserAuth, article?: ArticleDetail) => {
-    if (article?.author.username === user?.username) {
-      return true;
-    }
-
-    return false;
+    return article?.author.username === user?.username;
   },
   'article:delete': (user?: UserAuth, article?: ArticleDetail) => {
-    if (article?.author.username === user?.username) {
-      return true;
-    }
-
-    return false;
+    return article?.author.username === user?.username;
   },
   'comment:delete': (user?: UserAuth, comment?: CommentDetail) => {
-    if (comment?.author.username === user?.username) {
-      return true;
-    }
-
-    return false;
+    return comment?.author.username === user?.username;
   },
 };
 

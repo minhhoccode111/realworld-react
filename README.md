@@ -34,6 +34,12 @@
     feed/global/by-tag/single?
 - Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
 
+## Todo
+
+- [ ] Add update article `tagList`
+- [ ] Add admin/user roles to manage users' content
+- [ ] Add mocks, unit testing, integration testing
+
 ## Get Started
 
 Prerequisites:

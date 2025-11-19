@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { Form } from '@/components/ui/form/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
-import { useUser } from '@/lib/auth';
 
 import {
   createArticleInputSchema,
@@ -14,8 +13,6 @@ import {
 
 export const CreateArticleForm = () => {
   const { addNotification } = useNotifications();
-  const user = useUser();
-  const location = useLocation();
   const navigate = useNavigate();
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
@@ -50,10 +47,6 @@ export const CreateArticleForm = () => {
   return (
     <Form
       onSubmit={(values) => {
-        if (!user.data) {
-          navigate(paths.login.getHref(location.pathname));
-          return;
-        }
         createArticleMutation.mutate({ data: { ...values, tagList: tags } });
       }}
       schema={createArticleInputSchema}
@@ -121,8 +114,11 @@ export const CreateArticleForm = () => {
             <button
               className="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              disabled={createArticleMutation.isPending}
             >
-              Publish Article
+              {createArticleMutation.isPending
+                ? 'Loading...'
+                : 'Publish Article'}
             </button>
           </fieldset>
         );
