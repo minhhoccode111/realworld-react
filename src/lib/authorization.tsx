@@ -1,18 +1,26 @@
 import * as React from 'react';
 
-import { UserAuth, CommentDetail, ArticleDetail } from '@/types/api';
+import {
+  UserAuth,
+  CommentDetail,
+  ArticleDetail,
+  ProfilePreview,
+} from '@/types/api';
 
 // TODO: add role 'ADMIN' later to control users' content
 
 export const POLICIES = {
   'article:edit': (user?: UserAuth, article?: ArticleDetail) => {
-    return article?.author.username === user?.username;
+    return user?.username === article?.author.username;
   },
   'article:delete': (user?: UserAuth, article?: ArticleDetail) => {
-    return article?.author.username === user?.username;
+    return user?.username === article?.author.username;
   },
   'comment:delete': (user?: UserAuth, comment?: CommentDetail) => {
-    return comment?.author.username === user?.username;
+    return user?.username === comment?.author.username;
+  },
+  'profile:edit': (user?: UserAuth, profile?: ProfilePreview) => {
+    return user?.username === profile?.username;
   },
 };
 
