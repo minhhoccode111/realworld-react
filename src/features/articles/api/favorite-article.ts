@@ -30,6 +30,19 @@ export const useFavoriteArticleOptions = ({
         data,
       );
 
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          if (query.queryKey[0] !== 'articles') return false;
+
+          const params = query.queryKey[1];
+          if (typeof params !== 'object' || params === null) return false;
+
+          const value = params.favorited;
+          return typeof value === 'string' && value.trim() !== '';
+        },
+      });
+
       queryClient.setQueriesData(
         { queryKey: ['articles'], predicate: () => true },
         (oldData: ArticlePreviewsResponse | undefined) => {
@@ -43,6 +56,7 @@ export const useFavoriteArticleOptions = ({
           };
         },
       );
+
       onSuccess?.(data, ...args);
     },
     ...restConfig,

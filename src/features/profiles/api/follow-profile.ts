@@ -30,6 +30,19 @@ export const useCreateFollowOptions = ({
         getProfileQueryOptions({ username: data.profile.username }).queryKey,
         data,
       );
+
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          if (query.queryKey[0] !== 'articles') return false;
+
+          const params = query.queryKey[1];
+          if (typeof params !== 'object' || params === null) return false;
+
+          return params.isFeed === true;
+        },
+      });
+
       onSuccess?.(data, ...args);
     },
     ...restConfig,
