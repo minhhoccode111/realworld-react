@@ -12,7 +12,17 @@ import { useFavoriteArticleOptions } from '../api/favorite-article';
 import { useArticles } from '../api/get-articles';
 import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
 
-export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
+type ArticlesListProps = {
+  isFeed?: boolean;
+  author?: string;
+  favorited?: string;
+};
+
+export const ArticlesList = ({
+  isFeed = false,
+  author = '',
+  favorited = '',
+}: ArticlesListProps) => {
   const { addNotification } = useNotifications();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -29,6 +39,8 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
   const user = useUser();
   const articlesQuery = useArticles({
     isFeed,
+    author: author || undefined,
+    favorited: favorited || undefined,
     tag: searchParams.get('tag') || undefined,
     limit: LIMIT_DEFAULT,
     offset: (currentPage - 1) * LIMIT_DEFAULT,
@@ -36,10 +48,10 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
 
   const createFavoriteMutation = useFavoriteArticleOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Favorited ${data.article.title}`,
+          title: `Article Favorited`,
         });
       },
     },
@@ -47,10 +59,10 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
 
   const deleteFavoriteMutation = useUnfavoriteArticleOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Unfavorited ${data.article.title}`,
+          title: `Article Unfavorited`,
         });
       },
     },
@@ -152,19 +164,6 @@ export const ArticlesList = ({ isFeed }: { isFeed: boolean }) => {
         rootUrl={''}
         queries={queries}
       />
-
-      {/* <ul className="pagination">
-        <li className="page-item active">
-          <a className="page-link" href="">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="">
-            2
-          </a>
-        </li>
-      </ul> */}
     </>
   );
 };

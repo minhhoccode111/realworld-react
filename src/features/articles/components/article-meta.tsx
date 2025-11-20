@@ -38,10 +38,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
 
   const createFavoriteMutation = useFavoriteArticleOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Favorited ${data.article.title}`,
+          title: `Article Favorited`,
         });
       },
     },
@@ -49,10 +49,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
 
   const deleteFavoriteMutation = useUnfavoriteArticleOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Unfavorited ${data.article.title}`,
+          title: `Article Unfavorited`,
         });
       },
     },
@@ -60,10 +60,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
 
   const followProfileMutation = useCreateFollowOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Followed ${data.profile.username}`,
+          title: `Profile Followed`,
         });
       },
     },
@@ -71,10 +71,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
 
   const unfollowProfileMutation = useCreateUnfollowOptions({
     mutationConfig: {
-      onSuccess: (data) => {
+      onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Unfollowed ${data.profile.username}`,
+          title: `Profile Unfollowed`,
         });
       },
     },
