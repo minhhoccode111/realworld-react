@@ -1,15 +1,17 @@
+import { Navigate, useNavigate } from 'react-router';
+
+import { Form } from '@/components/ui/form/form';
+import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
+import { paths } from '@/config/paths';
+import { useUser } from '@/lib/auth';
+import { Authorization, POLICIES } from '@/lib/authorization';
+
+import { useArticle } from '../api/get-article';
 import {
   updateArticleInputSchema,
   useUpdateArticle,
 } from '../api/update-article';
-import { useUser } from '@/lib/auth';
-import { useArticle } from '../api/get-article';
-import { Navigate, useNavigate } from 'react-router';
-import { Authorization, POLICIES } from '@/lib/authorization';
-import { paths } from '@/config/paths';
-import { Form } from '@/components/ui/form/form';
-import { FormErrors } from '@/components/ui/form/form-errors';
 
 type UpdateArticleFormProps = {
   slug: string;

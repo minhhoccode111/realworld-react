@@ -1,5 +1,6 @@
-import { ArticlesList } from '@/features/articles/components/articles-list';
 import { useParams } from 'react-router';
+
+import { ArticlesList } from '@/features/articles/components/articles-list';
 
 const ProfilePostsRoute = () => {
   const params = useParams();

@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
+import { ArticlePreviewsResponse } from '@/types/api';
 
 import { getArticleQueryOptions } from './get-article';
-import { ArticlePreviewsResponse } from '@/types/api';
 
 const deleteArticle = ({ slug }: { slug: string }) => {
   return api.delete(`/articles/${slug}`);

@@ -1,12 +1,14 @@
+import { useLocation, useNavigate } from 'react-router';
+
 import { Link, NavLink } from '@/components/ui/link';
-import { useProfile } from '@/features/profiles/api/get-profile';
-import { useNotifications } from '../ui/notifications';
+import { paths } from '@/config/paths';
 import { useCreateFollowOptions } from '@/features/profiles/api/follow-profile';
+import { useProfile } from '@/features/profiles/api/get-profile';
 import { useCreateUnfollowOptions } from '@/features/profiles/api/unfollow-profile';
 import { useUser } from '@/lib/auth';
-import { useLocation, useNavigate } from 'react-router';
 import { Authorization, POLICIES } from '@/lib/authorization';
-import { paths } from '@/config/paths';
+
+import { useNotifications } from '../ui/notifications';
 
 export const ProfileLayout = ({
   username,
