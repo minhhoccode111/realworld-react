@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { queryKeys } from '@/config/constants';
+import { getProfileQueryOptions } from '@/features/profiles/api/get-profile';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { UserAuthResponse } from '@/types/api';
@@ -76,9 +78,26 @@ export const useUpdateProfile = ({
 
   return useMutation({
     onSuccess: (data, ...args) => {
-      queryClient.setQueryData(['authenticated-user'], data);
+      // update 'authenticated-user'
+      queryClient.setQueryData([queryKeys.authenticatedUser], data);
+
+      // invalidate 'profile' query
+      queryClient.invalidateQueries({
+        queryKey: getProfileQueryOptions({ username: data.user.username })
+          .queryKey,
+      });
+
+      // invalidate every 'articles' query
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          return query.queryKey[0] === queryKeys.articles;
+        },
+      });
+
       onSuccess?.(data, ...args);
     },
+
     ...restConfig,
     mutationFn: updateProfile,
   });

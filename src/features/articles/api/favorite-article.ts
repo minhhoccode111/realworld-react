@@ -28,12 +28,13 @@ export const useFavoriteArticleOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
+      // update current article in the `article` query cache with the same `slug`
       queryClient.setQueryData(
         getArticleQueryOptions({ slug: data.article.slug }).queryKey,
         data,
       );
 
-      // invalidate
+      // invalidate all favorited-articles queries for profiles
       queryClient.invalidateQueries({
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
@@ -47,7 +48,7 @@ export const useFavoriteArticleOptions = ({
         },
       });
 
-      // update
+      // update every article in the `articles` query cache with the same `slug`
       queryClient.setQueriesData(
         { queryKey: [queryKeys.articles], predicate: () => true },
         (oldData: ArticlePreviewsResponse | undefined) => {

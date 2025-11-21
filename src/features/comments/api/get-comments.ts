@@ -1,6 +1,6 @@
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
-import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '@/config/constants';
+import { LIMIT_DEFAULT, OFFSET_DEFAULT, queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { CommentDetailsResponse } from '@/types/api';
@@ -30,7 +30,7 @@ export const getInfiniteCommentsQueryOptions = ({
   limit?: number;
 }) => {
   return infiniteQueryOptions({
-    queryKey: ['comments', slug],
+    queryKey: [queryKeys.comments, slug],
     queryFn: ({ pageParam = 1 }) => {
       const offset = (pageParam - 1) * limit;
       return getComments({ slug, limit, offset });

@@ -37,15 +37,32 @@
 ## Invalidate & Update Queries
 
 - Create Article
+  - Update current article in the `article` query with the same `slug`
   - Invalidate all `articles` queries
 - Delete Article
+  - Remove/cancel current article in the `article` query with the same `slug`
   - Invalidate all `articles` queries
 - Update Article
+  - Update current article in the `article` query with the same `slug`
   - Invalidate all `articles` queries
 - Favorite / Unfavorite Article (light user action but causes a costly cache invalidation)
-  - Invalidate all favorited-articles queries for profiles
+  - Update current article in the `article` query with the same `slug`
+  - Update every article in the `articles` query with the same `slug`
+  - Invalidate favorited-articles query for all profiles
     (ideally only for the current user if possible)
-  - Update every article in the `articles` query cache with the same `slug`
+- Update Profile
+  - Update `authenticated-user` query
+  - Invalidate current user `profile` query
+  - Invalidate all `articles` queries
+- Follow / Unfollow Profile
+  - Update current profile in the `profile` query with the same `username`
+  - Invalidate feed-articles query for current user
+- Create Comment
+  - Invalidate infinite-comments query for current `slug`
+- Delete Comment
+  - Invalidate infinite-comments query for current `slug`
+
+(Note: there are 5 types of get-articles: Feed, Global, Tag, Author, Favorited)
 
 ## Todo
 

@@ -29,9 +29,11 @@ export const useDeleteCommentOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (...args) => {
+      // invalidate infinite-comments query for current `slug`
       queryClient.invalidateQueries({
         queryKey: getInfiniteCommentsQueryOptions({ slug }).queryKey,
       });
+
       onSuccess?.(...args);
     },
     ...restConfig,

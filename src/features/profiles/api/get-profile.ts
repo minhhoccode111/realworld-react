@@ -1,5 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
+import { queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ProfilePreviewResponse } from '@/types/api';
@@ -14,7 +15,7 @@ const getProfile = ({
 
 export const getProfileQueryOptions = ({ username }: { username: string }) => {
   return queryOptions({
-    queryKey: ['profiles', username],
+    queryKey: [queryKeys.profile, username],
     queryFn: () => getProfile({ username }),
   });
 };

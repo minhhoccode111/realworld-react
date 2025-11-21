@@ -24,15 +24,15 @@ export const useDeleteArticleOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (...args) => {
+      // remove/cancel current article in the `article` query cache with the same `slug`
       queryClient.removeQueries({
         queryKey: getArticleQueryOptions({ slug }).queryKey,
       });
-
       queryClient.cancelQueries({
         queryKey: getArticleQueryOptions({ slug }).queryKey,
       });
 
-      // invalidate every 'articles' query
+      // invalidate all 'articles' query
       queryClient.invalidateQueries({
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;

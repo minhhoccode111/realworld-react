@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ProfilePreviewResponse } from '@/types/api';
@@ -31,10 +32,11 @@ export const useCreateUnfollowOptions = ({
         data,
       );
 
+      // invalidate feed-articles query for current user
       queryClient.invalidateQueries({
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
-          if (query.queryKey[0] !== 'articles') return false;
+          if (query.queryKey[0] !== queryKeys.articles) return false;
 
           const params = query.queryKey[1];
           if (typeof params !== 'object' || params === null) return false;
