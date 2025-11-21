@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from '@/config/constants';
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
@@ -30,10 +31,11 @@ export const useUnfavoriteArticleOptions = ({
         data,
       );
 
+      // invalidate
       queryClient.invalidateQueries({
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
-          if (query.queryKey[0] !== 'articles') return false;
+          if (query.queryKey[0] !== queryKeys.articles) return false;
 
           const params = query.queryKey[1];
           if (typeof params !== 'object' || params === null) return false;
@@ -43,8 +45,9 @@ export const useUnfavoriteArticleOptions = ({
         },
       });
 
+      // update
       queryClient.setQueriesData(
-        { queryKey: ['articles'], predicate: () => true },
+        { queryKey: [queryKeys.articles], predicate: () => true },
         (oldData: ArticlePreviewsResponse | undefined) => {
           if (!oldData) return;
 

@@ -1,11 +1,11 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '@/config/constants';
+import { LIMIT_DEFAULT, OFFSET_DEFAULT, queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ArticlePreviewsResponse } from '@/types/api';
 
-type getArticlesProps = {
+type ArticlesQueryParams = {
   isFeed?: boolean;
   author?: string;
   favorited?: string;
@@ -14,65 +14,42 @@ type getArticlesProps = {
   offset?: number;
 };
 
-const getArticles = ({
-  isFeed = false,
-  author = '',
-  favorited = '',
-  tag = '',
-  limit = LIMIT_DEFAULT,
-  offset = OFFSET_DEFAULT,
-}: getArticlesProps): Promise<ArticlePreviewsResponse> => {
-  if (isFeed) return api.get(`/articles/feed`, { params: { limit, offset } });
-  return api.get(`/articles`, {
+const getArticles = (
+  params: ArticlesQueryParams = {},
+): Promise<ArticlePreviewsResponse> => {
+  const {
+    isFeed,
+    author,
+    favorited,
+    tag,
+    limit = LIMIT_DEFAULT,
+    offset = OFFSET_DEFAULT,
+  } = params;
+  if (isFeed) {
+    return api.get('/articles/feed', { params: { limit, offset } });
+  }
+  return api.get('/articles', {
     params: { author, favorited, tag, limit, offset },
   });
 };
 
-export const getArticlesQueryOptions = (params?: {
-  isFeed?: boolean;
-  author?: string;
-  favorited?: string;
-  tag?: string;
-  limit?: number;
-  offset?: number;
-}) => {
-  const { isFeed, author, favorited, tag, limit, offset } = params ?? {};
-
+export const getArticlesQueryOptions = (params: ArticlesQueryParams = {}) => {
   return queryOptions({
-    queryKey: ['articles', { isFeed, author, favorited, tag, limit, offset }],
-    queryFn: () =>
-      getArticles({ isFeed, author, favorited, tag, limit, offset }),
+    queryKey: [queryKeys.articles, params],
+    queryFn: () => getArticles(params),
   });
 };
 
-type UseArticlesOptions = {
-  isFeed?: boolean;
-  author?: string;
-  favorited?: string;
-  tag?: string;
-  limit?: number;
-  offset?: number;
+type UseArticlesOptions = ArticlesQueryParams & {
   queryConfig?: QueryConfig<typeof getArticlesQueryOptions>;
 };
 
 export const useArticles = ({
   queryConfig,
-  isFeed,
-  author,
-  favorited,
-  tag,
-  limit,
-  offset,
-}: UseArticlesOptions) => {
+  ...params
+}: UseArticlesOptions = {}) => {
   return useQuery({
-    ...getArticlesQueryOptions({
-      isFeed,
-      author,
-      favorited,
-      tag,
-      limit,
-      offset,
-    }),
+    ...getArticlesQueryOptions(params),
     ...queryConfig,
   });
 };

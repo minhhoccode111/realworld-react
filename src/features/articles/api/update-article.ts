@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
+import { ArticleDetailResponse } from '@/types/api';
 
 import { getArticleQueryOptions } from './get-article';
 
@@ -12,6 +13,7 @@ export const updateArticleInputSchema = z.object({
   title: z.string().min(2, 'title length min is 2').max(255),
   description: z.string().min(1, 'description is required').max(255),
   body: z.string().min(1, 'body is required').max(50000),
+  // TODO: allow update article tagList
   // tagList: z
   //   .array(
   //     z
@@ -63,19 +65,13 @@ export const useUpdateArticle = ({
         data,
       );
 
-      queryClient.setQueriesData(
-        { queryKey: ['articles'], predicate: () => true },
-        (oldData: ArticlePreviewsResponse | undefined) => {
-          if (!oldData) return;
-
-          return {
-            ...oldData,
-            articles: oldData.articles.map((a) =>
-              a.slug === slug ? data.article : a,
-            ),
-          };
+      // invalidate every 'articles' query
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          return query.queryKey[0] === queryKeys.articles;
         },
-      );
+      });
 
       onSuccess?.(data, ...args);
     },

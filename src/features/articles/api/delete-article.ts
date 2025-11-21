@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { ArticlePreviewsResponse } from '@/types/api';
 
 import { getArticleQueryOptions } from './get-article';
 
@@ -32,17 +32,13 @@ export const useDeleteArticleOptions = ({
         queryKey: getArticleQueryOptions({ slug }).queryKey,
       });
 
-      queryClient.setQueriesData(
-        { queryKey: ['articles'], predicate: () => true },
-        (oldData: ArticlePreviewsResponse | undefined) => {
-          if (!oldData) return;
-
-          return {
-            ...oldData,
-            articles: oldData.articles.filter((a) => a.slug !== slug),
-          };
+      // invalidate every 'articles' query
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          return query.queryKey[0] === queryKeys.articles;
         },
-      );
+      });
 
       onSuccess?.(...args);
     },

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
@@ -59,6 +60,15 @@ export const useCreateArticle = ({
         getArticleQueryOptions({ slug: data.article.slug }).queryKey,
         data,
       );
+
+      // invalidate every 'articles' query
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey)) return false;
+          return query.queryKey[0] === queryKeys.articles;
+        },
+      });
+
       onSuccess?.(data, ...args);
     },
     ...restConfig,

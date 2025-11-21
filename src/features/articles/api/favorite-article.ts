@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from '@/config/constants';
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
@@ -21,6 +22,8 @@ export const useFavoriteArticleOptions = ({
   mutationConfig,
 }: UseFavoriteArticleOptions) => {
   const queryClient = useQueryClient();
+  // TODO: try to find a way to only invalidate current user's profile favorited articles
+  // const user = useUser()
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
@@ -30,10 +33,11 @@ export const useFavoriteArticleOptions = ({
         data,
       );
 
+      // invalidate
       queryClient.invalidateQueries({
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
-          if (query.queryKey[0] !== 'articles') return false;
+          if (query.queryKey[0] !== queryKeys.articles) return false;
 
           const params = query.queryKey[1];
           if (typeof params !== 'object' || params === null) return false;
@@ -43,8 +47,9 @@ export const useFavoriteArticleOptions = ({
         },
       });
 
+      // update
       queryClient.setQueriesData(
-        { queryKey: ['articles'], predicate: () => true },
+        { queryKey: [queryKeys.articles], predicate: () => true },
         (oldData: ArticlePreviewsResponse | undefined) => {
           if (!oldData) return;
 

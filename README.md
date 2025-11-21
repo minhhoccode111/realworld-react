@@ -34,6 +34,19 @@
     feed/global/by-tag/single?
 - Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
 
+## Invalidate & Update Queries
+
+- Create Article
+  - Invalidate all `articles` queries
+- Delete Article
+  - Invalidate all `articles` queries
+- Update Article
+  - Invalidate all `articles` queries
+- Favorite / Unfavorite Article (light user action but causes a costly cache invalidation)
+  - Invalidate all favorited-articles queries for profiles
+    (ideally only for the current user if possible)
+  - Update every article in the `articles` query cache with the same `slug`
+
 ## Todo
 
 - [ ] Add update article `tagList`
