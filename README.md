@@ -40,7 +40,7 @@
   - Update current article in the `article` query with the same `slug`
   - Invalidate all `articles` queries
 - Delete Article
-  - Remove/cancel current article in the `article` query with the same `slug`
+  - Cancel current article in the `article` query with the same `slug`
   - Invalidate all `articles` queries
 - Update Article
   - Update current article in the `article` query with the same `slug`
