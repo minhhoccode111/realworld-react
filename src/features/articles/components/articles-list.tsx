@@ -28,12 +28,13 @@ export const ArticlesList = ({
     }
   });
   const queries = filteredSearchParams.toString();
+  const tag = searchParams.get('tag') || '';
 
   const articlesQuery = useArticles({
-    isFeed,
-    author: author || undefined,
-    favorited: favorited || undefined,
-    tag: searchParams.get('tag') || undefined,
+    isFeed: tag ? false : isFeed,
+    author,
+    favorited,
+    tag,
     limit: LIMIT_DEFAULT,
     offset: (currentPage - 1) * LIMIT_DEFAULT,
   });

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { ArticlesList } from '@/features/articles/components/articles-list';
@@ -10,6 +10,10 @@ export const ArticlesLayout = () => {
   const [isFeed, setIsFeed] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentTag = searchParams.get('tag');
+
+  useEffect(() => {
+    if (currentTag) setIsFeed(false);
+  }, [searchParams]);
 
   return (
     <div className="col-md-9">
