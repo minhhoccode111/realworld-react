@@ -66,12 +66,7 @@ export const useUpdateArticle = ({
       );
 
       // invalidate all 'articles' query
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          if (!Array.isArray(query.queryKey)) return false;
-          return query.queryKey[0] === queryKeys.articles;
-        },
-      });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.articles] });
 
       onSuccess?.(data, ...args);
     },

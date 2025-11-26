@@ -34,35 +34,36 @@
     feed/global/by-tag/single?
 - Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
 
-## Invalidate & Update Queries
+### Query Invalidation & Cache Updates
 
-- Create Article
-  - Update current article in the `article` query with the same `slug`
-  - Invalidate all `articles` queries
-- Delete Article
-  - Cancel current article in the `article` query with the same `slug`
-  - Invalidate all `articles` queries
-- Update Article
-  - Update current article in the `article` query with the same `slug`
-  - Invalidate all `articles` queries
-- Favorite / Unfavorite Article (light user action but causes a costly cache invalidation)
-  - Update current article in the `article` query with the same `slug`
-  - Update every article in the `articles` query with the same `slug`
-  - Invalidate favorited-articles query for all profiles
-    (ideally only for the current user if possible)
-- Update Profile
-  - Update `authenticated-user` query
-  - Invalidate current user `profile` query
-  - Invalidate all `articles` queries
-- Follow / Unfollow Profile
-  - Update current profile in the `profile` query with the same `username`
-  - Invalidate feed-articles query for current user
-- Create Comment
-  - Invalidate infinite-comments query for current `slug`
-- Delete Comment
-  - Invalidate infinite-comments query for current `slug`
+_(All “queries” refer to React Query cache entries.)_
 
-(Note: there are 5 types of get-articles: Feed, Global, Tag, Author, Favorited)
+- Article: Create
+  - Update the cached `article` entry matching the `slug`.
+  - Invalidate all cached `articles` lists.
+- Article: Delete
+  - Remove the cached `article` entry matching the `slug`.
+  - Invalidate all cached `articles` lists.
+- Article: Update
+  - Update the cached `article` entry matching the `slug`.
+  - Invalidate all cached `articles` lists.
+- Article: Favorite / Unfavorite (light user action, heavy cache impact)
+  - Update the cached `article` entry matching the `slug`.
+  - Update the corresponding article inside all cached `articles` lists.
+  - Invalidate all `favorited-articles` queries (ideally only for the current user).
+- Profile: Update
+  - Update the `authenticated-user` cache entry.
+  - Invalidate the current user’s cached `profile` entry.
+  - Invalidate all cached `articles` lists.
+- Profile: Follow / Unfollow
+  - Update the cached `profile` entry matching the `username`.
+  - Invalidate the current user’s `feed-articles` query.
+- Comment: Create
+  - Invalidate the `infinite-comments` query for the current `slug`.
+- Comment: Delete
+  - Invalidate the `infinite-comments` query for the current `slug`.
+
+**Note:** There are five `articles` list variants: Feed, Global, Tag, Author, Favorited.
 
 ## Todo
 

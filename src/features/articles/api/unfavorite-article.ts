@@ -32,8 +32,30 @@ export const useUnfavoriteArticleOptions = ({
         data,
       );
 
+      // update every article in the `articles` query cache with the same `slug`
+      queryClient.setQueriesData(
+        {
+          queryKey: [queryKeys.articles],
+          predicate: (query) => {
+            const key = query.queryKey;
+            return key[0] === queryKeys.articles && key.length >= 1;
+          },
+        },
+        (oldData: ArticlePreviewsResponse | undefined) => {
+          if (!oldData || !Array.isArray(oldData.articles)) return;
+
+          return {
+            ...oldData,
+            articles: oldData.articles.map((a) =>
+              a.slug === data.article.slug ? data.article : a,
+            ),
+          };
+        },
+      );
+
       // invalidate all favorited-articles queries for profiles
       queryClient.invalidateQueries({
+        queryKey: [queryKeys.articles],
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
           if (query.queryKey[0] !== queryKeys.articles) return false;
@@ -45,21 +67,6 @@ export const useUnfavoriteArticleOptions = ({
           return typeof value === 'string' && value.trim() !== '';
         },
       });
-
-      // update every article in the `articles` query cache with the same `slug`
-      queryClient.setQueriesData(
-        { queryKey: [queryKeys.articles], predicate: () => true },
-        (oldData: ArticlePreviewsResponse | undefined) => {
-          if (!oldData) return;
-
-          return {
-            ...oldData,
-            articles: oldData.articles.map((a) =>
-              a.slug === data.article.slug ? data.article : a,
-            ),
-          };
-        },
-      );
 
       onSuccess?.(data, ...args);
     },
