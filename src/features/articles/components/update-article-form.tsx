@@ -31,7 +31,9 @@ export const UpdateArticleForm = ({ slug }: UpdateArticleFormProps) => {
           type: 'success',
           title: 'Article Updated',
         });
-        navigate(paths.article.read.getHref(data.article.slug));
+        navigate(paths.article.read.getHref(data.article.slug), {
+          replace: true,
+        });
       },
     },
   });

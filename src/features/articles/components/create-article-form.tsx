@@ -24,7 +24,9 @@ export const CreateArticleForm = () => {
           type: 'success',
           title: 'Article Created',
         });
-        navigate(paths.article.read.getHref(data.article.slug));
+        navigate(paths.article.read.getHref(data.article.slug), {
+          replace: true,
+        });
       },
     },
   });

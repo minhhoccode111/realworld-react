@@ -16,7 +16,7 @@ const LogoutRoute = () => {
   const logout = useLogout({
     onSuccess: () => {
       addNotification({ type: 'success', title: 'Sign out succeed' });
-      navigate(paths.login.getHref(redirectTo));
+      navigate(paths.login.getHref(redirectTo), { replace: true });
     },
   });
 

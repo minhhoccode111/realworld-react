@@ -29,7 +29,7 @@ export const ProfileLayout = ({
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Profile Followed`,
+          title: 'Profile Followed',
         });
       },
     },
@@ -40,7 +40,7 @@ export const ProfileLayout = ({
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Profile Unfollowed`,
+          title: 'Profile Unfollowed',
         });
       },
     },
@@ -86,6 +86,10 @@ export const ProfileLayout = ({
               <h4>{profile.username}</h4>
               <p>{profile.bio}</p>
               <button
+                disabled={
+                  unfollowProfileMutation.isPending ||
+                  followProfileMutation.isPending
+                }
                 onClick={() => {
                   if (!user.data) {
                     navigate(paths.login.getHref(location.pathname));

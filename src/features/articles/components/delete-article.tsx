@@ -22,7 +22,7 @@ export const DeleteArticle = ({ slug }: DeleteArticleProps) => {
           type: 'success',
           title: `Article Deleted`,
         });
-        navigate(paths.home.getHref());
+        navigate(paths.home.getHref(), { replace: true });
       },
     },
   });

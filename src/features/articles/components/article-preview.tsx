@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
@@ -16,6 +16,7 @@ export const ArticlePreview = ({
   article: ArticlePreviewType;
 }) => {
   const { addNotification } = useNotifications();
+  const location = useLocation();
   const navigate = useNavigate();
   const user = useUser();
 

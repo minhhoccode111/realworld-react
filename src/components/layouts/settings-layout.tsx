@@ -6,7 +6,7 @@ import { useLogout } from '@/lib/auth';
 export const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const logout = useLogout({
-    onSuccess: () => navigate(paths.home.getHref()),
+    onSuccess: () => navigate(paths.home.getHref(), { replace: true }),
   });
 
   return (
