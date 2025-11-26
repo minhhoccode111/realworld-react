@@ -41,6 +41,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 className="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
+                autoComplete="username"
                 {...register('email')}
               />
             </fieldset>
@@ -50,6 +51,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 className="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
+                autoComplete="current-password"
                 {...register('password')}
               />
             </fieldset>

@@ -40,6 +40,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 className="form-control form-control-lg"
                 type="text"
                 placeholder="Username"
+                autoComplete="off"
                 {...register('username')}
               />
             </fieldset>
@@ -49,6 +50,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 className="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
+                autoComplete="username"
                 {...register('email')}
               />
             </fieldset>
@@ -58,6 +60,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 className="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
+                autoComplete="new-password"
                 {...register('password')}
               />
             </fieldset>

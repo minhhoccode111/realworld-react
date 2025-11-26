@@ -56,6 +56,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
               className="form-control form-control-lg"
               type="text"
               placeholder="Your Username"
+              autoComplete="off"
               {...register('username')}
             />
           </fieldset>
@@ -72,6 +73,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
               className="form-control form-control-lg"
               type="text"
               placeholder="Email"
+              autoComplete="username"
               {...register('email')}
             />
           </fieldset>
@@ -81,6 +83,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
               type="password"
               placeholder="New Password"
               {...register('password')}
+              autoComplete="current-password"
             />
           </fieldset>
 

@@ -33,6 +33,8 @@
   - Should we invalidate every query that get article data like
     feed/global/by-tag/single?
 - Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
+- `clientLoader` of `react-router` integrate with `react-query`
+- Input fields `autocomplete`
 
 ### Query Invalidation & Cache Updates
 

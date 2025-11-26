@@ -24,12 +24,16 @@ export const clientLoader =
       offset: (page - 1) * LIMIT_DEFAULT,
     });
 
-    return [
-      queryClient.getQueryData(tagsQuery.queryKey) ??
-        (await queryClient.fetchInfiniteQuery(tagsQuery)),
+    const promises = [
       queryClient.getQueryData(articlesQuery.queryKey) ??
         (await queryClient.fetchQuery(articlesQuery)),
-    ];
+      queryClient.getQueryData(tagsQuery.queryKey) ??
+        (await queryClient.fetchInfiniteQuery(tagsQuery)),
+    ] as const;
+
+    const [articles, tags] = await Promise.all(promises);
+
+    return { articles, tags };
   };
 
 const HomeRoute = () => {
