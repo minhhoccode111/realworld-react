@@ -25,16 +25,24 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
 
+  if (articleQuery.isLoading || user.isLoading) {
+    return <div className="article-meta">Loading...</div>;
+  }
+
+  if (!article) {
+    return <div className="article-meta">Error occurs please try again.</div>;
+  }
+
   // NOTE: have to explicit get author profile instead of using the one returned
   // with the article because when we toggle follow/unfollow author profile in
   // route '/profile/:username', there is no way to mark data of this article
   // as staled so that react-query know to refetch new article data to get new
   // author profile data
   const authorProfileQuery = useProfile({
-    username: article?.author.username || '',
-    queryConfig: { enabled: !!article?.author.username },
+    username: article.author.username,
+    queryConfig: { enabled: !!article.author.username },
   });
-  const authorProfile = authorProfileQuery.data?.profile;
+  const authorProfile = authorProfileQuery.data?.profile || article.author;
 
   const createFavoriteMutation = useFavoriteArticleOptions({
     mutationConfig: {
@@ -79,18 +87,6 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
       },
     },
   });
-
-  if (
-    articleQuery.isLoading ||
-    authorProfileQuery.isLoading ||
-    user.isLoading
-  ) {
-    return <div className="article-meta">Loading...</div>;
-  }
-
-  if (!article || !authorProfile) {
-    return <div className="article-meta">Error occurs please try again.</div>;
-  }
 
   return (
     <div className="article-meta">
