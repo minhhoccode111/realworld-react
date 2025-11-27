@@ -28,12 +28,13 @@
 - React Router
 - Shadcn UI
 - TailwindCSS
+- `clientLoader` of `react-router` integrate with `react-query`
+- `prefetch` of `react-query`
 - How to handle react-query data invalidation for tiny actions like
   follow/unfollow an author or favorite/unfavorite an article?
-  - Should we invalidate every query that get article data like
-    feed/global/by-tag/single?
+  - Should we invalidate every query that get articles data like
+    feed/global/by-tag/author/favorited/single?
 - Regex `/^[a-zA-Z0-9_ -]+$/` only works for ASCII characters, not Vietnamese (Unicode)
-- `clientLoader` of `react-router` integrate with `react-query`
 - Input fields `autocomplete`
 
 ### Query Invalidation & Cache Updates
@@ -69,6 +70,8 @@ _(All “queries” refer to React Query cache entries.)_
 
 ## Todo
 
+- [x] Add `clientLoader`s to make requests before component renders
+- [x] Add `prefetch` on hover actions
 - [ ] Add update article `tagList`
 - [ ] Add admin/user roles to manage users' content
 - [ ] Add mocks, unit testing, integration testing

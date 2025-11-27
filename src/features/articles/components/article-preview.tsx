@@ -1,13 +1,18 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router';
 
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
+import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
+import { getProfileQueryOptions } from '@/features/profiles/api/get-profile';
 import { useUser } from '@/lib/auth';
 import { ArticlePreview as ArticlePreviewType } from '@/types/api';
 import { formatDate } from '@/utils/format';
 
 import { useFavoriteArticle } from '../api/favorite-article';
+import { getArticleQueryOptions } from '../api/get-article';
+import { getArticlesQueryOptions } from '../api/get-articles';
 import { useUnfavoriteArticle } from '../api/unfavorite-article';
 
 export const ArticlePreview = ({
@@ -19,6 +24,7 @@ export const ArticlePreview = ({
   const location = useLocation();
   const navigate = useNavigate();
   const user = useUser();
+  const queryClient = useQueryClient();
 
   const createFavoriteMutation = useFavoriteArticle({
     mutationConfig: {
@@ -45,11 +51,35 @@ export const ArticlePreview = ({
   return (
     <div key={article.slug} className="article-preview">
       <div className="article-meta">
-        <Link to={paths.profile.root.getHref(article.author.username)}>
+        <Link
+          onMouseEnter={() => {
+            // prefetch get-profile and get-articles-author of current article's author
+            queryClient.prefetchQuery(
+              getProfileQueryOptions({ username: article.author.username }),
+            );
+            queryClient.prefetchQuery(
+              getArticlesQueryOptions({
+                author: article.author.username,
+              }),
+            );
+          }}
+          to={paths.profile.root.getHref(article.author.username)}
+        >
           <img src={article.author.image} />
         </Link>
         <div className="info">
           <Link
+            onMouseEnter={() => {
+              // prefetch get-profile and get-articles-author of current article's author
+              queryClient.prefetchQuery(
+                getProfileQueryOptions({ username: article.author.username }),
+              );
+              queryClient.prefetchQuery(
+                getArticlesQueryOptions({
+                  author: article.author.username,
+                }),
+              );
+            }}
             to={paths.profile.root.getHref(article.author.username)}
             className="author"
           >
@@ -92,6 +122,18 @@ export const ArticlePreview = ({
         </button>
       </div>
       <Link
+        onMouseEnter={() => {
+          // prefetch get-profile, get-article, and get-comments-article of current article
+          queryClient.prefetchQuery(
+            getProfileQueryOptions({ username: article.author.username }),
+          );
+          queryClient.prefetchQuery(
+            getArticleQueryOptions({ slug: article.slug }),
+          );
+          queryClient.prefetchInfiniteQuery(
+            getInfiniteCommentsQueryOptions({ slug: article.slug, limit: 5 }),
+          );
+        }}
         to={paths.article.read.getHref(article.slug)}
         className="preview-link"
       >

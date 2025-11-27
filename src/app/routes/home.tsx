@@ -17,10 +17,6 @@ export const clientLoader =
 
     const tagsQuery = getInfiniteTagsQueryOptions({});
     const articlesQuery = getArticlesQueryOptions({
-      isFeed: false,
-      author: '',
-      favorited: '',
-      tag: '',
       limit: LIMIT_DEFAULT,
       offset: (page - 1) * LIMIT_DEFAULT,
     });

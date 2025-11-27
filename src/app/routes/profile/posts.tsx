@@ -15,10 +15,7 @@ export const clientLoader =
 
     const profileQuery = getProfileQueryOptions({ username });
     const articlesQuery = getArticlesQueryOptions({
-      isFeed: false,
       author: username,
-      favorited: '',
-      tag: '',
       limit: LIMIT_DEFAULT,
       offset: (page - 1) * LIMIT_DEFAULT,
     });

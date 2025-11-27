@@ -34,9 +34,25 @@ const getArticles = (
 };
 
 export const getArticlesQueryOptions = (params: ArticlesQueryParams = {}) => {
+  const {
+    isFeed = false,
+    author = '',
+    favorited = '',
+    tag = '',
+    limit = LIMIT_DEFAULT,
+    offset = OFFSET_DEFAULT,
+  } = params;
+  const defaultParams = {
+    isFeed,
+    author,
+    favorited,
+    tag,
+    limit,
+    offset,
+  } as const;
   return queryOptions({
-    queryKey: [queryKeys.articles, params],
-    queryFn: () => getArticles(params),
+    queryKey: [queryKeys.articles, defaultParams],
+    queryFn: () => getArticles(defaultParams),
   });
 };
 

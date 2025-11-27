@@ -1,10 +1,14 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router';
 
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useFollowProfile } from '@/features/profiles/api/follow-profile';
-import { useProfile } from '@/features/profiles/api/get-profile';
+import {
+  getProfileQueryOptions,
+  useProfile,
+} from '@/features/profiles/api/get-profile';
 import { useUnfollowProfile } from '@/features/profiles/api/unfollow-profile';
 import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
@@ -21,6 +25,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   const user = useUser();
   const location = useLocation();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
@@ -90,11 +95,26 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
 
   return (
     <div className="article-meta">
-      <Link to={`/profile/${authorProfile.username}`}>
+      <Link
+        onMouseEnter={() => {
+          queryClient.prefetchQuery(
+            getProfileQueryOptions({ username: authorProfile.username }),
+          );
+        }}
+        to={paths.profile.root.getHref(authorProfile.username)}
+      >
         <img src={authorProfile.image} />
       </Link>
       <div className="info">
-        <Link to={`/profile/${authorProfile.username}`} className="author">
+        <Link
+          onMouseEnter={() => {
+            queryClient.prefetchQuery(
+              getProfileQueryOptions({ username: authorProfile.username }),
+            );
+          }}
+          to={paths.profile.root.getHref(authorProfile.username)}
+          className="author"
+        >
           {authorProfile.username}
         </Link>
         <span className="date">

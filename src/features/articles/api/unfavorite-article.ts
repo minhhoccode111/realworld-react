@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/config/constants';
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
+import { useUser } from '@/lib/auth';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
-import { useUser } from '@/lib/auth';
 
 const unfavoriteArticle = ({
   slug,
