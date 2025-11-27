@@ -5,23 +5,24 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ArticleDetailResponse } from '@/types/api';
 
+type ArticleQueryParams = {
+  slug: string;
+};
+
 const getArticle = ({
   slug,
-}: {
-  slug: string;
-}): Promise<ArticleDetailResponse> => {
+}: ArticleQueryParams): Promise<ArticleDetailResponse> => {
   return api.get(`/articles/${slug}`);
 };
 
-export const getArticleQueryOptions = ({ slug }: { slug: string }) => {
+export const getArticleQueryOptions = ({ slug }: ArticleQueryParams) => {
   return queryOptions({
     queryKey: [queryKeys.article, slug],
     queryFn: () => getArticle({ slug }),
   });
 };
 
-type UseArticleOptions = {
-  slug: string;
+type UseArticleOptions = ArticleQueryParams & {
   queryConfig?: QueryConfig<typeof getArticleQueryOptions>;
 };
 

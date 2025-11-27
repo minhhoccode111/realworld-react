@@ -39,7 +39,7 @@ export const useCreateComment = ({
 
   return useMutation({
     onSuccess: (...args) => {
-      // invalidate infinite-comments query for current `slug`
+      // invalidate comments of article with that slug in cache get-comments-infinite
       queryClient.invalidateQueries({
         queryKey: getInfiniteCommentsQueryOptions({ slug }).queryKey,
       });

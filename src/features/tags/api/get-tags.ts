@@ -1,30 +1,25 @@
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
-import { LIMIT_DEFAULT, OFFSET_DEFAULT, queryKeys } from '@/config/constants';
+import { LIMIT_DEFAULT, queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { TagsResponse } from '@/types/api';
 
-const getTags = ({
-  limit = LIMIT_DEFAULT,
-  offset = OFFSET_DEFAULT,
-}: {
-  limit: number;
-  offset: number;
-}): Promise<TagsResponse> => {
-  return api.get(`/tags`, {
-    params: {
-      limit,
-      offset,
-    },
-  });
+type TagsQueryParams = {
+  limit?: number;
+};
+
+type TagsParams = TagsQueryParams & {
+  offset?: number;
+};
+
+const getTags = ({ limit, offset }: TagsParams): Promise<TagsResponse> => {
+  return api.get(`/tags`, { params: { limit, offset } });
 };
 
 export const getInfiniteTagsQueryOptions = ({
   limit = LIMIT_DEFAULT,
-}: {
-  limit?: number;
-}) => {
+}: TagsQueryParams) => {
   return infiniteQueryOptions({
     queryKey: [queryKeys.tags],
     queryFn: ({ pageParam = 1 }) => {
@@ -40,13 +35,16 @@ export const getInfiniteTagsQueryOptions = ({
   });
 };
 
-type UseTagsOptions = {
-  limit?: number;
+type UseTagsOptions = TagsQueryParams & {
   queryConfig?: QueryConfig<typeof getTags>;
 };
 
-export const useInfiniteTags = ({ limit = LIMIT_DEFAULT }: UseTagsOptions) => {
+export const useInfiniteTags = ({
+  limit,
+  queryConfig,
+}: UseTagsOptions = {}) => {
   return useInfiniteQuery({
     ...getInfiniteTagsQueryOptions({ limit }),
+    ...queryConfig,
   });
 };

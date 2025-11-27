@@ -5,23 +5,24 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { ProfilePreviewResponse } from '@/types/api';
 
+type ProfileQueryParams = {
+  username: string;
+};
+
 const getProfile = ({
   username,
-}: {
-  username: string;
-}): Promise<ProfilePreviewResponse> => {
+}: ProfileQueryParams): Promise<ProfilePreviewResponse> => {
   return api.get(`/profiles/${username}`);
 };
 
-export const getProfileQueryOptions = ({ username }: { username: string }) => {
+export const getProfileQueryOptions = ({ username }: ProfileQueryParams) => {
   return queryOptions({
     queryKey: [queryKeys.profile, username],
     queryFn: () => getProfile({ username }),
   });
 };
 
-type UseProfileOptions = {
-  username: string;
+type UseProfileOptions = ProfileQueryParams & {
   queryConfig?: QueryConfig<typeof getProfileQueryOptions>;
 };
 

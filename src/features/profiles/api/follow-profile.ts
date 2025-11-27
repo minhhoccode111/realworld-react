@@ -27,14 +27,15 @@ export const useFollowProfile = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
-      // update current profile in the `profile` query with the same `username`
+      // update profile with that username in cache get-profile
       queryClient.setQueryData(
         getProfileQueryOptions({ username: data.profile.username }).queryKey,
         data,
       );
 
-      // invalidate feed-articles query for current user
+      // invalidate articles in cache get-articles-feed
       queryClient.invalidateQueries({
+        queryKey: [queryKeys.articles],
         predicate: (query) => {
           if (!Array.isArray(query.queryKey)) return false;
           if (query.queryKey[0] !== queryKeys.articles) return false;

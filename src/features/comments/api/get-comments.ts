@@ -1,34 +1,31 @@
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
-import { LIMIT_DEFAULT, OFFSET_DEFAULT, queryKeys } from '@/config/constants';
+import { LIMIT_DEFAULT, queryKeys } from '@/config/constants';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { CommentDetailsResponse } from '@/types/api';
 
+type CommentsQueryParams = {
+  slug: string;
+  limit?: number;
+};
+
+type CommentsParams = CommentsQueryParams & {
+  offset?: number;
+};
+
 const getComments = ({
   slug,
-  limit = LIMIT_DEFAULT,
-  offset = OFFSET_DEFAULT,
-}: {
-  slug: string;
-  limit: number;
-  offset: number;
-}): Promise<CommentDetailsResponse> => {
-  return api.get(`/articles/${slug}/comments`, {
-    params: {
-      limit,
-      offset,
-    },
-  });
+  limit,
+  offset,
+}: CommentsParams): Promise<CommentDetailsResponse> => {
+  return api.get(`/articles/${slug}/comments`, { params: { limit, offset } });
 };
 
 export const getInfiniteCommentsQueryOptions = ({
   slug,
   limit = LIMIT_DEFAULT,
-}: {
-  slug: string;
-  limit?: number;
-}) => {
+}: CommentsQueryParams) => {
   return infiniteQueryOptions({
     queryKey: [queryKeys.comments, slug],
     queryFn: ({ pageParam = 1 }) => {
@@ -44,17 +41,17 @@ export const getInfiniteCommentsQueryOptions = ({
   });
 };
 
-type UseCommentsOptions = {
-  slug: string;
-  limit?: number;
+type UseCommentsOptions = CommentsQueryParams & {
   queryConfig?: QueryConfig<typeof getComments>;
 };
 
 export const useInfiniteComments = ({
   slug,
-  limit = LIMIT_DEFAULT,
+  limit,
+  queryConfig,
 }: UseCommentsOptions) => {
   return useInfiniteQuery({
     ...getInfiniteCommentsQueryOptions({ slug, limit }),
+    ...queryConfig,
   });
 };
