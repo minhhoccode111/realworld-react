@@ -78,22 +78,17 @@ export const useUpdateProfile = ({
 
   return useMutation({
     onSuccess: (data, ...args) => {
-      // update 'authenticated-user'
+      // update user data in cache authenticated-user
       queryClient.setQueryData([queryKeys.authenticatedUser], data);
 
-      // invalidate 'profile' query
+      // invalidate profile in cache get-profile
       queryClient.invalidateQueries({
         queryKey: getProfileQueryOptions({ username: data.user.username })
           .queryKey,
       });
 
-      // invalidate every 'articles' query
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          if (!Array.isArray(query.queryKey)) return false;
-          return query.queryKey[0] === queryKeys.articles;
-        },
-      });
+      // invalidate articles in cache get-articles
+      queryClient.invalidateQueries({ queryKey: [queryKeys.articles] });
 
       onSuccess?.(data, ...args);
     },

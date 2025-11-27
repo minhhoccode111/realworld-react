@@ -5,6 +5,7 @@ import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
+import { useUser } from '@/lib/auth';
 
 const unfavoriteArticle = ({
   slug,
@@ -18,21 +19,22 @@ type UseUnfavoriteArticleOptions = {
   mutationConfig?: MutationConfig<typeof unfavoriteArticle>;
 };
 
-export const useUnfavoriteArticleOptions = ({
+export const useUnfavoriteArticle = ({
   mutationConfig,
-}: UseUnfavoriteArticleOptions) => {
+}: UseUnfavoriteArticleOptions = {}) => {
+  const user = useUser();
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
-      // update current article in the `article` query cache with the same `slug`
+      // update article with that slug in cache get-article
       queryClient.setQueryData(
         getArticleQueryOptions({ slug: data.article.slug }).queryKey,
         data,
       );
 
-      // update every article in the `articles` query cache with the same `slug`
+      // update articles with that slug in cache get-articles (feed/global/by-tag/author/favorited)
       queryClient.setQueriesData(
         {
           queryKey: [queryKeys.articles],
@@ -53,7 +55,7 @@ export const useUnfavoriteArticleOptions = ({
         },
       );
 
-      // invalidate all favorited-articles queries for profiles
+      // invalidate articles in cache get-articles-favorited of current user profile
       queryClient.invalidateQueries({
         queryKey: [queryKeys.articles],
         predicate: (query) => {
@@ -63,8 +65,7 @@ export const useUnfavoriteArticleOptions = ({
           const params = query.queryKey[1];
           if (typeof params !== 'object' || params === null) return false;
 
-          const value = params.favorited;
-          return typeof value === 'string' && value.trim() !== '';
+          return params.favorited === user.data?.user.username;
         },
       });
 

@@ -24,7 +24,6 @@ export const UpdateArticleForm = ({ slug }: UpdateArticleFormProps) => {
   const navigate = useNavigate();
 
   const updateArticleMutation = useUpdateArticle({
-    slug,
     mutationConfig: {
       onSuccess: (data) => {
         addNotification({

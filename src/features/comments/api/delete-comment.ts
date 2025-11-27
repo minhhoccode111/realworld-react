@@ -20,7 +20,7 @@ type UseDeleteCommentOptions = {
   mutationConfig?: MutationConfig<typeof deleteComment>;
 };
 
-export const useDeleteCommentOptions = ({
+export const useDeleteComment = ({
   slug,
   mutationConfig,
 }: UseDeleteCommentOptions) => {

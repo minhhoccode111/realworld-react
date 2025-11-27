@@ -56,13 +56,13 @@ export const useCreateArticle = ({
 
   return useMutation({
     onSuccess: (data, ...args) => {
-      // update current article in the `article` query cache with the same `slug`
+      // update article with that slug in cache get-article
       queryClient.setQueryData(
         getArticleQueryOptions({ slug: data.article.slug }).queryKey,
         data,
       );
 
-      // invalidate all 'articles' query
+      // invalidate articles in cache get-articles
       queryClient.invalidateQueries({ queryKey: [queryKeys.articles] });
 
       onSuccess?.(data, ...args);

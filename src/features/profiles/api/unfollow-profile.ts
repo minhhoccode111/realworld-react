@@ -15,18 +15,19 @@ const unfollowProfile = ({
   return api.delete(`/profiles/${username}/follow`);
 };
 
-type UseCreateUnfollowOptions = {
+type UseUnfollowProfileOptions = {
   mutationConfig?: MutationConfig<typeof unfollowProfile>;
 };
 
-export const useCreateUnfollowOptions = ({
+export const useUnfollowProfile = ({
   mutationConfig,
-}: UseCreateUnfollowOptions) => {
+}: UseUnfollowProfileOptions = {}) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
+      // update current profile in the `profile` query with the same `username`
       queryClient.setQueryData(
         getProfileQueryOptions({ username: data.profile.username }).queryKey,
         data,

@@ -3,16 +3,16 @@ import { useLocation, useNavigate } from 'react-router';
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
-import { useCreateFollowOptions } from '@/features/profiles/api/follow-profile';
+import { useFollowProfile } from '@/features/profiles/api/follow-profile';
 import { useProfile } from '@/features/profiles/api/get-profile';
-import { useCreateUnfollowOptions } from '@/features/profiles/api/unfollow-profile';
+import { useUnfollowProfile } from '@/features/profiles/api/unfollow-profile';
 import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
-import { useFavoriteArticleOptions } from '../api/favorite-article';
+import { useFavoriteArticle } from '../api/favorite-article';
 import { useArticle } from '../api/get-article';
-import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
+import { useUnfavoriteArticle } from '../api/unfavorite-article';
 
 import { DeleteArticle } from './delete-article';
 
@@ -44,29 +44,29 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   });
   const authorProfile = authorProfileQuery.data?.profile || article.author;
 
-  const createFavoriteMutation = useFavoriteArticleOptions({
+  const createFavoriteMutation = useFavoriteArticle({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Article Favorited`,
+          title: 'Article Favorited',
         });
       },
     },
   });
 
-  const deleteFavoriteMutation = useUnfavoriteArticleOptions({
+  const deleteFavoriteMutation = useUnfavoriteArticle({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Article Unfavorited`,
+          title: 'Article Unfavorited',
         });
       },
     },
   });
 
-  const followProfileMutation = useCreateFollowOptions({
+  const followProfileMutation = useFollowProfile({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
@@ -77,7 +77,7 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
     },
   });
 
-  const unfollowProfileMutation = useCreateUnfollowOptions({
+  const unfollowProfileMutation = useUnfollowProfile({
     mutationConfig: {
       onSuccess: () => {
         addNotification({

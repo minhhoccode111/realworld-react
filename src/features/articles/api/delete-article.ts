@@ -15,7 +15,7 @@ type UseDeleteArticleOptions = {
   mutationConfig?: MutationConfig<typeof deleteArticle>;
 };
 
-export const useDeleteArticleOptions = ({
+export const useDeleteArticle = ({
   slug,
   mutationConfig,
 }: UseDeleteArticleOptions) => {
@@ -24,12 +24,12 @@ export const useDeleteArticleOptions = ({
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (...args) => {
-      // cancel current article in the `article` query cache with the same `slug`
+      // cancel any query of article with that slug in cache get-article
       queryClient.cancelQueries({
         queryKey: getArticleQueryOptions({ slug }).queryKey,
       });
 
-      // invalidate all 'articles' query
+      // invalidate articles in cache get-articles
       queryClient.invalidateQueries({ queryKey: [queryKeys.articles] });
 
       onSuccess?.(...args);

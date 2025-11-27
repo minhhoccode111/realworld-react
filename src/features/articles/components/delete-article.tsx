@@ -5,7 +5,7 @@ import { ConfirmationDialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 
-import { useDeleteArticleOptions } from '../api/delete-article';
+import { useDeleteArticle } from '../api/delete-article';
 
 type DeleteArticleProps = {
   slug: string;
@@ -14,7 +14,7 @@ type DeleteArticleProps = {
 export const DeleteArticle = ({ slug }: DeleteArticleProps) => {
   const { addNotification } = useNotifications();
   const navigate = useNavigate();
-  const deleteArticleMutation = useDeleteArticleOptions({
+  const deleteArticleMutation = useDeleteArticle({
     slug,
     mutationConfig: {
       onSuccess: () => {

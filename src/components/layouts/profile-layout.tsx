@@ -2,9 +2,9 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { Link, NavLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
-import { useCreateFollowOptions } from '@/features/profiles/api/follow-profile';
+import { useFollowProfile } from '@/features/profiles/api/follow-profile';
 import { useProfile } from '@/features/profiles/api/get-profile';
-import { useCreateUnfollowOptions } from '@/features/profiles/api/unfollow-profile';
+import { useUnfollowProfile } from '@/features/profiles/api/unfollow-profile';
 import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
 
@@ -24,7 +24,7 @@ export const ProfileLayout = ({
   const profileQuery = useProfile({ username });
   const profile = profileQuery.data?.profile;
 
-  const followProfileMutation = useCreateFollowOptions({
+  const followProfileMutation = useFollowProfile({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
@@ -35,7 +35,7 @@ export const ProfileLayout = ({
     },
   });
 
-  const unfollowProfileMutation = useCreateUnfollowOptions({
+  const unfollowProfileMutation = useUnfollowProfile({
     mutationConfig: {
       onSuccess: () => {
         addNotification({

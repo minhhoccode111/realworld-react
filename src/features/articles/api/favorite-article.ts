@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/config/constants';
 import { getArticleQueryOptions } from '@/features/articles/api/get-article';
 import { api } from '@/lib/api-client';
+import { useUser } from '@/lib/auth';
 import { MutationConfig } from '@/lib/react-query';
 import { ArticleDetailResponse, ArticlePreviewsResponse } from '@/types/api';
 
@@ -18,23 +19,22 @@ type UseFavoriteArticleOptions = {
   mutationConfig?: MutationConfig<typeof favoriteArticle>;
 };
 
-export const useFavoriteArticleOptions = ({
+export const useFavoriteArticle = ({
   mutationConfig,
-}: UseFavoriteArticleOptions) => {
+}: UseFavoriteArticleOptions = {}) => {
+  const user = useUser();
   const queryClient = useQueryClient();
-  // TODO: try to find a way to only invalidate current user's profile favorited articles
-  // const user = useUser()
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
   return useMutation({
     onSuccess: (data, ...args) => {
-      // update current article in the `article` query cache with the same `slug`
+      // update article with that slug in cache get-article
       queryClient.setQueryData(
         getArticleQueryOptions({ slug: data.article.slug }).queryKey,
         data,
       );
 
-      // update every article in the `articles` query cache with the same `slug`
+      // update articles with that slug in cache get-articles
       queryClient.setQueriesData(
         {
           queryKey: [queryKeys.articles],
@@ -55,7 +55,7 @@ export const useFavoriteArticleOptions = ({
         },
       );
 
-      // invalidate all favorited-articles queries for profiles
+      // invalidate articles in cache get-articles-favorited of current user profile
       queryClient.invalidateQueries({
         queryKey: [queryKeys.articles],
         predicate: (query) => {
@@ -65,8 +65,7 @@ export const useFavoriteArticleOptions = ({
           const params = query.queryKey[1];
           if (typeof params !== 'object' || params === null) return false;
 
-          const value = params.favorited;
-          return typeof value === 'string' && value.trim() !== '';
+          return params.favorited === user.data?.user.username;
         },
       });
 

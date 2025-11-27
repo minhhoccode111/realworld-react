@@ -7,8 +7,8 @@ import { useUser } from '@/lib/auth';
 import { ArticlePreview as ArticlePreviewType } from '@/types/api';
 import { formatDate } from '@/utils/format';
 
-import { useFavoriteArticleOptions } from '../api/favorite-article';
-import { useUnfavoriteArticleOptions } from '../api/unfavorite-article';
+import { useFavoriteArticle } from '../api/favorite-article';
+import { useUnfavoriteArticle } from '../api/unfavorite-article';
 
 export const ArticlePreview = ({
   article,
@@ -20,23 +20,23 @@ export const ArticlePreview = ({
   const navigate = useNavigate();
   const user = useUser();
 
-  const createFavoriteMutation = useFavoriteArticleOptions({
+  const createFavoriteMutation = useFavoriteArticle({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Article Favorited`,
+          title: 'Article Favorited',
         });
       },
     },
   });
 
-  const deleteFavoriteMutation = useUnfavoriteArticleOptions({
+  const deleteFavoriteMutation = useUnfavoriteArticle({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Article Unfavorited`,
+          title: 'Article Unfavorited',
         });
       },
     },

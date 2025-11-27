@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog/confirmation-dialog/confirmation-dialog';
 import { useNotifications } from '@/components/ui/notifications';
 
-import { useDeleteCommentOptions } from '../api/delete-comment';
+import { useDeleteComment } from '../api/delete-comment';
 
 type DeleteCommentPropts = {
   slug: string;
@@ -11,7 +11,7 @@ type DeleteCommentPropts = {
 
 export const DeleteComment = ({ slug, commentId }: DeleteCommentPropts) => {
   const { addNotification } = useNotifications();
-  const deleteCommentMutation = useDeleteCommentOptions({
+  const deleteCommentMutation = useDeleteComment({
     slug,
     mutationConfig: {
       onSuccess: () => {

@@ -15,13 +15,13 @@ const followProfile = ({
   return api.post(`/profiles/${username}/follow`);
 };
 
-type UseCreateFollowOptions = {
+type UseFollowProfileOptions = {
   mutationConfig?: MutationConfig<typeof followProfile>;
 };
 
-export const useCreateFollowOptions = ({
+export const useFollowProfile = ({
   mutationConfig,
-}: UseCreateFollowOptions) => {
+}: UseFollowProfileOptions = {}) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
