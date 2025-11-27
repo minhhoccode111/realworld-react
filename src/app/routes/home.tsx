@@ -1,3 +1,6 @@
+import { QueryClient } from '@tanstack/react-query';
+import { LoaderFunctionArgs } from 'react-router';
+
 import { AppLayout } from '@/components/layouts/app-layout';
 import { ArticlesLayout } from '@/components/layouts/articles-layout';
 import { HomeLayout } from '@/components/layouts/home-layout';
@@ -5,8 +8,6 @@ import { LIMIT_DEFAULT } from '@/config/constants';
 import { getArticlesQueryOptions } from '@/features/articles/api/get-articles';
 import { getInfiniteTagsQueryOptions } from '@/features/tags/api/get-tags';
 import { TagsList } from '@/features/tags/components/tags-list';
-import { QueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs } from 'react-router';
 
 export const clientLoader =
   (queryClient: QueryClient) =>

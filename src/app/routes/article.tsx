@@ -1,10 +1,11 @@
-import { useParams } from 'react-router';
 import { QueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs } from 'react-router';
+import { useParams, LoaderFunctionArgs } from 'react-router';
 
 import { AppLayout } from '@/components/layouts/app-layout';
-import { getArticleQueryOptions } from '@/features/articles/api/get-article';
-import { useArticle } from '@/features/articles/api/get-article';
+import {
+  getArticleQueryOptions,
+  useArticle,
+} from '@/features/articles/api/get-article';
 import { ArticleMeta } from '@/features/articles/components/article-meta';
 import { ArticleView } from '@/features/articles/components/article-view';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
