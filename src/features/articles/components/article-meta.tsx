@@ -189,10 +189,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
           </>
         )}
       </button>
-      &nbsp;&nbsp;
       <Authorization
         policyCheck={POLICIES['article:edit'](user.data?.user, article)}
       >
+        &nbsp;&nbsp;
         <button
           className="btn btn-sm btn-outline-secondary"
           onClick={() => navigate(paths.editor.update.getHref(slug))}
@@ -200,10 +200,10 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
           <i className="ion-edit"></i> Edit Article
         </button>
       </Authorization>
-      &nbsp;&nbsp;
       <Authorization
         policyCheck={POLICIES['article:delete'](user.data?.user, article)}
       >
+        &nbsp;&nbsp;
         <DeleteArticle slug={slug} />
       </Authorization>
     </div>

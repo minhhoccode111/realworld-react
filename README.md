@@ -99,6 +99,7 @@ Here’s a breakdown of cache management strategies for different actions:
 
 - [x] Add `clientLoader`s to make requests before component renders
 - [x] Add `prefetch` on hover actions
+- [x] Add admin/user roles
 - [ ] Add ShadcnUI and TailwindCSS
 - [ ] Add update article `tagList`
 - [ ] Add admin/user roles to manage users' content

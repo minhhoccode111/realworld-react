@@ -141,6 +141,7 @@ export type UserAuth = {
   image: string;
   token: string;
   username: string;
+  role: 'admin' | 'user';
 };
 
 export type PaginationMeta = {
