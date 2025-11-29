@@ -117,16 +117,21 @@ export const ProfileLayout = ({
                 {profile.username}{' '}
                 <span className="counter">({profile.followersCount})</span>
               </button>
-              <Authorization
-                policyCheck={POLICIES['profile:edit'](user.data?.user, profile)}
-              >
-                <Link to={paths.settings.getHref()}>
-                  <button className="btn btn-sm btn-outline-secondary action-btn">
-                    <i className="ion-gear-a"></i>
-                    &nbsp; Edit Profile Settings
-                  </button>
-                </Link>
-              </Authorization>
+              {user.data && (
+                <Authorization
+                  policyCheck={POLICIES['profile:edit'](
+                    user.data.user,
+                    profile,
+                  )}
+                >
+                  <Link to={paths.settings.getHref()}>
+                    <button className="btn btn-sm btn-outline-secondary action-btn">
+                      <i className="ion-gear-a"></i>
+                      &nbsp; Edit Profile Settings
+                    </button>
+                  </Link>
+                </Authorization>
+              )}
             </div>
           </div>
         </div>

@@ -58,11 +58,13 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
             <span className="date-posted">
               {formatDate(Date.parse(c.createdAt))}
             </span>
-            <Authorization
-              policyCheck={POLICIES['comment:delete'](user.data?.user, c)}
-            >
-              <DeleteComment slug={slug} commentId={c.id} />
-            </Authorization>
+            {user.data && (
+              <Authorization
+                policyCheck={POLICIES['comment:delete'](user.data.user, c)}
+              >
+                <DeleteComment slug={slug} commentId={c.id} />
+              </Authorization>
+            )}
           </div>
         </div>
       ))}

@@ -189,23 +189,27 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
           </>
         )}
       </button>
-      <Authorization
-        policyCheck={POLICIES['article:edit'](user.data?.user, article)}
-      >
-        &nbsp;&nbsp;
-        <button
-          className="btn btn-sm btn-outline-secondary"
-          onClick={() => navigate(paths.editor.update.getHref(slug))}
+      {user.data && (
+        <Authorization
+          policyCheck={POLICIES['article:edit'](user.data.user, article)}
         >
-          <i className="ion-edit"></i> Edit Article
-        </button>
-      </Authorization>
-      <Authorization
-        policyCheck={POLICIES['article:delete'](user.data?.user, article)}
-      >
-        &nbsp;&nbsp;
-        <DeleteArticle slug={slug} />
-      </Authorization>
+          &nbsp;&nbsp;
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            onClick={() => navigate(paths.editor.update.getHref(slug))}
+          >
+            <i className="ion-edit"></i> Edit Article
+          </button>
+        </Authorization>
+      )}
+      {user.data && (
+        <Authorization
+          policyCheck={POLICIES['article:delete'](user.data.user, article)}
+        >
+          &nbsp;&nbsp;
+          <DeleteArticle slug={slug} />
+        </Authorization>
+      )}
     </div>
   );
 };
