@@ -1,9 +1,11 @@
 import { useSearchParams } from 'react-router';
 
+import { Button } from '@/components/ui/button/button';
 import { Form } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { Link } from '@/components/ui/link';
 import { useNotifications } from '@/components/ui/notifications';
+import { Spinner } from '@/components/ui/spinner/spinner';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 
@@ -24,7 +26,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   return (
     <>
-      <p className="text-xs-center">
+      <p className="text-center text-base md:text-lg">
         <Link to={paths.register.getHref(redirectTo)}>Need an account?</Link>
       </p>
 
@@ -36,9 +38,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       >
         {({ register, formState }) => (
           <>
-            <fieldset className="form-group">
+            <fieldset className="mb-4">
               <input
-                className="form-control form-control-lg"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-base placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
                 type="text"
                 placeholder="Email"
                 autoComplete="username"
@@ -46,9 +48,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               />
             </fieldset>
 
-            <fieldset className="form-group">
+            <fieldset className="mb-4">
               <input
-                className="form-control form-control-lg"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-base placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
                 type="password"
                 placeholder="Password"
                 autoComplete="current-password"
@@ -56,14 +58,20 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               />
             </fieldset>
 
-            <FormErrors className="error-messages" errors={formState.errors} />
+            <FormErrors
+              className="text-center text-sm text-red-500"
+              errors={formState.errors}
+            />
 
-            <button
+            <Button
               type="submit"
-              className="btn btn-lg btn-primary pull-xs-right"
+              className="ml-auto flex items-center gap-4"
+              size="lg"
+              disabled={login.isPending}
+              isLoading={login.isPending}
             >
-              {login.isPending ? <span>Loading...</span> : <span>Sign in</span>}
-            </button>
+              Sign in
+            </Button>
           </>
         )}
       </Form>

@@ -21,8 +21,8 @@ const logout = (): Promise<void> => {
 };
 
 export const loginInputSchema = z.object({
-  email: z.string().min(1, 'Required'),
-  password: z.string().min(1, 'Required'),
+  email: z.string().min(1, 'Email is required'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
@@ -33,7 +33,7 @@ const loginWithEmailAndPassword = (
 };
 
 export const registerInputSchema = z.object({
-  email: z.string().min(1, 'Required').email('Invalid email'),
+  email: z.string().min(1, 'Email is required').email('Invalid email'),
   username: z
     .string()
     .min(2, 'Username must be at least 2 characters')

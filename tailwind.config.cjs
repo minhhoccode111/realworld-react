@@ -16,6 +16,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        titillium: ['Titillium Web', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -50,6 +51,10 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        realworld: {
+          DEFAULT: 'hsl(var(--realworld))',
+          foreground: 'hsl(var(--realworld-foreground))',
         },
         chart: {
           1: 'hsl(var(--chart-1))',

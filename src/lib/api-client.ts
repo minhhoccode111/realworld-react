@@ -3,7 +3,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
-import { sleepRandom } from '@/utils/sleep';
+import { sleep, sleepRandom } from '@/utils/sleep';
 
 async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = localStorage.getItem('jwt_token') ?? '';
@@ -16,7 +16,8 @@ async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   }
 
   if (import.meta.env.DEV) {
-    await sleepRandom(1250); // pretend network latency in dev env
+    await sleep(2000); // pretend network latency in dev env
+    await sleepRandom(0); // pretend network latency in dev env
   }
 
   return config;

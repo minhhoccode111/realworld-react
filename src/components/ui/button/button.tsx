@@ -11,6 +11,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        realworld:
+          'bg-realworld text-realworld-foreground shadow hover:bg-realworld/90',
         default:
           'bg-primary text-primary-foreground shadow hover:bg-primary/90',
         destructive:
@@ -23,6 +25,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
+        realworld: 'h-14 px-6 py-3',
         default: 'h-9 px-4 py-2',
         sm: 'h-8 rounded-md px-3 text-xs',
         lg: 'h-10 rounded-md px-8',
@@ -30,7 +33,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'realworld',
       size: 'default',
     },
   },

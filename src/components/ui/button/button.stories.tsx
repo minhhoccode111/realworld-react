@@ -15,3 +15,11 @@ export const Default: Story = {
     variant: 'default',
   },
 };
+
+export const Realworld: Story = {
+  args: {
+    children: 'Button',
+    variant: 'realworld',
+    size: 'realworld',
+  },
+};
