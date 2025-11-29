@@ -21,6 +21,7 @@
 
     --realworld: 120 39.32% 54.12%;
     --realworld-foreground: 210 40% 98%;
+    --realworld-hover: 120 39.56% 44.12%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -66,6 +67,7 @@
 
     --realworld: 120 39.32% 54.12%;
     --realworld-foreground: 210 40% 98%;
+    --realworld-hover: 120 39.56% 44.12%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;

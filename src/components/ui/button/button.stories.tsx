@@ -12,7 +12,6 @@ type Story = StoryObj<typeof Button>;
 export const Default: Story = {
   args: {
     children: 'Button',
-    variant: 'default',
   },
 };
 
@@ -20,6 +19,6 @@ export const Realworld: Story = {
   args: {
     children: 'Button',
     variant: 'realworld',
-    size: 'realworld',
+    size: 'xl',
   },
 };

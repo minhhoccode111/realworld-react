@@ -16,8 +16,8 @@ async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   }
 
   if (import.meta.env.DEV) {
-    await sleep(2000); // pretend network latency in dev env
-    await sleepRandom(0); // pretend network latency in dev env
+    await sleep(0); // pretend network latency in dev env
+    await sleepRandom(1000); // pretend network latency in dev env
   }
 
   return config;
