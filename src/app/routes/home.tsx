@@ -37,7 +37,7 @@ const HomeRoute = () => {
   return (
     <AppLayout title="Home">
       <HomeLayout>
-        <div className="row">
+        <div className="">
           <ArticlesLayout />
           <TagsList />
         </div>
