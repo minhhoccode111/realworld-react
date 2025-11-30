@@ -26,15 +26,11 @@ export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   }, [user.data, navigate, redirectTo]);
 
   return (
-    <div className="auth-page">
-      <div className="page container">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">{title}</h1>
+    <div className="my-8 container">
+      <div className="mx-auto max-w-screen-sm space-y-4">
+        <h1 className="text-center text-4xl">{title}</h1>
 
-            {children}
-          </div>
-        </div>
+        {children}
       </div>
     </div>
   );

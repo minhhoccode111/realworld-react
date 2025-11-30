@@ -97,7 +97,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
         <main className="flex-1">{children}</main>
 
         <footer className="bg-gray-100 p-4">
-          <div className="container">
+          <div className="container flex flex-row gap-4 items-center">
             <Link
               to={paths.home.getHref()}
               className="text-realworld hover:text-realworld hover:underline font-titillium"

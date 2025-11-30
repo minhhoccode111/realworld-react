@@ -1,13 +1,12 @@
 import { useSearchParams } from 'react-router';
-
 import { Button } from '@/components/ui/button/button';
-import { Form } from '@/components/ui/form';
+import { Form, Input } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { Link } from '@/components/ui/link';
 import { useNotifications } from '@/components/ui/notifications';
-import { Spinner } from '@/components/ui/spinner/spinner';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
+import { FieldSet } from '@/components/ui/field';
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -26,8 +25,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   return (
     <>
-      <p className="text-center text-base md:text-lg">
-        <Link to={paths.register.getHref(redirectTo)}>Need an account?</Link>
+      <p className="text-center text-base md:text-lg text-gray-600">
+        <Link
+          className="text-realworld hover:text-realworld-hover hover:underline transition-colors"
+          to={paths.register.getHref(redirectTo)}
+        >
+          Need an account?
+        </Link>
       </p>
 
       <Form
@@ -35,43 +39,46 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           login.mutate(values);
         }}
         schema={loginInputSchema}
+        className=""
       >
         {({ register, formState }) => (
           <>
-            <fieldset className="mb-4">
-              <input
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-base placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+            <FieldSet>
+              <Input
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base placeholder-gray-400 transition-all focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="text"
                 placeholder="Email"
                 autoComplete="username"
-                {...register('email')}
+                registration={register('email')}
               />
-            </fieldset>
+            </FieldSet>
 
-            <fieldset className="mb-4">
-              <input
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-base placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+            <FieldSet>
+              <Input
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base placeholder-gray-400 transition-all focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="password"
                 placeholder="Password"
                 autoComplete="current-password"
-                {...register('password')}
+                registration={register('password')}
               />
-            </fieldset>
+            </FieldSet>
+
+            <div className="flex justify-end pt-2">
+              <Button
+                type="submit"
+                size="xl"
+                variant="realworld"
+                disabled={login.isPending}
+                isLoading={login.isPending}
+              >
+                Sign in
+              </Button>
+            </div>
 
             <FormErrors
-              className="text-center text-sm text-red-500"
+              className="text-sm text-red-500"
               errors={formState.errors}
             />
-
-            <Button
-              type="submit"
-              className="ml-auto flex items-center gap-4"
-              size="lg"
-              disabled={login.isPending}
-              isLoading={login.isPending}
-            >
-              Sign in
-            </Button>
           </>
         )}
       </Form>
