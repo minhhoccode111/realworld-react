@@ -1,12 +1,13 @@
 import { useSearchParams } from 'react-router';
+
 import { Button } from '@/components/ui/button/button';
+import { FieldSet } from '@/components/ui/field';
 import { Form, Input } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { Link } from '@/components/ui/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
-import { FieldSet } from '@/components/ui/field';
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -25,9 +26,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   return (
     <>
-      <p className="text-center text-base md:text-lg text-gray-600">
+      <p className="text-center text-base text-gray-600 md:text-lg">
         <Link
-          className="text-realworld hover:text-realworld-hover hover:underline transition-colors"
+          className="text-realworld transition-colors hover:text-realworld-hover hover:underline"
           to={paths.register.getHref(redirectTo)}
         >
           Need an account?
@@ -45,7 +46,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           <>
             <FieldSet>
               <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base placeholder-gray-400 transition-all focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="text"
                 placeholder="Email"
                 autoComplete="username"
@@ -55,7 +56,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
             <FieldSet>
               <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base placeholder-gray-400 transition-all focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="password"
                 placeholder="Password"
                 autoComplete="current-password"

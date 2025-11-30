@@ -26,7 +26,7 @@ export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   }, [user.data, navigate, redirectTo]);
 
   return (
-    <div className="my-8 container">
+    <div className="container my-8">
       <div className="mx-auto max-w-screen-sm space-y-4">
         <h1 className="text-center text-4xl">{title}</h1>
 

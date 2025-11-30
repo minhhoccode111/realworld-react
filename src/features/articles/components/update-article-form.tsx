@@ -42,12 +42,16 @@ export const UpdateArticleForm = ({ slug }: UpdateArticleFormProps) => {
     return <div>Loading...</div>;
   }
 
+  if (!user.data || !articleQuery.data) {
+    return <Navigate to={paths.home.getHref()} />;
+  }
+
   return (
     <Authorization
-      forbiddenFallback={<Navigate to={paths.editor.create.getHref()} />}
-      policyCheck={POLICIES['article:delete'](
-        user.data?.user,
-        articleQuery.data?.article,
+      forbiddenFallback={<Navigate to={paths.home.getHref()} />}
+      policyCheck={POLICIES['article:edit'](
+        user.data.user,
+        articleQuery.data.article,
       )}
     >
       <Form
