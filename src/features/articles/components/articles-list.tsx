@@ -40,17 +40,17 @@ export const ArticlesList = ({
   });
 
   if (articlesQuery.isLoading) {
-    return <div className="">Loading Articles...</div>;
+    return <div className="py-4">Loading Articles...</div>;
   }
 
   const articles = articlesQuery.data?.articles;
 
   if (!articlesQuery.data || !articles) {
-    return <div className="">Error occurs please try again.</div>;
+    return <div className="py-4">Error occurs please try again.</div>;
   }
 
   if (!articles.length) {
-    return <div className="">No Articles Found</div>;
+    return <div className="py-4">No Articles Found</div>;
   }
 
   return (

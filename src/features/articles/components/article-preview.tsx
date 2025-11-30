@@ -139,7 +139,7 @@ export const ArticlePreview = ({
           )}
         >
           <span className="flex flex-row items-center justify-center gap-1">
-            <Heart className="h-4 w-4 fill-current" />
+            <Heart className="size-4 fill-current" />
 
             {createFavoriteMutation.isPending ||
             deleteFavoriteMutation.isPending ? (
@@ -162,7 +162,7 @@ export const ArticlePreview = ({
           {article.description}
         </p>
         <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-400 transition-colors group-hover:text-realworld">
+          <span className="whitespace-nowrap text-xs text-gray-400 transition-colors group-hover:text-realworld">
             Read more...
           </span>
           {article.tagList && !!article.tagList.length && (
@@ -171,7 +171,7 @@ export const ArticlePreview = ({
                 <Badge
                   key={t}
                   variant="outline"
-                  className="border-gray-300 text-xs text-gray-500 hover:bg-gray-50"
+                  className="break-all rounded-xl border-gray-300 text-xs text-gray-500 hover:bg-gray-50"
                 >
                   {t}
                 </Badge>

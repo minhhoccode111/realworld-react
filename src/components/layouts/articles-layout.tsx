@@ -71,7 +71,8 @@ export const ArticlesLayout = () => {
           )}
         </ul>
       </div>
-      <div className="mt-6">
+
+      <div className="">
         <ArticlesList isFeed={isFeed} />
       </div>
     </div>

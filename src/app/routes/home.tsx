@@ -37,9 +37,20 @@ const HomeRoute = () => {
   return (
     <AppLayout title="Home">
       <HomeLayout>
-        <div className="">
-          <ArticlesLayout />
-          <TagsList />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-9">
+            <ArticlesLayout />
+          </div>
+
+          <aside className="lg:col-span-3">
+            <div className="sticky top-4 flex max-h-[calc(100vh-2rem)] flex-col bg-[#F3F3F3] p-2">
+              <h2 className="mb-2 text-sm font-semibold text-gray-700">
+                Popular Tags
+              </h2>
+
+              <TagsList />
+            </div>
+          </aside>
         </div>
       </HomeLayout>
     </AppLayout>
