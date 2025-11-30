@@ -7,7 +7,7 @@ export const HomeLayout = ({ children }: { children: React.ReactNode }) => {
             conduit
           </h1>
           <p className="text-lg font-light text-realworld-foreground/90 sm:text-xl lg:text-2xl">
-            A place to share your knowledge.
+            A place to share your software engineering knowledge.
           </p>
         </div>
       </div>

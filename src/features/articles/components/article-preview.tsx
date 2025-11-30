@@ -1,13 +1,23 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { Heart } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar/avatar';
+import { Badge } from '@/components/ui/badge/badge';
+import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
+import { Spinner } from '@/components/ui/spinner/spinner';
 import { paths } from '@/config/paths';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
 import { getProfileQueryOptions } from '@/features/profiles/api/get-profile';
 import { useUser } from '@/lib/auth';
 import { ArticlePreview as ArticlePreviewType } from '@/types/api';
+import { cn } from '@/utils/cn';
 import { formatDate } from '@/utils/format';
 
 import { useFavoriteArticle } from '../api/favorite-article';
@@ -48,48 +58,65 @@ export const ArticlePreview = ({
     },
   });
 
+  const getUserInitials = (username: string) => {
+    return username.slice(0, 2).toUpperCase();
+  };
+
+  const prefetchAuthor = () => {
+    queryClient.prefetchQuery(
+      getProfileQueryOptions({ username: article.author.username }),
+    );
+    queryClient.prefetchQuery(
+      getArticlesQueryOptions({
+        author: article.author.username,
+      }),
+    );
+  };
+
+  const prefetchArticle = () => {
+    queryClient.prefetchQuery(
+      getProfileQueryOptions({ username: article.author.username }),
+    );
+    queryClient.prefetchQuery(getArticleQueryOptions({ slug: article.slug }));
+    queryClient.prefetchInfiniteQuery(
+      getInfiniteCommentsQueryOptions({ slug: article.slug, limit: 5 }),
+    );
+  };
+
   return (
-    <div key={article.slug} className="article-preview">
-      <div className="article-meta">
-        <Link
-          onMouseEnter={() => {
-            // prefetch get-profile and get-articles-author of current article's author
-            queryClient.prefetchQuery(
-              getProfileQueryOptions({ username: article.author.username }),
-            );
-            queryClient.prefetchQuery(
-              getArticlesQueryOptions({
-                author: article.author.username,
-              }),
-            );
-          }}
-          to={paths.profile.root.getHref(article.author.username)}
-        >
-          <img src={article.author.image} />
-        </Link>
-        <div className="info">
+    <div className="border-t border-gray-200 py-6 first:border-t-0">
+      <div className="mb-4 flex items-start justify-between">
+        <div className="flex items-center gap-3">
           <Link
-            onMouseEnter={() => {
-              // prefetch get-profile and get-articles-author of current article's author
-              queryClient.prefetchQuery(
-                getProfileQueryOptions({ username: article.author.username }),
-              );
-              queryClient.prefetchQuery(
-                getArticlesQueryOptions({
-                  author: article.author.username,
-                }),
-              );
-            }}
+            onMouseEnter={prefetchAuthor}
             to={paths.profile.root.getHref(article.author.username)}
-            className="author"
           >
-            {article.author.username}
+            <Avatar className="size-8">
+              <AvatarImage
+                src={article.author.image}
+                alt={article.author.username}
+              />
+              <AvatarFallback>
+                {getUserInitials(article.author.username)}
+              </AvatarFallback>
+            </Avatar>
           </Link>
-          <span className="date">
-            {formatDate(Date.parse(article.createdAt))}
-          </span>
+          <div className="flex flex-col">
+            <Link
+              onMouseEnter={prefetchAuthor}
+              to={paths.profile.root.getHref(article.author.username)}
+              className="text-sm font-medium text-realworld transition-colors hover:text-realworld-hover"
+            >
+              {article.author.username}
+            </Link>
+            <span className="text-xs text-gray-400">
+              {formatDate(Date.parse(article.createdAt))}
+            </span>
+          </div>
         </div>
-        <button
+        <Button
+          size="sm"
+          variant={'outline'}
           disabled={
             createFavoriteMutation.isPending || deleteFavoriteMutation.isPending
           }
@@ -104,51 +131,54 @@ export const ArticlePreview = ({
               createFavoriteMutation.mutate({ slug: article.slug });
             }
           }}
-          className={
-            'btn btn-sm pull-xs-right ' +
-            (article.favorited ? 'btn-primary' : 'btn-outline-primary')
-          }
-        >
-          <i className="ion-heart"></i>
-
-          {createFavoriteMutation.isPending ||
-          deleteFavoriteMutation.isPending ? (
-            ' ...'
-          ) : (
-            <>
-              <span className="counter"> {article?.favoritesCount || 0}</span>
-            </>
+          className={cn(
+            'border-realworld text-sm rounded-sm p-0',
+            article.favorited
+              ? 'bg-realworld text-realworld-foreground hover:text-realworld hover:bg-transparent'
+              : 'bg-transparent text-realworld hover:bg-realworld hover:text-realworld-foreground',
           )}
-        </button>
+        >
+          <span className="flex flex-row items-center justify-center gap-1">
+            <Heart className="h-4 w-4 fill-current" />
+
+            {createFavoriteMutation.isPending ||
+            deleteFavoriteMutation.isPending ? (
+              <Spinner size="sm" />
+            ) : (
+              article?.favoritesCount || 0
+            )}
+          </span>
+        </Button>
       </div>
       <Link
-        onMouseEnter={() => {
-          // prefetch get-profile, get-article, and get-comments-article of current article
-          queryClient.prefetchQuery(
-            getProfileQueryOptions({ username: article.author.username }),
-          );
-          queryClient.prefetchQuery(
-            getArticleQueryOptions({ slug: article.slug }),
-          );
-          queryClient.prefetchInfiniteQuery(
-            getInfiniteCommentsQueryOptions({ slug: article.slug, limit: 5 }),
-          );
-        }}
+        onMouseEnter={prefetchArticle}
         to={paths.article.read.getHref(article.slug)}
-        className="preview-link"
+        className="group block"
       >
-        <h1>{article.title}</h1>
-        <p>{article.description}</p>
-        <span>Read more...</span>
-        {article.tagList && !!article.tagList.length && (
-          <ul className="tag-list">
-            {article.tagList.map((t) => (
-              <li key={t} className="tag-default tag-pill tag-outline">
-                {t}
-              </li>
-            ))}
-          </ul>
-        )}
+        <h2 className="mb-2 text-xl font-semibold text-gray-700 transition-colors">
+          {article.title}
+        </h2>
+        <p className="mb-3 line-clamp-2 text-sm text-gray-400">
+          {article.description}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-gray-400 transition-colors group-hover:text-realworld">
+            Read more...
+          </span>
+          {article.tagList && !!article.tagList.length && (
+            <div className="flex flex-wrap gap-1">
+              {article.tagList.map((t) => (
+                <Badge
+                  key={t}
+                  variant="outline"
+                  className="border-gray-300 text-xs text-gray-500 hover:bg-gray-50"
+                >
+                  {t}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
       </Link>
     </div>
   );

@@ -40,29 +40,17 @@ export const ArticlesList = ({
   });
 
   if (articlesQuery.isLoading) {
-    return (
-      <div className="article-preview">
-        <div className="article-meta">Loading...</div>
-      </div>
-    );
+    return <div className="">Loading Articles...</div>;
   }
 
   const articles = articlesQuery.data?.articles;
 
   if (!articlesQuery.data || !articles) {
-    return (
-      <div className="article-preview">
-        <div className="article-meta">Error occurs please try again.</div>
-      </div>
-    );
+    return <div className="">Error occurs please try again.</div>;
   }
 
   if (!articles.length) {
-    return (
-      <div className="article-preview">
-        <div className="article-meta">No Articles Found</div>
-      </div>
-    );
+    return <div className="">No Articles Found</div>;
   }
 
   return (
