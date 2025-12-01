@@ -1,6 +1,8 @@
 import { Navigate, useNavigate } from 'react-router';
 
-import { Form } from '@/components/ui/form/form';
+import { Button } from '@/components/ui/button/button';
+import { FieldSet } from '@/components/ui/field';
+import { Form, Input, Textarea } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
@@ -65,67 +67,72 @@ export const UpdateArticleForm = ({ slug }: UpdateArticleFormProps) => {
             body: articleQuery.data?.article.body ?? '',
           },
         }}
+        className="space-y-8"
       >
         {({ register, formState }) => {
           return (
-            <fieldset>
-              <fieldset className="form-group">
-                <input
+            <>
+              <FieldSet>
+                <Input
+                  className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                   type="text"
-                  className="form-control form-control-lg"
                   placeholder="Article Title"
-                  {...register('title')}
+                  autoComplete="off"
+                  registration={register('title')}
                 />
-              </fieldset>
-              <fieldset className="form-group">
-                <input
+              </FieldSet>
+
+              <FieldSet>
+                <Input
+                  className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                   type="text"
-                  className="form-control"
                   placeholder="What's this article about?"
-                  {...register('description')}
+                  registration={register('description')}
                 />
-              </fieldset>
-              <fieldset className="form-group">
-                <textarea
-                  className="form-control"
-                  rows={8}
+              </FieldSet>
+
+              <FieldSet>
+                <Textarea
+                  className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                  rows={10}
                   placeholder="Write your article (in markdown)"
-                  {...register('body')}
-                ></textarea>
-              </fieldset>
-              <fieldset className="form-group">
-                {/*
-                // INFO: can't update tags
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter tags"
+                  registration={register('body')}
                 />
-                */}
-                <div className="tag-list">
+              </FieldSet>
+
+              <div className="space-y-3 rounded-lg border border-dashed border-gray-200 bg-gray-50/70 p-4">
+                <p className="text-sm font-medium text-gray-500">
+                  Tags (read only)
+                </p>
+                <div className="flex flex-wrap gap-2">
                   {articleQuery.data?.article.tagList.map((tag) => (
-                    <span key={tag} className="tag-default tag-pill">
+                    <span
+                      key={tag}
+                      className="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600"
+                    >
                       {tag}
                     </span>
                   ))}
                 </div>
-              </fieldset>
+              </div>
 
               <FormErrors
-                className="error-messages"
+                className="px-4 text-sm text-red-500"
                 errors={formState.errors}
               />
 
-              <button
-                className="btn btn-lg pull-xs-right btn-primary"
-                type="submit"
-                disabled={updateArticleMutation.isPending}
-              >
-                {updateArticleMutation.isPending
-                  ? 'Loading...'
-                  : 'Publish Article'}
-              </button>
-            </fieldset>
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  size="xl"
+                  variant="realworld"
+                  disabled={updateArticleMutation.isPending}
+                  isLoading={updateArticleMutation.isPending}
+                >
+                  Update Article
+                </Button>
+              </div>
+            </>
           );
         }}
       </Form>

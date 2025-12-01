@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { Form } from '@/components/ui/form/form';
+import { Button } from '@/components/ui/button/button';
+import { FieldSet } from '@/components/ui/field';
+import { Form, Input, Textarea } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
@@ -52,6 +54,7 @@ export const CreateArticleForm = () => {
         createArticleMutation.mutate({ data: { ...values, tagList: tags } });
       }}
       schema={createArticleInputSchema}
+      className="space-y-8"
     >
       {({ register, formState, setValue }) => {
         useEffect(() => {
@@ -59,70 +62,82 @@ export const CreateArticleForm = () => {
         }, [tags, setValue]);
 
         return (
-          <fieldset>
-            <fieldset className="form-group">
-              <input
+          <>
+            <FieldSet>
+              <Input
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="text"
-                className="form-control form-control-lg"
                 placeholder="Article Title"
-                {...register('title')}
+                autoComplete="off"
+                registration={register('title')}
               />
-            </fieldset>
+            </FieldSet>
 
-            <fieldset className="form-group">
-              <input
+            <FieldSet>
+              <Input
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="text"
-                className="form-control"
                 placeholder="What's this article about?"
-                {...register('description')}
+                registration={register('description')}
               />
-            </fieldset>
+            </FieldSet>
 
-            <fieldset className="form-group">
-              <textarea
-                className="form-control"
-                rows={8}
+            <FieldSet>
+              <Textarea
+                className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                rows={10}
                 placeholder="Write your article (in markdown)"
-                {...register('body')}
-              ></textarea>
-            </fieldset>
+                registration={register('body')}
+              />
+            </FieldSet>
 
-            <fieldset className="form-group">
-              <input
+            <FieldSet>
+              <Input
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
                 type="text"
-                className="form-control"
-                placeholder="Enter tags"
+                placeholder="Enter tags and press Enter"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
+                registration={{ name: 'tagInput' }}
               />
 
-              <div className="tag-list">
+              <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span key={tag} className="tag-default tag-pill">
-                    <i
-                      className="ion-close-round"
-                      onClick={() => handleRemoveTag(tag)}
-                      style={{ cursor: 'pointer' }}
-                    ></i>{' '}
+                  <span
+                    key={tag}
+                    className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 shadow-sm"
+                  >
                     {tag}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="text-gray-400 transition hover:text-red-500"
+                    >
+                      ×
+                    </button>
                   </span>
                 ))}
               </div>
-            </fieldset>
+            </FieldSet>
 
-            <FormErrors className="error-messages" errors={formState.errors} />
+            <FormErrors
+              className="px-4 text-sm text-red-500"
+              errors={formState.errors}
+            />
 
-            <button
-              className="btn btn-lg pull-xs-right btn-primary"
-              type="submit"
-              disabled={createArticleMutation.isPending}
-            >
-              {createArticleMutation.isPending
-                ? 'Loading...'
-                : 'Publish Article'}
-            </button>
-          </fieldset>
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                size="xl"
+                variant="realworld"
+                disabled={createArticleMutation.isPending}
+                isLoading={createArticleMutation.isPending}
+              >
+                Publish Article
+              </Button>
+            </div>
+          </>
         );
       }}
     </Form>
