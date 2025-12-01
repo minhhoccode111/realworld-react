@@ -83,6 +83,9 @@ export const ArticlePreview = ({
     );
   };
 
+  const isFavoriteLoading =
+    createFavoriteMutation.isPending || deleteFavoriteMutation.isPending;
+
   return (
     <div className="border-t border-gray-200 py-6 first:border-t-0">
       <div className="mb-4 flex items-start justify-between">
@@ -116,10 +119,8 @@ export const ArticlePreview = ({
         </div>
         <Button
           size="sm"
-          variant={'outline'}
-          disabled={
-            createFavoriteMutation.isPending || deleteFavoriteMutation.isPending
-          }
+          variant="outline"
+          disabled={isFavoriteLoading}
           onClick={() => {
             if (!user.data) {
               navigate(paths.login.getHref(location.pathname));
@@ -132,22 +133,15 @@ export const ArticlePreview = ({
             }
           }}
           className={cn(
-            'border-realworld text-sm rounded-sm p-0',
+            'border-realworld text-sm rounded-sm',
             article.favorited
               ? 'bg-realworld text-realworld-foreground hover:text-realworld hover:bg-transparent'
               : 'bg-transparent text-realworld hover:bg-realworld hover:text-realworld-foreground',
           )}
+          isLoading={isFavoriteLoading}
+          icon={<Heart className="size-4 fill-current" />}
         >
-          <span className="flex flex-row items-center justify-center gap-1">
-            <Heart className="size-4 fill-current" />
-
-            {createFavoriteMutation.isPending ||
-            deleteFavoriteMutation.isPending ? (
-              <Spinner size="sm" />
-            ) : (
-              article?.favoritesCount || 0
-            )}
-          </span>
+          {article?.favoritesCount || 0}
         </Button>
       </div>
       <Link
@@ -155,7 +149,7 @@ export const ArticlePreview = ({
         to={paths.article.read.getHref(article.slug)}
         className="group block"
       >
-        <h2 className="mb-2 text-xl font-semibold text-gray-700 transition-colors">
+        <h2 className="mb-2 text-xl font-semibold text-gray-700">
           {article.title}
         </h2>
         <p className="mb-3 line-clamp-2 text-sm text-gray-400">

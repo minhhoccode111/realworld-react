@@ -1,3 +1,4 @@
+import { Trash } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button/button';
@@ -20,7 +21,7 @@ export const DeleteArticle = ({ slug }: DeleteArticleProps) => {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: `Article Deleted`,
+          title: 'Article Deleted',
         });
         navigate(paths.home.getHref(), { replace: true });
       },
@@ -33,9 +34,14 @@ export const DeleteArticle = ({ slug }: DeleteArticleProps) => {
       title="Delete Article"
       body="Are you sure you want to delete this article?"
       triggerButton={
-        <button className="btn btn-sm btn-outline-danger">
-          <i className="ion-trash-a"></i> Delete Article
-        </button>
+        <Button
+          size="sm"
+          variant="outline"
+          className="rounded-sm border-red-400 bg-transparent text-sm text-red-400 hover:bg-red-400 hover:text-realworld-foreground"
+          icon={<Trash className="size-4" />}
+        >
+          Delete Article
+        </Button>
       }
       confirmButton={
         <Button

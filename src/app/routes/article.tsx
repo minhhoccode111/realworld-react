@@ -2,6 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { useParams, LoaderFunctionArgs } from 'react-router';
 
 import { AppLayout } from '@/components/layouts/app-layout';
+import { Separator } from '@/components/ui/field/separator';
 import {
   getArticleQueryOptions,
   useArticle,
@@ -38,56 +39,35 @@ const ArticleRoute = () => {
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
 
-  if (articleQuery.isLoading) {
-    return (
-      <AppLayout title="Article">
-        <div className="article-page">
-          <div className="banner">
-            <div className="container">
-              <h1>Loading...</h1>
-            </div>
-          </div>
-        </div>
-      </AppLayout>
-    );
-  }
+  let title = '';
 
-  if (!article) {
-    return (
-      <AppLayout title="Article">
-        <div className="article-page">
-          <div className="banner">
-            <div className="container">
-              <h1>Error occurs please try again.</h1>
-            </div>
-          </div>
-        </div>
-      </AppLayout>
-    );
+  if (articleQuery.isLoading) {
+    title = 'Loading...';
+  } else if (!article) {
+    title = 'Error occurred. Please try again.';
+  } else {
+    title = article.title;
   }
 
   return (
-    <AppLayout title={article.title || 'Article'}>
-      <div className="article-page">
-        <div className="banner">
-          <div className="container">
-            <h1>{article.title}</h1>
+    <AppLayout title={title || 'Article'}>
+      <div className="bg-[#333] py-8 text-realworld-foreground shadow-inner">
+        <div className="container mx-auto px-4">
+          <h1 className="mb-8 text-4xl font-semibold leading-tight">{title}</h1>
+          <ArticleMeta slug={slug} />
+        </div>
+      </div>
 
-            <ArticleMeta slug={slug} />
-          </div>
+      <div className="container mx-auto px-4 py-6">
+        <ArticleView slug={slug} />
+
+        <Separator className="my-8" />
+
+        <div className="mb-8 flex justify-center">
+          <ArticleMeta slug={slug} />
         </div>
 
-        <div className="page container">
-          <ArticleView slug={slug} />
-
-          <hr />
-
-          <div className="article-actions">
-            <ArticleMeta slug={slug} />
-          </div>
-
-          <Comments slug={slug} />
-        </div>
+        <Comments slug={slug} />
       </div>
     </AppLayout>
   );

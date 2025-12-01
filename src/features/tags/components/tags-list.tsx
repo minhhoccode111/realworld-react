@@ -50,12 +50,9 @@ export const TagsList = () => {
           className="w-full text-xs text-gray-500 hover:bg-transparent hover:text-realworld"
           onClick={() => tagsQuery.fetchNextPage()}
           disabled={tagsQuery.isFetchingNextPage}
+          isLoading={tagsQuery.isFetchingNextPage}
         >
-          {tagsQuery.isFetchingNextPage ? (
-            <Spinner size="sm" />
-          ) : (
-            'Load More Tags'
-          )}
+          Load More Tags
         </Button>
       )}
     </>

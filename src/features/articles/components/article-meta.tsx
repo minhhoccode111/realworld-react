@@ -1,6 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { Edit, Heart, Plus } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar/avatar';
+import { Button } from '@/components/ui/button/button';
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
@@ -12,7 +19,9 @@ import {
 import { useUnfollowProfile } from '@/features/profiles/api/unfollow-profile';
 import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
+import { cn } from '@/utils/cn';
 import { formatDate } from '@/utils/format';
+import { getUserInitials } from '@/utils/user-initials';
 
 import { useFavoriteArticle } from '../api/favorite-article';
 import { useArticle } from '../api/get-article';
@@ -31,11 +40,13 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   const article = articleQuery.data?.article;
 
   if (articleQuery.isLoading || user.isLoading) {
-    return <div className="article-meta">Loading...</div>;
+    return <div className="text-xs text-gray-500">Loading...</div>;
   }
 
   if (!article) {
-    return <div className="article-meta">Error occurs please try again.</div>;
+    return (
+      <div className="text-xs text-red-500">Error occurs please try again.</div>
+    );
   }
 
   // NOTE: have to explicit get author profile instead of using the one returned
@@ -93,8 +104,13 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
     },
   });
 
+  const isFollowLoading =
+    followProfileMutation.isPending || unfollowProfileMutation.isPending;
+  const isFavoriteLoading =
+    createFavoriteMutation.isPending || deleteFavoriteMutation.isPending;
+
   return (
-    <div className="article-meta">
+    <div className="flex flex-wrap items-center gap-2">
       <Link
         onMouseEnter={() => {
           queryClient.prefetchQuery(
@@ -103,9 +119,15 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
         }}
         to={paths.profile.root.getHref(authorProfile.username)}
       >
-        <img src={authorProfile.image} />
+        <Avatar>
+          <AvatarImage src={authorProfile.image} alt={authorProfile.username} />
+          <AvatarFallback>
+            {getUserInitials(authorProfile.username)}
+          </AvatarFallback>
+        </Avatar>
       </Link>
-      <div className="info">
+
+      <div className="flex flex-col">
         <Link
           onMouseEnter={() => {
             queryClient.prefetchQuery(
@@ -113,55 +135,51 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
             );
           }}
           to={paths.profile.root.getHref(authorProfile.username)}
-          className="author"
+          className="font-medium text-realworld hover:text-realworld-hover hover:underline"
         >
           {authorProfile.username}
         </Link>
-        <span className="date">
-          {article?.createdAt ? formatDate(Date.parse(article?.createdAt)) : ''}
+
+        <span className="text-xs text-gray-300">
+          {article.createdAt ? formatDate(Date.parse(article.createdAt)) : ''}
         </span>
       </div>
-      <button
-        disabled={
-          followProfileMutation.isPending || unfollowProfileMutation.isPending
-        }
+
+      <Button
+        size="sm"
+        variant="outline"
+        disabled={isFollowLoading}
         onClick={() => {
           if (!user.data) {
             navigate(paths.login.getHref(location.pathname));
             return;
           }
           if (authorProfile.following) {
-            unfollowProfileMutation.mutate(
-              { username: authorProfile }.username,
-            );
+            unfollowProfileMutation.mutate({
+              username: authorProfile.username,
+            });
           } else {
-            followProfileMutation.mutate({ username: authorProfile }.username);
+            followProfileMutation.mutate({ username: authorProfile.username });
           }
         }}
-        className={
-          'btn btn-sm ' +
-          (authorProfile.following ? 'btn-secondary' : 'btn-outline-secondary')
-        }
-      >
-        <i className="ion-plus-round"></i> &nbsp;{' '}
-        {followProfileMutation.isPending ||
-        unfollowProfileMutation.isPending ? (
-          'Loading...'
-        ) : (
-          <>
-            {authorProfile.following ? 'Unfollow' : 'Follow'}{' '}
-            {authorProfile.username}{' '}
-            <span className="counter">
-              ({authorProfile.followersCount || 0})
-            </span>
-          </>
+        className={cn(
+          'border-gray-400 text-sm rounded-sm',
+          authorProfile.following
+            ? 'bg-gray-400 text-realworld-foreground hover:text-gray-400 hover:bg-transparent'
+            : 'bg-transparent text-gray-400 hover:text-realworld-foreground hover:bg-gray-400',
         )}
-      </button>
-      &nbsp;&nbsp;
-      <button
-        disabled={
-          createFavoriteMutation.isPending || deleteFavoriteMutation.isPending
-        }
+        icon={<Plus className="size-4 fill-current" />}
+        isLoading={isFollowLoading}
+      >
+        {authorProfile.following
+          ? `Unfollow ${authorProfile.username} (${authorProfile.followersCount || 0})`
+          : `Follow ${authorProfile.username} (${authorProfile.followersCount || 0})`}
+      </Button>
+
+      <Button
+        size="sm"
+        variant="outline"
+        disabled={isFavoriteLoading}
         onClick={() => {
           if (!user.data) {
             navigate(paths.login.getHref(location.pathname));
@@ -173,42 +191,42 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
             createFavoriteMutation.mutate({ slug });
           }
         }}
-        className={
-          'btn btn-sm ' +
-          (article.favorited ? 'btn-primary' : 'btn-outline-primary')
-        }
-      >
-        <i className="ion-heart"></i> &nbsp;
-        {createFavoriteMutation.isPending ||
-        deleteFavoriteMutation.isPending ? (
-          'Loading...'
-        ) : (
-          <>
-            {article?.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
-            <span className="counter">({article?.favoritesCount || 0})</span>
-          </>
+        className={cn(
+          'border-realworld text-sm rounded-sm',
+          article.favorited
+            ? 'bg-realworld text-realworld-foreground hover:text-realworld hover:bg-transparent'
+            : 'bg-transparent text-realworld hover:bg-realworld hover:text-realworld-foreground',
         )}
-      </button>
+        icon={<Heart className="size-4 fill-current" />}
+        isLoading={isFavoriteLoading}
+      >
+        {article.favorited
+          ? `Unfavorite Article (${article.favoritesCount || 0})`
+          : `Favorite Article (${article.favoritesCount || 0})`}
+      </Button>
+
       {user.data && (
-        <Authorization
-          policyCheck={POLICIES['article:edit'](user.data.user, article)}
-        >
-          &nbsp;&nbsp;
-          <button
-            className="btn btn-sm btn-outline-secondary"
-            onClick={() => navigate(paths.editor.update.getHref(slug))}
+        <>
+          <Authorization
+            policyCheck={POLICIES['article:edit'](user.data.user, article)}
           >
-            <i className="ion-edit"></i> Edit Article
-          </button>
-        </Authorization>
-      )}
-      {user.data && (
-        <Authorization
-          policyCheck={POLICIES['article:delete'](user.data.user, article)}
-        >
-          &nbsp;&nbsp;
-          <DeleteArticle slug={slug} />
-        </Authorization>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => navigate(paths.editor.update.getHref(slug))}
+              className="rounded-sm border-gray-400 bg-transparent text-sm text-gray-400 hover:bg-gray-400 hover:text-realworld-foreground"
+              icon={<Edit className="size-4" />}
+            >
+              Edit Article
+            </Button>
+          </Authorization>
+
+          <Authorization
+            policyCheck={POLICIES['article:delete'](user.data.user, article)}
+          >
+            <DeleteArticle slug={slug} />
+          </Authorization>
+        </>
       )}
     </div>
   );
