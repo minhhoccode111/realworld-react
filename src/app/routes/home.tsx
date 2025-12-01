@@ -43,7 +43,7 @@ const HomeRoute = () => {
           </div>
 
           <aside className="lg:col-span-3">
-            <div className="sticky top-4 flex max-h-[calc(100vh-2rem)] flex-col bg-[#F3F3F3] p-2">
+            <div className="sticky top-4 flex max-h-[calc(100vh-2rem)] flex-col bg-[#F3F3F3] p-2 shadow-inner">
               <h2 className="mb-2 text-sm font-semibold text-gray-700">
                 Popular Tags
               </h2>

@@ -1,43 +1,52 @@
+import { Badge } from '@/components/ui/badge/badge';
 import { MDPreview } from '@/components/ui/md-preview/md-preview';
 
 import { useArticle } from '../api/get-article';
 
 export const ArticleView = ({ slug }: { slug: string }) => {
   const articleQuery = useArticle({ slug });
+
   if (articleQuery.isLoading) {
     return (
-      <div className="row article-content">
-        <div className="col-md-12">Loading...</div>
+      <div className="py-3">
+        <span className="text-gray-500">Loading article...</span>
       </div>
     );
   }
 
-  const article = articleQuery.data?.article;
-  if (!article) {
+  if (!articleQuery.data) {
     return (
-      <div className="row article-content">
-        <div className="col-md-12">Error occurs please try again.</div>
+      <div className="py-3">
+        <p className="text-red-500">Error occurred. Please try again.</p>
       </div>
     );
   }
+
+  const article = articleQuery.data.article;
 
   return (
-    <div className="row article-content">
-      <div className="col-md-12">
-        <div>
-          <MDPreview value={article?.description || ''} />
-        </div>
-
-        <MDPreview value={article?.body || ''} />
-
-        <ul className="tag-list">
-          {article?.tagList.map((v) => (
-            <li key={v} className="tag-default tag-pill tag-outline">
-              {v}
-            </li>
-          ))}
-        </ul>
+    <div className="space-y-4">
+      <div className="">
+        <MDPreview value={article.description} />
       </div>
+
+      <div className="">
+        <MDPreview value={article.body} />
+      </div>
+
+      {article.tagList && !!article.tagList.length && (
+        <div className="flex flex-wrap gap-1">
+          {article.tagList.map((t) => (
+            <Badge
+              key={t}
+              variant="outline"
+              className="break-all rounded-xl border-gray-300 text-xs text-gray-500 hover:bg-gray-50"
+            >
+              {t}
+            </Badge>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -11,7 +11,6 @@ import { Badge } from '@/components/ui/badge/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link/link';
 import { useNotifications } from '@/components/ui/notifications';
-import { Spinner } from '@/components/ui/spinner/spinner';
 import { paths } from '@/config/paths';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
 import { getProfileQueryOptions } from '@/features/profiles/api/get-profile';

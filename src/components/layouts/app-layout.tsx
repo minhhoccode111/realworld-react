@@ -37,7 +37,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
               >
                 conduit
               </Link>
-              <ul className="flex items-center gap-6">
+              <ul className="flex items-center gap-4">
                 <li>
                   <NavLink
                     className=" transition-colors hover:text-gray-900"
@@ -70,7 +70,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                   <>
                     <li>
                       <NavLink
-                        className="flex items-center gap-1.5  transition-colors hover:text-gray-900"
+                        className="flex items-center gap-1.5 transition-colors hover:text-gray-900"
                         to={paths.editor.create.getHref()}
                       >
                         <FileEdit className="size-4" />
@@ -79,7 +79,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     </li>
                     <li>
                       <NavLink
-                        className="flex items-center gap-1.5  transition-colors hover:text-gray-900"
+                        className="flex items-center gap-1.5 transition-colors hover:text-gray-900"
                         to={paths.settings.getHref()}
                       >
                         <Settings className="size-4" />
@@ -88,7 +88,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     </li>
                     <li>
                       <NavLink
-                        className="flex items-center gap-2  transition-colors hover:text-gray-900"
+                        className="flex items-center gap-2 transition-colors hover:text-gray-900"
                         to={paths.profile.posts.getHref(
                           user.data.user.username!,
                         )}

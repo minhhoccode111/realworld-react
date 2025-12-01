@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router';
 
 import { Badge } from '@/components/ui/badge/badge';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner/spinner';
 
 import { useInfiniteTags } from '../api/get-tags';
 
