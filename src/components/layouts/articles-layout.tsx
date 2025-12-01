@@ -17,7 +17,7 @@ export const ArticlesLayout = () => {
   }, [currentTag]);
 
   return (
-    <div className="w-full">
+    <div>
       <div className="border-b border-gray-200">
         <ul className="flex items-center gap-1">
           {!user.isLoading && user.data && (

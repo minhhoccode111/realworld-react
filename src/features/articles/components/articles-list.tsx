@@ -54,7 +54,7 @@ export const ArticlesList = ({
   }
 
   return (
-    <>
+    <div>
       {articles.map((a) => (
         <ArticlePreview key={a.slug} article={a} />
       ))}
@@ -67,6 +67,6 @@ export const ArticlesList = ({
         rootUrl={''}
         queries={queries}
       />
-    </>
+    </div>
   );
 };

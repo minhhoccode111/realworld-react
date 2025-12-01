@@ -15,6 +15,7 @@ import { formatDate } from '@/utils/format';
 import { useInfiniteComments } from '../api/get-comments';
 
 import { DeleteComment } from './delete-comment';
+import { getUserInitials } from '@/utils/user-initials';
 
 type CommentsListProps = {
   slug: string;
@@ -59,7 +60,7 @@ export const CommentsList = ({ slug }: CommentsListProps) => {
                 <Avatar className="size-6">
                   <AvatarImage src={c.author.image} alt={c.author.username} />
                   <AvatarFallback>
-                    {c.author.username[0]?.toUpperCase()}
+                    {getUserInitials(c.author.username)}
                   </AvatarFallback>
                 </Avatar>
               </Link>

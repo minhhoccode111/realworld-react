@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Link, NavLink } from '@/components/ui/link';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs/tabs';
+import { Link } from '@/components/ui/link';
 import { paths } from '@/config/paths';
 import { useFollowProfile } from '@/features/profiles/api/follow-profile';
 import { useProfile } from '@/features/profiles/api/get-profile';
@@ -29,6 +28,8 @@ export const ProfileLayout = ({
   const user = useUser();
   const profileQuery = useProfile({ username });
   const profile = profileQuery.data?.profile;
+
+  const isFavoritesRoute = location.pathname.endsWith('/favorites');
 
   const followProfileMutation = useFollowProfile({
     mutationConfig: {
@@ -82,7 +83,7 @@ export const ProfileLayout = ({
   return (
     <div className="bg-gray-50">
       <div className="bg-[#333] py-8 text-realworld-foreground shadow-inner">
-        <div className="mx-auto max-w-3xl border border-red-500">
+        <div className="mx-auto max-w-3xl">
           <div className="flex flex-col items-center space-y-4">
             <Avatar className="size-36">
               <AvatarImage src={profile.image} alt={profile.username} />
@@ -153,33 +154,48 @@ export const ProfileLayout = ({
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl border border-red-500 py-8">
-        <div className="mx-auto max-w-4xl">
-          <Tabs defaultValue="" className="w-full">
-            <TabsList className="h-auto w-full justify-start rounded-none border-b bg-transparent p-0">
-              <TabsTrigger
-                value=""
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                asChild
-              >
-                <NavLink to="" relative="path">
+      <div className="">
+        <div className="mx-auto max-w-3xl">
+          <div className="border-b border-gray-200">
+            <ul className="flex items-center gap-1">
+              <li className="">
+                {/* NOTE: Cannot handle properly with NavLink */}
+                <Button
+                  variant="ghost"
+                  onClick={() =>
+                    navigate(paths.profile.posts.getHref(username))
+                  }
+                  className={cn(
+                    'rounded-none border-b-2 -mb-px px-4 h-auto py-3 bg-transparent hover:bg-transparent',
+                    !isFavoritesRoute
+                      ? 'text-realworld border-realworld hover:text-realworld'
+                      : 'text-gray-400 border-transparent hover:text-gray-700 hover:border-gray-300',
+                  )}
+                >
                   My Articles
-                </NavLink>
-              </TabsTrigger>
+                </Button>
+              </li>
 
-              <TabsTrigger
-                value="favorites"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                asChild
-              >
-                <NavLink to="favorites" relative="path">
+              <li className="nav-item">
+                <Button
+                  variant="ghost"
+                  onClick={() =>
+                    navigate(paths.profile.favorites.getHref(username))
+                  }
+                  className={cn(
+                    'rounded-none border-b-2 -mb-px px-4 h-auto py-3 bg-transparent hover:bg-transparent',
+                    isFavoritesRoute
+                      ? 'text-realworld border-realworld hover:text-realworld'
+                      : 'text-gray-400 border-transparent hover:text-gray-700 hover:border-gray-300',
+                  )}
+                >
                   Favorited Articles
-                </NavLink>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+                </Button>
+              </li>
+            </ul>
+          </div>
 
-          <div className="mt-6">{children}</div>
+          <div>{children}</div>
         </div>
       </div>
     </div>
