@@ -22,25 +22,21 @@ const LogoutRoute = () => {
 
   return (
     <AppLayout title="Sign out">
-      <div className="auth-page">
-        <div className="page container">
-          <div className="row">
-            <div className="col-md-6 offset-md-3 col-xs-12">
-              <h1 className="text-xs-center">Sign out</h1>
+      <div className="container my-8 space-y-4 px-2">
+        <h1 className="text-center text-4xl">Sign out</h1>
 
-              <p className="text-xs-center">Do you want to sign out?</p>
+        <p className="text-center text-base text-gray-600 md:text-lg">
+          Do you want to sign out?
+        </p>
 
-              <p className="text-xs-center">
-                <Button onClick={() => logout.mutate({})}>Yes</Button>{' '}
-                <Link
-                  to={redirectTo || paths.home.getHref()}
-                  className="btn btn-outline-secondary"
-                >
-                  No
-                </Link>
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center justify-center gap-4">
+          <Link to={redirectTo || paths.home.getHref()}>
+            <Button variant="default">No</Button>
+          </Link>
+
+          <Button variant="realworld" onClick={() => logout.mutate({})}>
+            Yes
+          </Button>
         </div>
       </div>
     </AppLayout>
