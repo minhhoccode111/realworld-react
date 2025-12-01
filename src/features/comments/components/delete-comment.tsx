@@ -1,15 +1,17 @@
+import { Trash2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog/confirmation-dialog/confirmation-dialog';
 import { useNotifications } from '@/components/ui/notifications';
 
 import { useDeleteComment } from '../api/delete-comment';
 
-type DeleteCommentPropts = {
+type DeleteCommentProps = {
   slug: string;
   commentId: string;
 };
 
-export const DeleteComment = ({ slug, commentId }: DeleteCommentPropts) => {
+export const DeleteComment = ({ slug, commentId }: DeleteCommentProps) => {
   const { addNotification } = useNotifications();
   const deleteCommentMutation = useDeleteComment({
     slug,
@@ -30,9 +32,12 @@ export const DeleteComment = ({ slug, commentId }: DeleteCommentPropts) => {
       title="Delete Comment"
       body="Are you sure you want to delete this comment?"
       triggerButton={
-        <span className="mod-options">
-          <i className="ion-trash-a"></i>
-        </span>
+        <button
+          className="text-gray-400 transition-colors hover:text-red-500"
+          aria-label="Delete comment"
+        >
+          <Trash2 className="size-4" />
+        </button>
       }
       confirmButton={
         <Button

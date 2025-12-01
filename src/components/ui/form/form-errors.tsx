@@ -1,5 +1,7 @@
 import { FieldErrors } from 'react-hook-form';
 
+import { cn } from '@/utils/cn';
+
 type FormErrorsProps<T extends Record<string, any>> = {
   errors: FieldErrors<T>;
   className?: string;
@@ -31,7 +33,7 @@ export function FormErrors<T extends Record<string, any>>({
   };
 
   return (
-    <ul className={className}>
+    <ul className={cn('list-disc font-semibold text-red-400', className)}>
       {entries.map(([field, error]) => {
         const messages = getErrorMessages(error);
         return messages.map((message, index) => (

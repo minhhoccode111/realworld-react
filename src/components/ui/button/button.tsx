@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         realworld:
-          'bg-realworld text-realworld-foreground shadow hover:bg-realworld/90',
+          'bg-realworld text-realworld-foreground shadow hover:bg-realworld-hover',
         default:
           'bg-primary text-primary-foreground shadow hover:bg-primary/90',
         destructive:

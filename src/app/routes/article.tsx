@@ -52,14 +52,14 @@ const ArticleRoute = () => {
   return (
     <AppLayout title={title || 'Article'}>
       <div className="bg-[#333] py-8 text-realworld-foreground shadow-inner">
-        <div className="container mx-auto px-4">
+        <div className="container px-4">
           <h1 className="mb-8 text-4xl font-semibold leading-tight">{title}</h1>
 
           <ArticleMeta slug={slug} />
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className="container px-4 py-6">
         <ArticleView slug={slug} />
 
         <Separator className="my-8" />

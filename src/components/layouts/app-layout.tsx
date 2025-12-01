@@ -29,7 +29,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
       <Head title={title} />
       <div className="flex min-h-screen flex-col">
         <header className="border-b border-gray-200 bg-white">
-          <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="container px-4">
             <div className="flex h-16 items-center justify-between">
               <Link
                 className="font-titillium text-2xl font-bold text-realworld transition-colors hover:text-realworld-hover"
@@ -37,10 +37,11 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
               >
                 conduit
               </Link>
+
               <ul className="flex items-center gap-4">
                 <li>
                   <NavLink
-                    className=" transition-colors hover:text-gray-900"
+                    className="transition-colors hover:text-gray-900"
                     to={paths.home.getHref()}
                   >
                     Home
@@ -51,7 +52,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                   <>
                     <li>
                       <NavLink
-                        className=" transition-colors hover:text-gray-900"
+                        className="transition-colors hover:text-gray-900"
                         to={paths.login.getHref()}
                       >
                         Sign in
@@ -59,7 +60,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     </li>
                     <li>
                       <NavLink
-                        className=" transition-colors hover:text-gray-900"
+                        className="transition-colors hover:text-gray-900"
                         to={paths.register.getHref()}
                       >
                         Sign up
@@ -107,7 +108,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     </li>
                     <li>
                       <NavLink
-                        className=" transition-colors hover:text-gray-900"
+                        className="transition-colors hover:text-gray-900"
                         to={paths.logout.getHref(location.pathname)}
                       >
                         Sign out
@@ -123,7 +124,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
         <main className="flex-1 bg-gray-50">{children}</main>
 
         <footer className="border-t border-gray-200 bg-gray-100">
-          <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+          <div className="container px-4 py-6">
             <div className="flex items-center gap-3 text-sm">
               <Link
                 to={paths.home.getHref()}

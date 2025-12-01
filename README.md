@@ -143,3 +143,10 @@ Builds the app for production to the `dist` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 See the section about [deployment](https://vitejs.dev/guide/static-deploy) for more information.
+
+## Contributing
+
+Contributions are **welcome and highly appreciated**!\
+This project follows the [RealWorld
+Specs](https://github.com/gothinkster/realworld) — please make sure your changes
+remain compliant.
