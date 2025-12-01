@@ -28,7 +28,9 @@ export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   return (
     <div className="container my-8">
       <div className="mx-auto max-w-screen-sm space-y-4">
-        <h1 className="text-center text-4xl">{title}</h1>
+        <div className="text-center">
+          <h1 className="text-4xl font-semibold text-gray-900">{title}</h1>
+        </div>
 
         {children}
       </div>

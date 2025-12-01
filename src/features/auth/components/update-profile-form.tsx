@@ -1,4 +1,6 @@
-import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button/button';
+import { FieldSet } from '@/components/ui/field';
+import { Form, Input, Textarea } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { useNotifications } from '@/components/ui/notifications';
 import {
@@ -40,63 +42,76 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
           password: '',
         },
       }}
+      className="space-y-8"
     >
       {({ register, formState }) => (
-        <fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control"
+        <>
+          <FieldSet>
+            <Input
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
               type="text"
               placeholder="URL of profile picture"
-              {...register('image')}
+              autoComplete="off"
+              registration={register('image')}
             />
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
+          </FieldSet>
+
+          <FieldSet>
+            <Input
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
               type="text"
               placeholder="Your Username"
               autoComplete="off"
-              {...register('username')}
+              registration={register('username')}
             />
-          </fieldset>
-          <fieldset className="form-group">
-            <textarea
-              className="form-control form-control-lg"
-              rows={8}
+          </FieldSet>
+
+          <FieldSet>
+            <Textarea
+              className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              rows={6}
               placeholder="Short bio about you"
-              {...register('bio')}
-            ></textarea>
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
+              registration={register('bio')}
+            />
+          </FieldSet>
+
+          <FieldSet>
+            <Input
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
               type="text"
               placeholder="Email"
               autoComplete="username"
-              {...register('email')}
+              registration={register('email')}
             />
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
+          </FieldSet>
+
+          <FieldSet>
+            <Input
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
               type="password"
               placeholder="New Password"
-              {...register('password')}
               autoComplete="current-password"
+              registration={register('password')}
             />
-          </fieldset>
+          </FieldSet>
 
-          <FormErrors className="error-messages" errors={formState.errors} />
+          <FormErrors
+            className="px-4 text-sm text-red-500"
+            errors={formState.errors}
+          />
 
-          <button
-            className="btn btn-lg btn-primary pull-xs-right"
-            type="submit"
-            disabled={updateProfileMutation.isPending}
-          >
-            {updateProfileMutation.isPending ? 'Loading...' : 'Update Settings'}
-          </button>
-        </fieldset>
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              size="xl"
+              variant="realworld"
+              disabled={updateProfileMutation.isPending}
+              isLoading={updateProfileMutation.isPending}
+            >
+              Update Settings
+            </Button>
+          </div>
+        </>
       )}
     </Form>
   );

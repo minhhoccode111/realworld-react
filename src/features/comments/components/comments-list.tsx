@@ -11,11 +11,11 @@ import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
+import { getUserInitials } from '@/utils/user-initials';
 
 import { useInfiniteComments } from '../api/get-comments';
 
 import { DeleteComment } from './delete-comment';
-import { getUserInitials } from '@/utils/user-initials';
 
 type CommentsListProps = {
   slug: string;

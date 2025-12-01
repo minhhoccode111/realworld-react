@@ -23,7 +23,9 @@ const LogoutRoute = () => {
   return (
     <AppLayout title="Sign out">
       <div className="container my-8 space-y-4 px-2">
-        <h1 className="text-center text-4xl">Sign out</h1>
+        <div className="text-center">
+          <h1 className="text-4xl font-semibold text-gray-900">Sign out</h1>
+        </div>
 
         <p className="text-center text-base text-gray-600 md:text-lg">
           Do you want to sign out?
