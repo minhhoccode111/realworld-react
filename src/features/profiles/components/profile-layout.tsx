@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link';
+import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useFollowProfile } from '@/features/profiles/api/follow-profile';
 import { useProfile } from '@/features/profiles/api/get-profile';
@@ -12,8 +13,6 @@ import { useUser } from '@/lib/auth';
 import { Authorization, POLICIES } from '@/lib/authorization';
 import { cn } from '@/utils/cn';
 import { getUserInitials } from '@/utils/user-initials';
-
-import { useNotifications } from '../ui/notifications';
 
 export const ProfileLayout = ({
   username,

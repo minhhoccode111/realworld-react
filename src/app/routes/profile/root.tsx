@@ -1,6 +1,7 @@
 import { Outlet, useParams } from 'react-router';
 
-import { AppLayout, ProfileLayout } from '@/components/layouts';
+import { AppLayout } from '@/components/layouts';
+import { ProfileLayout } from '@/features/profiles/components/profile-layout';
 
 const ProfileRoot = () => {
   const params = useParams();

@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { ArticlesList } from '@/features/articles/components/articles-list';
 import { useUser } from '@/lib/auth';
 import { cn } from '@/utils/cn';
+
+import { ArticlesList } from './articles-list';
 
 export const ArticlesLayout = () => {
   const user = useUser();
