@@ -39,26 +39,16 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
   const articleQuery = useArticle({ slug });
   const article = articleQuery.data?.article;
 
-  if (articleQuery.isLoading || user.isLoading) {
-    return <div className="text-xs text-gray-500">Loading...</div>;
-  }
-
-  if (!article) {
-    return (
-      <div className="text-xs text-red-500">Error occurs please try again.</div>
-    );
-  }
-
   // NOTE: have to explicit get author profile instead of using the one returned
   // with the article because when we toggle follow/unfollow author profile in
   // route '/profile/:username', there is no way to mark data of this article
   // as staled so that react-query know to refetch new article data to get new
   // author profile data
   const authorProfileQuery = useProfile({
-    username: article.author.username,
-    queryConfig: { enabled: !!article.author.username },
+    username: article?.author.username ?? '',
+    queryConfig: { enabled: !!article?.author.username },
   });
-  const authorProfile = authorProfileQuery.data?.profile || article.author;
+  const authorProfile = authorProfileQuery.data?.profile || article?.author;
 
   const createFavoriteMutation = useFavoriteArticle({
     mutationConfig: {
@@ -103,6 +93,16 @@ export const ArticleMeta = ({ slug }: { slug: string }) => {
       },
     },
   });
+
+  if (articleQuery.isLoading || user.isLoading) {
+    return <div className="text-xs text-gray-500">Loading...</div>;
+  }
+
+  if (!article || !authorProfile) {
+    return (
+      <div className="text-xs text-red-500">Error occurs please try again.</div>
+    );
+  }
 
   const isFollowLoading =
     followProfileMutation.isPending || unfollowProfileMutation.isPending;
