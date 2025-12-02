@@ -26,6 +26,7 @@ export const loginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
+
 const loginWithEmailAndPassword = (
   data: LoginInput,
 ): Promise<UserAuthResponse> => {
@@ -44,7 +45,7 @@ export const registerInputSchema = z.object({
     ),
   password: z
     .string()
-    .min(8, 'Password must be at least 2 characters')
+    .min(8, 'Password must be at least 8 characters')
     .max(50, 'Password must be at most 50 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { Comment } from '@/types/api';
+import { CommentDetailResponse } from '@/types/api';
 
 import { getInfiniteCommentsQueryOptions } from './get-comments';
 
@@ -18,7 +18,7 @@ const createComment = ({
   data,
 }: {
   data: CreateCommentInput;
-}): Promise<Comment> => {
+}): Promise<CommentDetailResponse> => {
   return api.post(`/articles/${data.slug}/comments`, {
     comment: { body: data.body },
   });

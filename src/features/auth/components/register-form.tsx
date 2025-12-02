@@ -86,7 +86,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             </div>
 
             <FormErrors
-              className="text-sm text-red-500"
+              className="px-4 text-sm text-red-500"
               errors={formState.errors}
             />
           </>
