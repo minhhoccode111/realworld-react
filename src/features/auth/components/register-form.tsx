@@ -45,7 +45,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           <>
             <FieldSet>
               <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
                 type="text"
                 placeholder="Username"
                 autoComplete="off"
@@ -55,7 +55,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
             <FieldSet>
               <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
                 type="text"
                 placeholder="Email"
                 autoComplete="username"
@@ -65,7 +65,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
             <FieldSet>
               <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
                 type="password"
                 placeholder="Password"
                 autoComplete="new-password"

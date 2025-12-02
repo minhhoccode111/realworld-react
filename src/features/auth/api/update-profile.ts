@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { queryKeys } from '@/config/constants';
-import { getProfileQueryOptions } from '@/features/profiles/api/get-profile';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { UserAuthResponse } from '@/types/api';
@@ -83,8 +82,7 @@ export const useUpdateProfile = ({
 
       // invalidate profile in cache get-profile
       queryClient.invalidateQueries({
-        queryKey: getProfileQueryOptions({ username: data.user.username })
-          .queryKey,
+        queryKey: [queryKeys.profile, data.user.username],
       });
 
       // invalidate articles in cache get-articles

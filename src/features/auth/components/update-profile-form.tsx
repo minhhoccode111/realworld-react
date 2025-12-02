@@ -48,7 +48,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
         <>
           <FieldSet>
             <Input
-              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
               type="text"
               placeholder="URL of profile picture"
               autoComplete="off"
@@ -58,7 +58,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
 
           <FieldSet>
             <Input
-              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
               type="text"
               placeholder="Your Username"
               autoComplete="off"
@@ -68,7 +68,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
 
           <FieldSet>
             <Textarea
-              className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
               rows={6}
               placeholder="Short bio about you"
               registration={register('bio')}
@@ -77,7 +77,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
 
           <FieldSet>
             <Input
-              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
               type="text"
               placeholder="Email"
               autoComplete="username"
@@ -87,7 +87,7 @@ export const UpdateProfileForm = ({ onSuccess }: SettingsFormProps) => {
 
           <FieldSet>
             <Input
-              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
+              className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
               type="password"
               placeholder="New Password"
               autoComplete="current-password"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button/button';
@@ -12,6 +13,109 @@ import {
   createArticleInputSchema,
   useCreateArticle,
 } from '../api/create-article';
+
+type CreateArticleFormFieldsProps = {
+  tags: string[];
+  tagInput: string;
+  onChangeTagInput: (value: string) => void;
+  onAddTagKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onRemoveTag: (tag: string) => void;
+  isSubmitting: boolean;
+};
+
+const CreateArticleFormFields = ({
+  tags,
+  tagInput,
+  onChangeTagInput,
+  onAddTagKeyDown,
+  onRemoveTag,
+  isSubmitting,
+}: CreateArticleFormFieldsProps) => {
+  const { register, formState, setValue } = useFormContext();
+
+  useEffect(() => {
+    setValue('tagList', tags);
+  }, [setValue, tags]);
+
+  return (
+    <>
+      <FieldSet>
+        <Input
+          className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
+          type="text"
+          placeholder="Article Title"
+          autoComplete="off"
+          registration={register('title')}
+        />
+      </FieldSet>
+
+      <FieldSet>
+        <Input
+          className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
+          type="text"
+          placeholder="What's this article about?"
+          registration={register('description')}
+        />
+      </FieldSet>
+
+      <FieldSet>
+        <Textarea
+          className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
+          rows={10}
+          placeholder="Write your article (in markdown)"
+          registration={register('body')}
+        />
+      </FieldSet>
+
+      <FieldSet>
+        <Input
+          className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld/20"
+          type="text"
+          placeholder="Enter tags and press Enter"
+          value={tagInput}
+          onChange={(e) => onChangeTagInput(e.target.value)}
+          onKeyDown={onAddTagKeyDown}
+          registration={{ name: 'tagInput' }}
+        />
+
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 shadow-sm"
+            >
+              {tag}
+              <button
+                type="button"
+                onClick={() => onRemoveTag(tag)}
+                className="text-gray-400 transition hover:text-red-500"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      </FieldSet>
+
+      <FormErrors
+        className="px-4 text-sm text-red-500"
+        errors={formState.errors}
+      />
+
+      <div className="flex justify-end">
+        <Button
+          type="submit"
+          size="xl"
+          variant="realworld"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+        >
+          Publish Article
+        </Button>
+      </div>
+    </>
+  );
+};
 
 export const CreateArticleForm = () => {
   const { addNotification } = useNotifications();
@@ -56,90 +160,16 @@ export const CreateArticleForm = () => {
       schema={createArticleInputSchema}
       className="space-y-8"
     >
-      {({ register, formState, setValue }) => {
-        useEffect(() => {
-          setValue('tagList', tags);
-        }, [tags, setValue]);
-
-        return (
-          <>
-            <FieldSet>
-              <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
-                type="text"
-                placeholder="Article Title"
-                autoComplete="off"
-                registration={register('title')}
-              />
-            </FieldSet>
-
-            <FieldSet>
-              <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
-                type="text"
-                placeholder="What's this article about?"
-                registration={register('description')}
-              />
-            </FieldSet>
-
-            <FieldSet>
-              <Textarea
-                className="w-full rounded-lg border border-gray-300 p-4 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
-                rows={10}
-                placeholder="Write your article (in markdown)"
-                registration={register('body')}
-              />
-            </FieldSet>
-
-            <FieldSet>
-              <Input
-                className="w-full rounded-lg border border-gray-300 px-4 py-6 text-base transition-all placeholder:text-gray-400 focus:border-realworld focus:outline-none focus:ring-2 focus:ring-realworld focus:ring-opacity-20"
-                type="text"
-                placeholder="Enter tags and press Enter"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleAddTag}
-                registration={{ name: 'tagInput' }}
-              />
-
-              <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 shadow-sm"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tag)}
-                      className="text-gray-400 transition hover:text-red-500"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </FieldSet>
-
-            <FormErrors
-              className="px-4 text-sm text-red-500"
-              errors={formState.errors}
-            />
-
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                size="xl"
-                variant="realworld"
-                disabled={createArticleMutation.isPending}
-                isLoading={createArticleMutation.isPending}
-              >
-                Publish Article
-              </Button>
-            </div>
-          </>
-        );
-      }}
+      {() => (
+        <CreateArticleFormFields
+          tags={tags}
+          tagInput={tagInput}
+          onChangeTagInput={setTagInput}
+          onAddTagKeyDown={handleAddTag}
+          onRemoveTag={handleRemoveTag}
+          isSubmitting={createArticleMutation.isPending}
+        />
+      )}
     </Form>
   );
 };

@@ -163,7 +163,7 @@ export const WithTitle: Story = {
           className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
         <FieldDescription>
-          FieldTitle is used when you don't need a label association.
+          FieldTitle is used when you don&apos;t need a label association.
         </FieldDescription>
       </FieldContent>
     </Field>
@@ -369,7 +369,7 @@ export const CompleteExample: Story = {
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               />
               <FieldDescription>
-                We'll never share your email with anyone else.
+                We&apos;ll never share your email with anyone else.
               </FieldDescription>
             </FieldContent>
           </Field>
