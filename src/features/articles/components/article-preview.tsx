@@ -23,6 +23,7 @@ import { useFavoriteArticle } from '../api/favorite-article';
 import { getArticleQueryOptions } from '../api/get-article';
 import { getArticlesQueryOptions } from '../api/get-articles';
 import { useUnfavoriteArticle } from '../api/unfavorite-article';
+import { MDPreview } from '@/components/ui/md-preview/md-preview';
 
 export const ArticlePreview = ({
   article,
@@ -152,7 +153,7 @@ export const ArticlePreview = ({
           {article.title}
         </h2>
         <p className="mb-3 line-clamp-2 text-sm text-gray-400">
-          {article.description}
+          <MDPreview value={article.description} />
         </p>
         <div className="flex items-center justify-between">
           <span className="whitespace-nowrap text-xs text-gray-400 transition-colors group-hover:text-realworld">

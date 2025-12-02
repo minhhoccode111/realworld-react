@@ -9,20 +9,29 @@ import { ArticleDetailResponse } from '@/types/api';
 import { getArticleQueryOptions } from './get-article';
 
 export const createArticleInputSchema = z.object({
-  title: z.string().min(2, 'title length min is 2').max(255),
-  description: z.string().min(1, 'description is required').max(255),
-  body: z.string().min(1, 'body is required').max(50000),
+  title: z
+    .string()
+    .min(2, 'Title length min is 2')
+    .max(255, 'Title must be at most 255 characters'),
+  description: z
+    .string()
+    .min(1, 'Description is required')
+    .max(255, 'Description must be at most 255 characters'),
+  body: z
+    .string()
+    .min(1, 'Body is required')
+    .max(50000, 'Body must be at most 50000 characters'),
   tagList: z
     .array(
       z
         .string()
-        .min(1, 'tag cannot be empty')
-        .max(50, 'tag length max is 50')
-        .regex(/^[a-zA-Z0-9_ -]+$/, 'invalid tag'),
+        .min(1, 'Tag cannot be empty')
+        .max(50, 'Tag length max is 50')
+        .regex(/^[a-zA-Z0-9_ -]+$/, 'Invalid tag'),
     )
-    .max(10, 'too many tags')
+    .max(10, 'Too many tags')
     .refine((arr) => new Set(arr).size === arr.length, {
-      message: 'tagList contains duplicate tags',
+      message: 'TagList contains duplicate tags',
     }),
 });
 

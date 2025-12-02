@@ -150,3 +150,17 @@ Contributions are **welcome and highly appreciated**!\
 This project follows the [RealWorld
 Specs](https://github.com/gothinkster/realworld) — please make sure your changes
 remain compliant.
+
+## Preview
+
+<details>
+    <summary>Some screenshots</summary>
+
+![Preview](docs/assets/articles-global.png)
+![Preview](docs/assets/articles-tag.png)
+![Preview](docs/assets/read-article.png)
+![Preview](docs/assets/article-comments.png)
+![Preview](docs/assets/profile-articles-author.png)
+![Preview](docs/assets/profile-articles-favorited.png)
+
+</details>
