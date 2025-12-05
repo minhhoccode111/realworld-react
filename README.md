@@ -114,8 +114,7 @@ To set up and start the backend:
 2. Navigate into the backend directory: `cd realworld-fiber-clean`
 3. Install dependencies and run the services:
    ```bash
-   make compose-up
-   make run-swag
+   make compose-up-all
    ```
 
 Prerequisites:
@@ -154,7 +153,7 @@ remain compliant.
 ## Preview
 
 <details>
-    <summary>Some screenshots</summary>
+    <summary>Screenshots</summary>
 
 ![Preview](docs/assets/articles-global.png)
 ![Preview](docs/assets/articles-tag.png)

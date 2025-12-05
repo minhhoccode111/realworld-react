@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link/link';
+import { MDPreview } from '@/components/ui/md-preview/md-preview';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
@@ -23,7 +24,6 @@ import { useFavoriteArticle } from '../api/favorite-article';
 import { getArticleQueryOptions } from '../api/get-article';
 import { getArticlesQueryOptions } from '../api/get-articles';
 import { useUnfavoriteArticle } from '../api/unfavorite-article';
-import { MDPreview } from '@/components/ui/md-preview/md-preview';
 
 export const ArticlePreview = ({
   article,
