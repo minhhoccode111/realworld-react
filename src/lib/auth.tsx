@@ -15,9 +15,7 @@ const getUser = async (): Promise<UserAuthResponse> => {
 };
 
 const logout = (): Promise<void> => {
-  // in case our backend's authentication using cookies
-  // return api.post('/users/logout');
-  return Promise.resolve(undefined);
+  return api.post('/users/logout');
 };
 
 export const loginInputSchema = z.object({
@@ -67,7 +65,7 @@ const registerWithEmailAndPassword = (
 const authConfig = {
   userKey: ['authenticated-user'],
   userFn: async () => {
-    // axios will throw if getUser() not return status 2xx
+    // axios will throw if getUser() not return status 2xx, but we call useUser() through out the app
     try {
       const response = await getUser();
       return response;

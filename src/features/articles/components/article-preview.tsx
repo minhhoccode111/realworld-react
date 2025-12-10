@@ -152,9 +152,9 @@ export const ArticlePreview = ({
         <h2 className="mb-2 text-xl font-semibold text-gray-700">
           {article.title}
         </h2>
-        <p className="mb-3 line-clamp-2 text-sm text-gray-400">
+        <div className="mb-3 line-clamp-2 text-sm text-gray-400">
           <MDPreview value={article.description} />
-        </p>
+        </div>
         <div className="flex items-center justify-between">
           <span className="whitespace-nowrap text-xs text-gray-400 transition-colors group-hover:text-realworld">
             Read more...
