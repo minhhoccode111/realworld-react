@@ -99,10 +99,11 @@ Here’s a breakdown of cache management strategies for different actions:
 
 - [x] Add `clientLoader`s to make requests before component renders
 - [x] Add `prefetch` on hover actions
-- [x] Add admin/user roles
-- [x] Add ShadcnUI and TailwindCSS
-- [ ] Add update article `tagList`
-- [ ] Add admin/user roles to manage users' content
+- [x] Add admin/user roles to manage users' content
+- [x] Replace Bootstrap with ShadcnUI and TailwindCSS
+- [ ] Add updating of an article's tags list
+- [ ] Add filtering of articles using multiple tags
+- [ ] Authentication uses JWT (store the token in `localStorage`), can be easily switched to session/cookie based
 - [ ] Add mocks, unit testing, integration testing
 
 ## Get Started

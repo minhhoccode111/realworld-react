@@ -6,14 +6,18 @@ import { paths } from '@/config/paths';
 import { sleep, sleepRandom } from '@/utils/sleep';
 
 async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
-  const token = localStorage.getItem('jwt_token') ?? '';
-
   if (config.headers) {
     config.headers.Accept = 'application/json';
+
+    // NOTE: Auth uses JWT (store the token in localStorage), later on if we decide to use session/cookie
+    const token = localStorage.getItem('jwt_token') ?? '';
     if (token !== '') {
       config.headers.Authorization = `Token ${token}`;
     }
   }
+
+  // NOTE: Auth uses session/cookie based
+  config.withCredentials = true;
 
   if (import.meta.env.DEV) {
     await sleep(0); // pretend network latency in dev env
