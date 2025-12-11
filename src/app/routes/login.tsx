@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 
 import { AppLayout } from '@/components/layouts';
 import { AuthLayout } from '@/components/layouts/auth-layout';
@@ -6,7 +6,6 @@ import { paths } from '@/config/paths';
 import { LoginForm } from '@/features/auth/components/login-form';
 
 const LoginRoute = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
@@ -15,9 +14,8 @@ const LoginRoute = () => {
       <AuthLayout title="Sign in">
         <LoginForm
           onSuccess={() => {
-            navigate(`${redirectTo ? `${redirectTo}` : paths.home.getHref()}`, {
-              replace: true,
-            });
+            // NOTE: force full refresh for jwt-in-cookie to work properly
+            window.location.href = redirectTo || paths.home.getHref();
           }}
         />
       </AuthLayout>

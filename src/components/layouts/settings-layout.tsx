@@ -1,13 +1,10 @@
-import { useNavigate } from 'react-router';
-
 import { Button } from '@/components/ui/button/button';
 import { paths } from '@/config/paths';
 import { useLogout } from '@/lib/auth';
 
 export const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
   const logout = useLogout({
-    onSuccess: () => navigate(paths.home.getHref(), { replace: true }),
+    onSuccess: () => (window.location.href = paths.home.getHref()),
   });
 
   return (

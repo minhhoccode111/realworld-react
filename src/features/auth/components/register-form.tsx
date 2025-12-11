@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button/button';
 import { FieldSet } from '@/components/ui/field';
 import { Form, Input } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
-import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
 
@@ -13,12 +12,8 @@ type RegisterFormProps = {
 };
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const { addNotification } = useNotifications();
   const registering = useRegister({
-    onSuccess: () => {
-      onSuccess();
-      addNotification({ type: 'success', title: 'User created' });
-    },
+    onSuccess: () => onSuccess(),
   });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');

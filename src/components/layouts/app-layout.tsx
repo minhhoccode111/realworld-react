@@ -1,6 +1,6 @@
 import { FileEdit, Settings } from 'lucide-react';
 import React from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useSearchParams } from 'react-router';
 
 import { Head } from '@/components/seo/head';
 import {
@@ -21,6 +21,9 @@ type AppLayoutProps = {
 export const AppLayout = ({ title, children }: AppLayoutProps) => {
   const user = useUser();
   const location = useLocation();
+
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
   const year = React.useMemo(() => new Date().getFullYear(), []);
 
@@ -53,7 +56,10 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     <li>
                       <NavLink
                         className="transition-colors hover:text-gray-900"
-                        to={paths.login.getHref()}
+                        to={paths.login.getHref(
+                          redirectTo ||
+                            `${location.pathname}${location.search}`,
+                        )}
                       >
                         Sign in
                       </NavLink>
@@ -61,7 +67,10 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     <li>
                       <NavLink
                         className="transition-colors hover:text-gray-900"
-                        to={paths.register.getHref()}
+                        to={paths.register.getHref(
+                          redirectTo ||
+                            `${location.pathname}${location.search}`,
+                        )}
                       >
                         Sign up
                       </NavLink>
@@ -109,7 +118,7 @@ export const AppLayout = ({ title, children }: AppLayoutProps) => {
                     <li>
                       <NavLink
                         className="transition-colors hover:text-gray-900"
-                        to={paths.logout.getHref(location.pathname)}
+                        to={paths.logout.getHref()}
                       >
                         Sign out
                       </NavLink>

@@ -1,23 +1,12 @@
-import { useNavigate, useSearchParams } from 'react-router';
-
 import { AppLayout } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link';
-import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useLogout } from '@/lib/auth';
 
 const LogoutRoute = () => {
-  const { addNotification } = useNotifications();
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo');
-
-  const navigate = useNavigate();
   const logout = useLogout({
-    onSuccess: () => {
-      addNotification({ type: 'success', title: 'Sign out succeed' });
-      navigate(paths.login.getHref(redirectTo), { replace: true });
-    },
+    onSuccess: () => (window.location.href = paths.home.getHref()),
   });
 
   return (
@@ -32,7 +21,7 @@ const LogoutRoute = () => {
         </p>
 
         <div className="flex items-center justify-center gap-4">
-          <Link to={redirectTo || paths.home.getHref()}>
+          <Link to={paths.home.getHref()}>
             <Button variant="default">No</Button>
           </Link>
 

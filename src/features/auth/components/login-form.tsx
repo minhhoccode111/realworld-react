@@ -5,7 +5,6 @@ import { FieldSet } from '@/components/ui/field';
 import { Form, Input } from '@/components/ui/form';
 import { FormErrors } from '@/components/ui/form/form-errors';
 import { Link } from '@/components/ui/link';
-import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 
@@ -14,12 +13,8 @@ type LoginFormProps = {
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const { addNotification } = useNotifications();
   const login = useLogin({
-    onSuccess: () => {
-      onSuccess();
-      addNotification({ type: 'success', title: 'Welcome back!' });
-    },
+    onSuccess: () => onSuccess(),
   });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
