@@ -9,14 +9,14 @@ async function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
 
-    // NOTE: Auth uses JWT (store the token in localStorage), later on if we decide to use session/cookie
-    const token = localStorage.getItem('jwt_token') ?? '';
-    if (token !== '') {
-      config.headers.Authorization = `Token ${token}`;
-    }
+    // NOTE: Auth with jwt-in-header
+    // const token = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '';
+    // if (token !== '') {
+    //   config.headers.Authorization = `Token ${token}`;
+    // }
   }
 
-  // NOTE: Auth uses session/cookie based
+  // NOTE: Auth with jwt-in-cookie
   config.withCredentials = true;
 
   if (import.meta.env.DEV) {

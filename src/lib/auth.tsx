@@ -68,6 +68,7 @@ const authConfig = {
     // axios will throw if getUser() not return status 2xx, but we call useUser() through out the app
     try {
       const response = await getUser();
+      // localStorage.setItem(LOCAL_STORAGE_KEY, response.user.token);
       return response;
     } catch (e) {
       return null;
@@ -75,17 +76,17 @@ const authConfig = {
   },
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
-    localStorage.setItem('jwt_token', response.user.token);
+    // localStorage.setItem(LOCAL_STORAGE_KEY, response.user.token);
     return response;
   },
   registerFn: async (data: RegisterInput) => {
     const response = await registerWithEmailAndPassword(data);
-    localStorage.setItem('jwt_token', response.user.token);
+    // localStorage.setItem(LOCAL_STORAGE_KEY, response.user.token);
     return response;
   },
   logoutFn: async () => {
     await logout();
-    localStorage.removeItem('jwt_token');
+    // localStorage.removeItem(LOCAL_STORAGE_KEY);
   },
 };
 

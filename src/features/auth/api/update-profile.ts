@@ -77,6 +77,8 @@ export const useUpdateProfile = ({
 
   return useMutation({
     onSuccess: (data, ...args) => {
+      // localStorage.setItem(LOCAL_STORAGE_KEY, data.user.token);
+
       // update user data in cache authenticated-user
       queryClient.setQueryData([queryKeys.authenticatedUser], data);
 
