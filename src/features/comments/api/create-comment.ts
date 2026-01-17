@@ -11,6 +11,7 @@ export const createCommentInputSchema = z.object({
   slug: z.string().min(1, 'Slug is required'),
   body: z
     .string()
+    .trim()
     .min(1, 'Body is required')
     .max(10000, 'Body must be at most 10000 characters'),
 });

@@ -19,6 +19,7 @@ export const createArticleInputSchema = z.object({
     .max(255, 'Description must be at most 255 characters'),
   body: z
     .string()
+    .trim()
     .min(1, 'Body is required')
     .max(50000, 'Body must be at most 50000 characters'),
   tagList: z
