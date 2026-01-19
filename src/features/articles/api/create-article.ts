@@ -28,7 +28,7 @@ export const createArticleInputSchema = z.object({
         .string()
         .min(1, 'Tag cannot be empty')
         .max(50, 'Tag length max is 50')
-        .regex(/^[a-zA-Z0-9_ -]+$/, 'Invalid tag'),
+        .regex(/^[\p{L}0-9_ -]+$/u, 'Invalid tag'),
     )
     .max(10, 'Too many tags')
     .refine((arr) => new Set(arr).size === arr.length, {
