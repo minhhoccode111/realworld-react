@@ -10,7 +10,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 RUN yarn build
-RUN rm /app/dist/mockServiceWorker.js
 
 # Final stage with just artifacts
 FROM scratch
@@ -22,6 +21,6 @@ COPY --from=builder /app/dist /
 # -o dist .
 
 # docker build \
-# --build-arg VITE_APP_API_URL=https://rwapi.minhhoccode111.com/api/v1 \
-# --build-arg VITE_APP_APP_URL=https://rw.minhhoccode111.com \
+# --build-arg VITE_APP_API_URL=https://realworldapi.minhhoccode111.com/api/v1 \
+# --build-arg VITE_APP_APP_URL=https://realworld.minhhoccode111.com \
 # -o dist .

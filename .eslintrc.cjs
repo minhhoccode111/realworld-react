@@ -5,11 +5,7 @@ module.exports = {
     es6: true,
   },
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  ignorePatterns: [
-    'node_modules/*',
-    'public/mockServiceWorker.js',
-    'generators/*',
-  ],
+  ignorePatterns: ['node_modules/*', 'generators/*'],
   extends: ['eslint:recommended'],
   plugins: ['check-file'],
   overrides: [
@@ -37,10 +33,6 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:jsx-a11y/recommended',
         'plugin:prettier/recommended',
-        'plugin:testing-library/react',
-        'plugin:jest-dom/recommended',
-        'plugin:tailwindcss/recommended',
-        'plugin:vitest/legacy-recommended',
       ],
       rules: {
         'import/no-restricted-paths': [

@@ -23,10 +23,7 @@ src
 |
 +-- lib               # reusable libraries preconfigured for the application
 |
-+-- stores            # global state stores
-|
-+-- testing           # test utilities and mocks
-|
+ +-- stores            # global state stores
 +-- types             # shared types used across the application
 |
 +-- utils             # shared utility functions

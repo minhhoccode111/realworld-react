@@ -2,6 +2,10 @@
 
 > ### React codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) specs.
 
+## [Demo](https://realworld.minhhoccode111.com)
+
+## [Swagger](https://realworldapi.minhhoccode111.com/swagger)
+
 ## Routing
 
 - Home page (URL: /#/ )
@@ -104,7 +108,6 @@ Here’s a breakdown of cache management strategies for different actions:
 - [x] Replace jwt-in-header with jwt-in-cookie for better security
 - [ ] Add updating of an article's tags list
 - [ ] Add filtering of articles using multiple tags
-- [ ] Add mocks, unit testing, integration testing
 
 ## Get Started
 
