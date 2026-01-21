@@ -77,7 +77,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          ssh -p $SSH_PORT -i ~/.ssh/deploy_key deploy@$VPS_HOST << 'EOF'
+          ssh -p $SSH_PORT -i ~/.ssh/deploy_key deploy@$VPS_HOST << EOF
             set -e
 
             # Navigate to repo directory
