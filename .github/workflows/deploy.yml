@@ -68,6 +68,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           VPS_HOST: ${{ secrets.VPS_HOST }}
+          APP_NAME: ${{ secrets.APP_NAME }}
           REPO_PATH: ${{ secrets.REPO_PATH }}
           VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
           VITE_APP_APP_URL: ${{ secrets.VITE_APP_APP_URL }}
@@ -94,11 +95,11 @@ jobs:
               -o dist .
 
             # Move entire dist directory to web location for clean deployment
-            sudo rm -rf /var/www/realworld-react/dist
-            sudo mv dist /var/www/realworld-react/
+            sudo rm -rf /var/www/$APP_NAME/dist
+            sudo mv dist /var/www/$APP_NAME/
 
             # Set proper ownership for nginx to serve files
-            sudo chown -R www-data:www-data /var/www/realworld-react/dist
+            sudo chown -R www-data:www-data /var/www/$APP_NAME/dist
 
             # Check if nginx config has changed and update if needed
             if ! cmp -s nginx/nginx.conf /etc/nginx/sites-available/$NGINX_SITE_NAME.conf; then
