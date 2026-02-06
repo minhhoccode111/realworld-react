@@ -53,5 +53,5 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 # docker run -d \
 #   --name realworld-react \
 #   --restart unless-stopped \
-#   -p 3000:80 \
+#   -p 127.0.0.1:3000:80 \
 #   minhhoccode111/realworld-react:latest
