@@ -1,0 +1,5 @@
+# RealWorld
+@realworld host realworld.minhhoccode111.com
+handle @realworld {
+    reverse_proxy 127.0.0.1:3000
+}

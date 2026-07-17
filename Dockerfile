@@ -1,8 +1,3 @@
-# syntax=docker/dockerfile:1.4
-
-########################
-# 1️⃣ Build Stage
-########################
 FROM node:22 AS build
 
 WORKDIR /app
@@ -24,15 +19,10 @@ RUN yarn install --frozen-lockfile
 # Copy source
 COPY . .
 
-# Build static files
 RUN yarn build
 
-########################
-# 2️⃣ Production Stage
-########################
 FROM nginx:alpine
 
-# Remove default nginx content
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy custom nginx config
@@ -44,14 +34,3 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
-# docker build \
-#   --build-arg VITE_APP_API_URL=https://realworldapi.minhhoccode111.com \
-#   --build-arg VITE_APP_APP_URL=https://realworld.minhhoccode111.com \
-#   -t minhhoccode111/realworld-react:latest .
-
-# docker run -d \
-#   --name realworld-react \
-#   --restart unless-stopped \
-#   -p 127.0.0.1:3000:80 \
-#   minhhoccode111/realworld-react:latest
