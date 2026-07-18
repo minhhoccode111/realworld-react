@@ -1,5 +1,7 @@
 # RealWorld
 @realworld host realworld.minhhoccode111.com
 handle @realworld {
-    reverse_proxy 127.0.0.1:3000
+    root * /opt/realworld-react/dist
+    try_files {path} /index.html
+    file_server
 }
